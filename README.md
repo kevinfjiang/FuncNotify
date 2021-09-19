@@ -25,7 +25,10 @@ Sometimes, functions take a long time. I wanted to create something that automat
 - [x] Use user email to search for slackID
 - [x] Add generic decorator support
 - [X] Add arguments to decorator support so you can specify keyword arguments like "(email={email}, token={token})"
-- [ ] Write Tests
+- [X] Add .env support
+- [X] Write Tests
+- [X] Add logger support
+- [ ] GitHub acttion auto deploymentt
 - [ ] Add Microsoft teams
 - [ ] Add Some other 
 </details>
