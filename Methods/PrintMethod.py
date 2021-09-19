@@ -1,7 +1,7 @@
 import time
 import traceback
 
-from NotifyMethods import *
+from .NotifyMethods import *
 
 class PrintMethod(NotifyMethods):
     """Default print message, only notification is a print in terminal

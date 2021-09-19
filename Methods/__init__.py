@@ -1,5 +1,5 @@
-from NotifyMethods import * 
+from Methods.NotifyMethods import * 
 
-from PrintMethod import *
-from TextMethod import *
-from SlackMethod import *
+from Methods.PrintMethod import *
+from Methods.TextMethod import *
+from Methods.SlackMethod import *

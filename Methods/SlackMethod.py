@@ -1,9 +1,10 @@
 import os
-import sys
 import time
 import traceback
 
-from NotifyMethods import *
+import sys # Version control
+
+from .NotifyMethods import *
 
 # Slack notifications
 if sys.version_info < (3,0): 

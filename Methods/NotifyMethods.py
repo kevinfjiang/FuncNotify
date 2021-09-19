@@ -11,7 +11,7 @@ from abc import ABCMeta, abstractmethod
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 class NotifyMethods:
-    """Abstract method for the methods of notifying the user
+    """Abstract class for the methods of notifying the user
     """    
     
     __metaclass__ = ABCMeta   
@@ -44,19 +44,19 @@ class NotifyMethods:
             self.notify=False
         
         NotifyMethods.register(self)
-        NotifyMethods.get_logger(kwargs)
+        NotifyMethods.get_logger(*args, **kwargs)
 
     @classmethod
-    def get_logger(cls, log=False, buffer=16384, **kwargs):
+    def get_logger(cls, log=False, buffer=16384, *args, **kwargs):
         """Sets up the class logger, should only need to be run once, although if you init it once 
         it'll always be active.
 
         Args:
             log (bool, optional): [whether to log the files]. Defaults to False.
             debug (bool, optional): [whether to enable debug mode]. Defaults to False.
-            buffer (int, optional): [size of each log file]. Defaults to 10000.
+            buffer (int, optional): [size of each log file]. Defaults to 16384.
         """        
-        if os.getenv("LOG") or log: 
+        if (os.getenv("LOG") or log) and not cls.logger: # Uses existing logger if it existss
             if not os.path.isdir("logs"):
                 os.mkdir("logs")
 
@@ -70,10 +70,10 @@ class NotifyMethods:
             logger_console_format = "[%(levelname)s]: %(message)s"
 
             cls.logger = logging.getLogger(logger_name)
-            cls.logger.setLevel(logging.ERROR)
+            cls.logger.setLevel(logging.DEBUG)
 
             console_handler = logging.StreamHandler()
-            console_handler.setLevel(logging.ERROR)
+            console_handler.setLevel(logging.DEBUG)
             console_handler.setFormatter(logging.Formatter(logger_console_format))
             cls.logger.addHandler(console_handler)
 
@@ -85,29 +85,36 @@ class NotifyMethods:
             # Dictinoary houses all logging methdos
             cls.log_method_dict = {"DEBUG": cls.logger.debug,
                                     "INFO" : cls.logger.info,
+                                    "WARNING": cls.logger.warning,
                                     "ERROR": cls.logger.error,
-                                    "WARNING": cls.logger.warning,}
+                                    "FATAL": cls.logger.fatal,
+                                    }
 
 
     # Logger suite, functionos that control logging functinos that run
     @classmethod
     def set_logger(cls, level="DEBUG"):
         level_dict = {"DEBUG":logging.DEBUG,
-                      "ERROR":logging.ERROR,
                       "INFO":logging.INFO,
-                      "WARNING":logging.WARNING,}
+                      "WARNING":logging.WARNING,
+                      "ERROR":logging.ERROR,
+                      "FATAL":logging.FATAL,
+                      }
         
         
-        cls.logger.setLevel(level_dict.get(level, logging.DEBUG,))
-        pass
+        cls.logger.setLevel(level_dict.get(level, logging.DEBUG))
+
     @classmethod
-    def format_log(cls, method="", message="", exception="None", *args, **kwargs):
-        return "[METHOD={}] Message = {}.\nException = {}.".format(method, message, exception)
+    def format_log(cls, status, method="", message="", exception="None", *args, **kwargs):
+        return "[METHOD={}] Message = {}.\nException = {}.".format(method, message, exception), {'stack_info': status!="DEBUG" and status!="INFO"}
     @classmethod
     def log(cls, status="DEBUG", *args, **kwargs):
         if cls.logger:
-            log_message = cls.format_log(*args, **kwargs)
-            cls.log_method_dict.get(status, lambda *args: [cls.logger.error("Logger method not found, using [ERROR]"), cls.logger.error(*args)])(log_message)
+            log_message, kwdict = cls.format_log(status, *args, **kwargs)
+            cls.log_method_dict.get(status, 
+                                    lambda *args, **kwargs: 
+                                        [cls.logger.error("Logger method not found, using [ERROR]"), 
+                                         cls.logger.error(*args, **kwargs)])(log_message, **kwdict)
 
     @classmethod
     def register(cls, NotifyObject):
@@ -125,7 +132,7 @@ class NotifyMethods:
     def set_credentials(self):
         pass
 
-    # Suite of funcitons sends the messages for each different method. These guys help format each message for each of the instances
+    # Suite of funcitons sends and formats messages for each different method. These guys help format each message for each of the instances
     @abstractmethod
     def send_start_MSG(self, func): 
         pass
@@ -138,7 +145,7 @@ class NotifyMethods:
 
     @abstractmethod
     def send_message(self): 
-        """Houses functions that interact with the respective platforms apis, the prior 3 all call this functioon to send the message
+        """Interacts with the respective platforms apis, the prior 3 all call this functioon to send the message
         """        
         pass
     

@@ -2,7 +2,7 @@ import os
 import time
 import traceback
 
-from NotifyMethods import *
+from .NotifyMethods import *
 
 # Text Alerts
 from twilio.rest import Client
