@@ -46,13 +46,13 @@ class NotifyMethods:
             NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message="Connection to setting up notifications interupted, double check env variables")
             self.notify=False
         
-        NotifyMethods.register(self)
+        NotifyMethods._register(self)
         NotifyMethods.set_mute(mute)
         NotifyMethods._logger_init_(*args, **kwargs) # Note logger only logs errors in sending the messages, not in the functioon exectuion
     
     
     @classmethod
-    def register(cls, NotifyObject):
+    def _register(cls, NotifyObject):
         """Registers each object and creates sa pseudo cyclical buffer that holds 3 objects that can be checked when youu grab the registry
         """ 
         if not NotifyObject.notify:
@@ -161,7 +161,7 @@ class NotifyMethods:
     def send_end_MSG(self, func, diff): 
         pass
     @abstractmethod
-    def send_error_MSG(self): 
+    def send_error_MSG(self, func, ex): 
         pass
 
     @abstractmethod

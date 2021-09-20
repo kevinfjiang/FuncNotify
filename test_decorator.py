@@ -1,5 +1,4 @@
-import NotifyDecorators
-from Methods import *
+from funcNotify import *
 
 import unittest
 import time
@@ -12,16 +11,16 @@ class TestDecorator(unittest.TestCase):
     """ 
     # Basic notify method, testing it works   
     def test_PrintDef(self, *args, **kwargs):
-        NotifyDecorators.time_func(wait_test, True, *args, **kwargs)(**kwargs)
+        time_func(wait_test, True, *args, **kwargs)(**kwargs)
         self.confirm_method(PrintMethod)
         self.confirm_cred()
 
     # Base tests, testing NotifyMethod features
     def test_ENV(self, *args, **kwargs):
-        NotifyDecorators.time_func(wait_test, True, *args, **kwargs)(**kwargs)
+        time_func(wait_test, True, *args, **kwargs)(**kwargs)
         self.confirm_dotenv("ALIVE")
     def test_DeadENV(self, *args, **kwargs):
-        NotifyDecorators.time_func(wait_test, False, *args, **kwargs)(**kwargs)
+        time_func(wait_test, False, *args, **kwargs)(**kwargs)
         self.confirm_dotenv(None)
 
     # Tests for slack notify methds
@@ -33,12 +32,12 @@ class TestDecorator(unittest.TestCase):
     # Tests if text alerts are working, set waste money to true if u want to test, costs money
     def test_text(self, *args, **kwargs):
         if wastemoney:
-            NotifyDecorators.time_func(wait_test, True, "Text", *args, **kwargs)()
+            time_func(wait_test, True, "Text", *args, **kwargs)()
             self.confirm_method(TextMethod)
             self.confirm_cred()
     def test_textfunc(self, *args, **kwargs):
         if wastemoney:
-            NotifyDecorators.time_text(wait_test, True, *args, **kwargs)()
+            time_text(wait_test, True, *args, **kwargs)()
             self.confirm_method(TextMethod)
             self.confirm_cred()
 

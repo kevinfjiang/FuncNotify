@@ -22,8 +22,8 @@ class PrintMethod(NotifyMethods):
         MSG = self.format_message(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime()), diff], type_="End")
         self.send_MSG_base(MSG)
 
-    def send_error_MSG(self, func, e):
-        MSG = self.format_message(formatList=[func.__name__, type(e), str(e), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], type_="Error")+":taraduckface:"
+    def send_error_MSG(self, func, ex):
+        MSG = self.format_message(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], type_="Error")+":taraduckface:"
         self.send_MSG_base(MSG)
         
     def send_message(self, MSG):

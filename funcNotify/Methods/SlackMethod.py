@@ -39,8 +39,8 @@ class SlackMethod(NotifyMethods):
         MSG = self.format_message(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime()), diff], type_="End") + ":tada:"
         self.send_MSG_base(MSG)
 
-    def send_error_MSG(self, func, e):
-        MSG = self.format_message(formatList=[func.__name__, type(e), str(e), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], type_="Error") + ":taraduckface:"
+    def send_error_MSG(self, func, ex):
+        MSG = self.format_message(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], type_="Error") + ":taraduckface:"
         self.send_MSG_base(MSG)
 
     def send_message(self, message):
@@ -53,7 +53,7 @@ class SlackMethod(NotifyMethods):
                                                                 email=self.email)['user']['id'],
                                     text=message)     
             else:
-                response = self.client.chat_postMessage(username="alerty", # NOTE this can be any username, set up the credentials!
+                self.client.chat_postMessage(username="alerty", # NOTE this can be any username, set up the credentials!
                                                     text=message,
                                                     channel=self.client.users_lookupByEmail(email=self.email)['user']['id'])
 
