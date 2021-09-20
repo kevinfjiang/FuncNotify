@@ -2,7 +2,7 @@ import time
 import warnings
 from dotenv import load_dotenv
 
-from Methods import *
+from funcNotify.Methods import *
 
 # Dictionary to instatiate the objects that define the method which the user is notified
 NotifyType = {"Print": PrintMethod, # TODO autoomate import and creation of these methoods, shouldn't be hard?
@@ -40,7 +40,7 @@ def timer_base(func, NotifyObj, *args, **kwargs):
     return result
 
 # Main decorator
-def time_func(function=None, dot_env=False, env_path=None, funcSpecify="Print", *dec_args, **dec_kwargs): # Include support for slack and also include error checking/handeling
+def time_func(function=None, dot_env=False, env_path=None, NotifyMethod="Print", *dec_args, **dec_kwargs): # Include support for slack and also include error checking/handeling
     """Decorator for how to handle a notify function. Allows for additional arguments in the decorator
     and support for args like emails/api keys
 
@@ -54,7 +54,7 @@ def time_func(function=None, dot_env=False, env_path=None, funcSpecify="Print", 
     Returns:
         function: decorator functioono for timing
     """    
-    if funcSpecify not in NotifyType:
+    if NotifyMethod not in NotifyType:
         warnings.warn("Invalid NotifyMethod type specified, will use PrintMethod, select a type within this criteria: {}".format(NotifyType.keys()))
     
     if dot_env:
@@ -72,7 +72,7 @@ def time_func(function=None, dot_env=False, env_path=None, funcSpecify="Print", 
             Returns:
                 [Object]: returns func's output
             """           
-            result = timer_base(func, NotifyType.get(funcSpecify, PrintMethod)(*dec_args, **dec_kwargs), *func_args, **func_kwargs)
+            result = timer_base(func, NotifyType.get(NotifyMethod, PrintMethod)(*dec_args, **dec_kwargs), *func_args, **func_kwargs)
             return result
         return timer
 

@@ -32,7 +32,7 @@ class SlackMethod(NotifyMethods):
                 self.email = os.environ["EMAIL"]
 
     def send_start_MSG(self, func):
-        MSG = self.format_message(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime())], type_="Start") + ":party_blob:" # Default emoji
+        MSG = self.format_message(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime())], type_="Start") + ":ok:" 
         self.send_MSG_base(MSG)
 
     def send_end_MSG(self, func, diff): # Used for formatting and sending
@@ -40,20 +40,20 @@ class SlackMethod(NotifyMethods):
         self.send_MSG_base(MSG)
 
     def send_error_MSG(self, func, ex):
-        MSG = self.format_message(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], type_="Error") + ":taraduckface:"
+        MSG = self.format_message(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], type_="Error")
         self.send_MSG_base(MSG)
 
     def send_message(self, message):
         try:
             if sys.version_info < (3,0): # Different versions have different functions
-                self.client.api_call("chat.postMessage",
+                resp = self.client.api_call("chat.postMessage",
                                     username="alerty",
                                     channel=self.client.api_call(
                                                                 "users.lookupByEmail",
                                                                 email=self.email)['user']['id'],
                                     text=message)     
             else:
-                self.client.chat_postMessage(username="alerty", # NOTE this can be any username, set up the credentials!
+                resp = self.client.chat_postMessage(username="alerty", # NOTE this can be any username, set up the credentials!
                                                     text=message,
                                                     channel=self.client.users_lookupByEmail(email=self.email)['user']['id'])
 

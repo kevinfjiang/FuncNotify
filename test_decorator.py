@@ -25,14 +25,16 @@ class TestDecorator(unittest.TestCase):
 
     # Tests for slack notify methds
     def test_slack(self, *args, **kwargs):
-        pass
+        time_func(wait_test, True, NotifyMethod="Slack", *args, **kwargs)(**kwargs)
+        self.confirm_method(SlackMethod)
+        self.confirm_cred()
     def test_slackfunc(self, *args, **kwargs):
         pass
     
     # Tests if text alerts are working, set waste money to true if u want to test, costs money
     def test_text(self, *args, **kwargs):
         if wastemoney:
-            time_func(wait_test, True, "Text", *args, **kwargs)()
+            time_func(wait_test, True, NotifyMethod="Text", *args, **kwargs)()
             self.confirm_method(TextMethod)
             self.confirm_cred()
     def test_textfunc(self, *args, **kwargs):
@@ -45,7 +47,7 @@ class TestDecorator(unittest.TestCase):
     def test_stressPrint(self):
         self.stressMethod(self.test_PrintDef, time_=.01, verbose=False)
     def test_stressSlack(self):
-        self.stressMethod(self.test_slack, time_=1, count=60)
+        self.stressMethod(self.test_slack, time_=1, count=10)
 
     def stressMethod(self, method, count=100, *args, **kwargs):
         for _ in range(count):
@@ -54,9 +56,9 @@ class TestDecorator(unittest.TestCase):
     def confirm_dotenv(self, env_val):
         self.assertEqual(os.getenv('TEST_ENV'), env_val)
     def confirm_method(self, methodName):
-        self.assertEqual(list(NotifyMethods.get_registry().keys())[-1], methodName)
+        self.assertEqual(type(NotifyMethods.get_registry()[-1]), methodName)
     def confirm_cred(self):
-        self.assertTrue(list(NotifyMethods.get_registry().values())[-1][-1].notify)
+        self.assertTrue(NotifyMethods.get_registry()[-1].notify)
 
 
 def wait_test(time_=.25, **kwargs):

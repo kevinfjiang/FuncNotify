@@ -18,7 +18,7 @@ class NotifyMethods:
     __metaclass__ = ABCMeta   
 
     # Tracking and testing, intended to in case one needs to check functions ran
-    _registry = collections.OrderedDict()
+    _registry = collections.deque([], maxlen=5)
     _mute=False
     
     logger=None
@@ -57,7 +57,7 @@ class NotifyMethods:
         """ 
         if not NotifyObject.notify:
             NotifyObject = None
-        cls._registry.setdefault(NotifyObject.__class__, collections.deque([], maxlen=3)).append(NotifyObject)
+        cls._registry.append(NotifyObject)
     @classmethod
     def get_registry(cls):
         return cls._registry

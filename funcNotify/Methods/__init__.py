@@ -1,5 +1,5 @@
-from Methods.NotifyMethods import * 
+from funcNotify.Methods.NotifyMethods import * 
 
-from Methods.PrintMethod import *
-from Methods.TextMethod import *
-from Methods.SlackMethod import *
+from funcNotify.Methods.PrintMethod import *
+from funcNotify.Methods.TextMethod import *
+from funcNotify.Methods.SlackMethod import *
