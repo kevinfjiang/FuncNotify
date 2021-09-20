@@ -21,7 +21,7 @@ class SlackMethod(NotifyMethods):
         super(SlackMethod, self).__init__(*args, **kwargs)
         
 
-    def set_credentials(self):
+    def _set_credentials(self):
             slackToken = os.environ["SLACK_API_TOKEN"]
             if sys.version_info < (3,0): # Different versions have different properties of establishing the client
                 self.client = SlackClient(slackToken)

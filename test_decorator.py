@@ -48,7 +48,6 @@ class TestDecorator(unittest.TestCase):
     def test_stressSlack(self):
         self.stressMethod(self.test_slack, time_=1, count=60)
 
-
     def stressMethod(self, method, count=100, *args, **kwargs):
         for _ in range(count):
             method(*args, **kwargs)

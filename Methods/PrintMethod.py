@@ -11,7 +11,7 @@ class PrintMethod(NotifyMethods):
         self.V = verbose
         super(PrintMethod, self).__init__(*args, **kwargs)
 
-    def set_credentials(self):
+    def _set_credentials(self):
         pass
 
     def send_start_MSG(self, func):

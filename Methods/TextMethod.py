@@ -16,7 +16,7 @@ class TextMethod(NotifyMethods):
         super(TextMethod, self).__init__(args, kwargs)
         
 
-    def set_credentials(self):
+    def _set_credentials(self):
         if self.cellphone is None:
             self.cellphone = os.environ["PHONE"]
         self.twilio_number = os.environ["TWILIOPHONE"]

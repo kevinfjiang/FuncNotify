@@ -1,7 +1,5 @@
 import os
 import sys
-import traceback
-import types
 
 import logging
 import logging.handlers
@@ -12,7 +10,7 @@ import socket
 from abc import ABCMeta, abstractmethod
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
-
+    
 class NotifyMethods:
     """Abstract class for the methods of notifying the user
     """    
@@ -20,36 +18,57 @@ class NotifyMethods:
     __metaclass__ = ABCMeta   
 
     # Tracking and testing, intended to in case one needs to check functions ran
-    REGISTRY = collections.OrderedDict()
+    _registry = collections.OrderedDict()
+    _mute=False
+    
     logger=None
         
-    messageDict = {"Start": ["Function: {0}() called...",
-                            "Machine Name: {machine}",
-                            "Start Time: {1}"],
-                   "End":   ["Function: {0}() completed",
-                            "Machine Name: {machine}",
-                            "Finish Time: {1}",
-                            "Total Time: {2:.2f}"],
-                   "Error": ["Function: {0}() failed due to a {1}",
-                            "Exception Reason: \n{2}"
-                            "Fail Time Stamp: \n{3}",
-                            "Machine Name: {machine}",
-                            "Fail Traceback: {4}"]} 
+    _messageDict = {"Start": ["Function: {0}() called...",
+                              "Machine Name: {machine}",
+                              "Start Time: {1}"],
+                    "End":   ["Function: {0}() completed",
+                              "Machine Name: {machine}",
+                              "Finish Time: {1}",
+                              "Total Time: {2:.2f}"],
+                    "Error": ["Function: {0}() failed due to a {1}",
+                              "Exception Reason: \n{2}"
+                              "Fail Time Stamp: \n{3}",
+                              "Machine Name: {machine}",
+                              "Fail Traceback: {4}"]} 
     
     def __init__(self, mute=False, *args, **kwargs):
         try:  
-            self.set_credentials()
+            self._set_credentials()
             self.notify=True # Always default to notify user
 
-        except Exception as ex:
+        except Exception:
             # Consider adding traceback and error here
-            NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message="Connection to setting up notifications interupted, double check env variables", exception=ex)
+            NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message="Connection to setting up notifications interupted, double check env variables")
             self.notify=False
         
-        NotifyMethods._register(self)
+        NotifyMethods.register(self)
         NotifyMethods.set_mute(mute)
-        NotifyMethods._logger_init_(*args, **kwargs)
-
+        NotifyMethods._logger_init_(*args, **kwargs) # Note logger only logs errors in sending the messages, not in the functioon exectuion
+    
+    
+    @classmethod
+    def register(cls, NotifyObject):
+        """Registers each object and creates sa pseudo cyclical buffer that holds 3 objects that can be checked when youu grab the registry
+        """ 
+        if not NotifyObject.notify:
+            NotifyObject = None
+        cls._registry.setdefault(NotifyObject.__class__, collections.deque([], maxlen=3)).append(NotifyObject)
+    @classmethod
+    def get_registry(cls):
+        return cls._registry
+    
+    
+    @classmethod
+    def set_mute(cls, mute=False):
+        cls._mute = mute
+    
+    
+    
     @classmethod
     def _logger_init_(cls, log=False, buffer=65536, *args, **kwargs):
         """Sets up the class logger, should only need to be run once, although if you init it once 
@@ -61,12 +80,12 @@ class NotifyMethods:
             buffer (int, optional): [size of each log file]. Defaults to 65536 (2**16).
         """        
         if (os.getenv("LOG") or log) and not cls.logger: # Uses existing logger if it existss
-            if not os.path.isdir("logs"):
-                os.mkdir("logs")
-
             path = os.getenv("LOGGER_PATH", "")
             if path == "":
                 path = os.getcwd() # If env variable but not defined is empty sets path to cwd
+                
+            if not os.path.isdir(os.path.join(path, "logs")):
+                os.mkdir("logs")
 
             import __main__ # Necessary for naming, setting up print formatting
             logger_name = __main__.__file__.split('/')[-1][:-3]
@@ -93,54 +112,45 @@ class NotifyMethods:
                                    "ERROR": cls.logger.error,
                                    "FATAL": cls.logger.fatal,
                                   }
-            cls.level_dict = {"DEBUG": logging.DEBUG,
-                              "INFO": logging.INFO,
-                              "WARNING": logging.WARNING,
-                              "ERROR": logging.ERROR,
-                              "FATAL": logging.FATAL,
-                             }
+            cls.log_level_dict = {"DEBUG": logging.DEBUG,
+                                  "INFO": logging.INFO,
+                                  "WARNING": logging.WARNING,
+                                  "ERROR": logging.ERROR,
+                                  "FATAL": logging.FATAL,
+                                 }
         elif not log and not os.getenv("LOG"):
             cls.logger = None
+
 
     # Logger suite, functions that control logging functinos that run
     @classmethod
     def set_logger(cls, level="DEBUG"):
-        cls.logger.setLevel(cls.level_dict.get(level, logging.DEBUG))
+        cls.logger.setLevel(cls.log_level_dict.get(level, logging.DEBUG))
 
     @classmethod
     def _format_log(cls, status, method="", message="", *args, **kwargs):
-        ret_messsage="[METHOD={}] Message = {}.".format(method, message)
-        if sys.version_info < (3,0): 
-            return ret_messsage, {'exc_info': status>logging.INFO} # No stack_info
+        ret_messsage = "[METHOD={}] Message = {}.".format(method, message)
+        if sys.version_info < (3,2): 
+            return ret_messsage, {'exc_info': status>logging.INFO} # No stack_info in version <3.2
         else:
             return ret_messsage, {'exc_info': False, 'stack_info': status>logging.INFO}
     @classmethod
     def log(cls, status="DEBUG", *args, **kwargs):
         if cls.logger:
-            log_message, kwdict = cls._format_log(cls.level_dict.get(status, logging.ERROR), *args, **kwargs)
+            log_message, kwdict = cls._format_log(cls.log_level_dict.get(status, logging.ERROR), *args, **kwargs)
             cls.log_method_dict.get(status, 
                                     lambda *args, **kwargs: 
                                         [cls.logger.error(*args, **kwargs),
                                          cls.logger.error("Logger method not found, using [ERROR]"),])(log_message, **kwdict)
-
+    
     @classmethod
-    def _register(cls, NotifyObject):
-        """Registers each object and creates sa pseudo cyclical buffer that holds 3 objects that can be checked when youu grab the registry
-        """ 
-        if not NotifyObject.notify:
-            NotifyObject = None
-        cls.REGISTRY.setdefault(NotifyObject.__class__, collections.deque([], maxlen=3)).append(NotifyObject)
-          
-    @classmethod
-    def get_registry(cls):
-        return cls.REGISTRY
-
-    @classmethod
-    def set_mute(cls, mute=False):
-        cls.mute=mute
+    def format_message(cls, formatList, type_):
+        return '\n'.join(cls. _messageDict[type_]).format(*formatList, machine=socket.gethostname())
+    
+    
     
     @abstractmethod
-    def set_credentials(self):
+    def _set_credentials(self):
         pass
 
     # Suite of funcitons sends and formats messages for each different method. These guys help format each message for each of the instances
@@ -160,6 +170,8 @@ class NotifyMethods:
         """        
         pass
     
+    
+    
     def send_MSG_base(self, MSG):
         """All functions begin by calling send_MSG_base and depending on the status of that functioon, it'll be sent or
         an error will be logged if the initial credentials aren't valid
@@ -167,17 +179,15 @@ class NotifyMethods:
         Args:
             MSG (str): Current MSG to be sent. 
         """ 
-        if not NotifyMethods.mute:       
+        if not NotifyMethods._mute:       
             try:
                 if not self.notify:
                     raise Exception("Error: Issue with initialized values, double check env variables/decorator arguments")
 
                 self.send_message(MSG)
-                NotifyMethods.log(status="DEBUR", method=self.__class__.__name__, message=MSG)
+                NotifyMethods.log(status="DEBUG", method=self.__class__.__name__, message=MSG)
 
             except Exception:
                 NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message=MSG)
               
-
-    def format_message(cls, formatList, type_, msgDict=messageDict):
-        return '\n'.join(msgDict[type_]).format(*formatList, machine=socket.gethostname())
+   
