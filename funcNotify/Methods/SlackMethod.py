@@ -46,14 +46,14 @@ class SlackMethod(NotifyMethods):
     def send_message(self, message):
         try:
             if sys.version_info < (3,0): # Different versions have different functions
-                resp = self.client.api_call("chat.postMessage",
+                self.client.api_call("chat.postMessage",
                                     username="alerty",
                                     channel=self.client.api_call(
                                                                 "users.lookupByEmail",
                                                                 email=self.email)['user']['id'],
                                     text=message)     
             else:
-                resp = self.client.chat_postMessage(username="alerty", # NOTE this can be any username, set up the credentials!
+                self.client.chat_postMessage(username="alerty", # NOTE this can be any username, set up the credentials!
                                                     text=message,
                                                     channel=self.client.users_lookupByEmail(email=self.email)['user']['id'])
 

@@ -31,4 +31,14 @@ Sometimes, functions take a long time. I wanted to create something that automat
 - [ ] GitHub acttion auto deploymentt
 - [ ] Add Microsoft teams
 - [ ] Add Some other 
+</br>
+</details>
+
+#####Create .env in current working directory and fill out information that you wanna use
+
+<details>
+<summary>.env</summary>
+
+<embed src="https://github.com/kevinfjiang/FuncNotify/blob/master/template.env">
+
 </details>
