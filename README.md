@@ -39,6 +39,6 @@ Sometimes, functions take a long time. I wanted to create something that automat
 <details>
 <summary>.env</summary>
 
-<embed src="https://github.com/kevinfjiang/FuncNotify/blob/master/template.env">
+<embed src="https://github.com/kevinfjiang/FuncNotify/blob/master/template.env" type="text/plain">
 
 </details>
