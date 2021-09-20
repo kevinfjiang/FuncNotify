@@ -1,4 +1,7 @@
 import os
+import sys
+import traceback
+import types
 
 import logging
 import logging.handlers
@@ -33,7 +36,7 @@ class NotifyMethods:
                             "Machine Name: {machine}",
                             "Fail Traceback: {4}"]} 
     
-    def __init__(self, *args, **kwargs):
+    def __init__(self, mute=False, *args, **kwargs):
         try:  
             self.set_credentials()
             self.notify=True # Always default to notify user
@@ -43,81 +46,85 @@ class NotifyMethods:
             NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message="Connection to setting up notifications interupted, double check env variables", exception=ex)
             self.notify=False
         
-        NotifyMethods.register(self)
-        NotifyMethods.get_logger(*args, **kwargs)
+        NotifyMethods._register(self)
+        NotifyMethods.set_mute(mute)
+        NotifyMethods._logger_init_(*args, **kwargs)
 
     @classmethod
-    def get_logger(cls, log=False, buffer=16384, *args, **kwargs):
+    def _logger_init_(cls, log=False, buffer=65536, *args, **kwargs):
         """Sets up the class logger, should only need to be run once, although if you init it once 
         it'll always be active.
 
         Args:
             log (bool, optional): [whether to log the files]. Defaults to False.
             debug (bool, optional): [whether to enable debug mode]. Defaults to False.
-            buffer (int, optional): [size of each log file]. Defaults to 16384.
+            buffer (int, optional): [size of each log file]. Defaults to 65536 (2**16).
         """        
         if (os.getenv("LOG") or log) and not cls.logger: # Uses existing logger if it existss
             if not os.path.isdir("logs"):
                 os.mkdir("logs")
 
-            path = os.getenv("LOGGER_PATH", os.getcwd())
+            path = os.getenv("LOGGER_PATH", "")
             if path == "":
                 path = os.getcwd() # If env variable but not defined is empty sets path to cwd
 
             import __main__ # Necessary for naming, setting up print formatting
             logger_name = __main__.__file__.split('/')[-1][:-3]
-            logger_file_format = "[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d"
-            logger_console_format = "[%(levelname)s]: %(message)s"
 
             cls.logger = logging.getLogger(logger_name)
             cls.logger.setLevel(logging.DEBUG)
 
+            logger_console_format = "[%(levelname)s]: %(message)s"
             console_handler = logging.StreamHandler()
             console_handler.setLevel(logging.DEBUG)
             console_handler.setFormatter(logging.Formatter(logger_console_format))
             cls.logger.addHandler(console_handler)
 
+            logger_file_format = "[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d"
             file_handler = logging.handlers.RotatingFileHandler(filename="{}/logs/{}.log".format(path, logger_name), maxBytes=int(os.getenv("FILE_SIZE", default=buffer)), backupCount=2)
             file_handler.setLevel(logging.DEBUG)
             file_handler.setFormatter(logging.Formatter(logger_file_format))
             cls.logger.addHandler(file_handler)
 
-            # Dictinoary houses all logging methdos
+            # Dictionary houses all logging methdos
             cls.log_method_dict = {"DEBUG": cls.logger.debug,
-                                    "INFO" : cls.logger.info,
-                                    "WARNING": cls.logger.warning,
-                                    "ERROR": cls.logger.error,
-                                    "FATAL": cls.logger.fatal,
-                                    }
+                                   "INFO" : cls.logger.info,
+                                   "WARNING": cls.logger.warning,
+                                   "ERROR": cls.logger.error,
+                                   "FATAL": cls.logger.fatal,
+                                  }
+            cls.level_dict = {"DEBUG": logging.DEBUG,
+                              "INFO": logging.INFO,
+                              "WARNING": logging.WARNING,
+                              "ERROR": logging.ERROR,
+                              "FATAL": logging.FATAL,
+                             }
+        elif not log and not os.getenv("LOG"):
+            cls.logger = None
 
-
-    # Logger suite, functionos that control logging functinos that run
+    # Logger suite, functions that control logging functinos that run
     @classmethod
     def set_logger(cls, level="DEBUG"):
-        level_dict = {"DEBUG":logging.DEBUG,
-                      "INFO":logging.INFO,
-                      "WARNING":logging.WARNING,
-                      "ERROR":logging.ERROR,
-                      "FATAL":logging.FATAL,
-                      }
-        
-        
-        cls.logger.setLevel(level_dict.get(level, logging.DEBUG))
+        cls.logger.setLevel(cls.level_dict.get(level, logging.DEBUG))
 
     @classmethod
-    def format_log(cls, status, method="", message="", exception="None", *args, **kwargs):
-        return "[METHOD={}] Message = {}.\nException = {}.".format(method, message, exception), {'stack_info': status!="DEBUG" and status!="INFO"}
+    def _format_log(cls, status, method="", message="", *args, **kwargs):
+        ret_messsage="[METHOD={}] Message = {}.".format(method, message)
+        if sys.version_info < (3,0): 
+            return ret_messsage, {'exc_info': status>logging.INFO} # No stack_info
+        else:
+            return ret_messsage, {'exc_info': False, 'stack_info': status>logging.INFO}
     @classmethod
     def log(cls, status="DEBUG", *args, **kwargs):
         if cls.logger:
-            log_message, kwdict = cls.format_log(status, *args, **kwargs)
+            log_message, kwdict = cls._format_log(cls.level_dict.get(status, logging.ERROR), *args, **kwargs)
             cls.log_method_dict.get(status, 
                                     lambda *args, **kwargs: 
-                                        [cls.logger.error("Logger method not found, using [ERROR]"), 
-                                         cls.logger.error(*args, **kwargs)])(log_message, **kwdict)
+                                        [cls.logger.error(*args, **kwargs),
+                                         cls.logger.error("Logger method not found, using [ERROR]"),])(log_message, **kwdict)
 
     @classmethod
-    def register(cls, NotifyObject):
+    def _register(cls, NotifyObject):
         """Registers each object and creates sa pseudo cyclical buffer that holds 3 objects that can be checked when youu grab the registry
         """ 
         if not NotifyObject.notify:
@@ -128,6 +135,10 @@ class NotifyMethods:
     def get_registry(cls):
         return cls.REGISTRY
 
+    @classmethod
+    def set_mute(cls, mute=False):
+        cls.mute=mute
+    
     @abstractmethod
     def set_credentials(self):
         pass
@@ -154,17 +165,18 @@ class NotifyMethods:
         an error will be logged if the initial credentials aren't valid
 
         Args:
-            MSG ([str]): Current MSG to be sent. 
-        """        
-        try:
-            if not self.notify:
-                raise Exception("Error: Issue with initialized values, double check env variables/decorator arguments")
+            MSG (str): Current MSG to be sent. 
+        """ 
+        if not NotifyMethods.mute:       
+            try:
+                if not self.notify:
+                    raise Exception("Error: Issue with initialized values, double check env variables/decorator arguments")
 
-            self.send_message(MSG)
-            NotifyMethods.log(status="DEBUG", method=self.__class__.__name__, message=MSG)
+                self.send_message(MSG)
+                NotifyMethods.log(status="DEBUR", method=self.__class__.__name__, message=MSG)
 
-        except Exception as ex:
-            NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message=MSG, exception=ex)
+            except Exception:
+                NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message=MSG)
               
 
     def format_message(cls, formatList, type_, msgDict=messageDict):

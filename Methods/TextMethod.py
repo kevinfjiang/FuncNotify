@@ -25,7 +25,6 @@ class TextMethod(NotifyMethods):
     def send_start_MSG(self, func):
         MSG = self.format_message(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime())], type_="Start")
         self.send_MSG_base(MSG)
-        
 
     def send_end_MSG(self, func, diff): # Used for formatting and sending
         MSG = self.format_message(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime()), diff], type_="End")

@@ -6,9 +6,9 @@ from Methods import *
 
 # Dictionary to instatiate the objects that define the method which the user is notified
 NotifyType = {"Print": PrintMethod, # TODO autoomate import and creation of these methoods, shouldn't be hard?
-            "Slack": SlackMethod, 
-            "Text": TextMethod, # TODO add more methods eventually. Think of a better way to automate this
-} 
+              "Slack": SlackMethod, 
+              "Text": TextMethod, # TODO add more methods eventually. Think of a better way to automate this
+             } 
 
 def timer_base(func, NotifyObj, *args, **kwargs): 
     """ Timer base, depending on the type of object of NotifyObj, it will notify the user of the methood and time the function.
@@ -40,12 +40,12 @@ def timer_base(func, NotifyObj, *args, **kwargs):
     return result
 
 # Main decorator
-def time_func(Alert=None, dot_env=False, funcSpecify="Print", *dec_args, **dec_kwargs): # Include support for slack and also include error checking/handeling
+def time_func(function=None, dot_env=False, env_path=None, funcSpecify="Print", *dec_args, **dec_kwargs): # Include support for slack and also include error checking/handeling
     """Decorator for how to handle a notify function. Allows for additional arguments in the decorator
     and support for args like emails/api keys
 
     Args:
-        Alert (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
+        function (func, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
         dot_env (bool): Loads .env file envionment variables. Defaults to False
         funcSpecify (str, optional): Specifies the type of method used to notify user, selected from NotifyType.  
@@ -55,13 +55,13 @@ def time_func(Alert=None, dot_env=False, funcSpecify="Print", *dec_args, **dec_k
         function: decorator functioono for timing
     """    
     if funcSpecify not in NotifyType:
-        warnings.warn("Invalid Notify Type Specified, select a type within this criteria: {}".format(NotifyType.keys()))
+        warnings.warn("Invalid NotifyMethod type specified, will use PrintMethod, select a type within this criteria: {}".format(NotifyType.keys()))
     
     if dot_env:
-        load_dotenv()
+        load_dotenv(dotenv_path=env_path)
     
     def time_function(func):
-        """Inner wrapped function, used for timing and coontrool
+        """Inner wrapped function, used for timing and control
 
         Args:
             func (function): passes function and arguments down beloow to the final timer
@@ -76,25 +76,25 @@ def time_func(Alert=None, dot_env=False, funcSpecify="Print", *dec_args, **dec_k
             return result
         return timer
 
-    if callable(Alert): # Checks if Alert is actually a function and time_func was used as a decoratoor(@time_func vs @time_func(funcSpecify="Slack"))
-        func = Alert
+    if callable(function): # Checks if Alert is actually a function and time_func was used as a decoratoor(@time_func vs @time_func(funcSpecify="Slack"))
+        func = function
         return time_function(func)
 
     return time_function
 
-def time_text(Alert=None, dot_env=False, *args, **kwargs): # Include something to check the rest of the arguments in the word
+def time_text(function=None, dot_env=False, *args, **kwargs): # Include something to check the rest of the arguments in the word
     """Args:
-        Alert (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
+        function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
         dot_env (bool): Loads .env file envionment variables. Defaults to False"""
-    return time_func(Alert=Alert, dot_env=dot_env, funcSpecify="Text", *args, **kwargs) 
+    return time_func(function=function, dot_env=dot_env, funcSpecify="Text", *args, **kwargs) 
     
-def time_slack(Alert=None, dot_env=False, *args, **kwargs):
+def time_slack(function=None, dot_env=False, *args, **kwargs):
     """Args:
-        Alert (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
+        function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
         dot_env (bool): Loads .env file envionment variables. Defaults to False"""
-    return time_func(Alert=Alert, dot_env=dot_env, funcSpecify="Slack",  *args, **kwargs) 
+    return time_func(function=function, dot_env=dot_env, funcSpecify="Slack",  *args, **kwargs) 
 
     
 
