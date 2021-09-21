@@ -39,7 +39,9 @@ Sometimes, functions take a long time. I wanted to create something that automat
 <details>
 <summary>.env</summary>
 <a href="https://raw.githubusercontent.com/kevinfjiang/FuncNotify/master/template.env">Strongly encourage copying this template, below is an attempt to embed the file</a>
-<iframe src="https://www.w3.org/services/html2txt?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkevinfjiang%2FFuncNotify%2Fmaster%2Ftemplate.env"></iframe>
+
+<p/p><p/p><p/p>
+<embed src="https://www.w3.org/services/html2txt?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkevinfjiang%2FFuncNotify%2Fmaster%2Ftemplate.env">
 
 
 </details>
