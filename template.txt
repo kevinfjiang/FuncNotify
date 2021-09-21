@@ -12,7 +12,7 @@ TEST_ENV=ALIVE
 LOG=True
 DEBUG=True
 # Set to how many bites log files can be
-FILE_SIZE=16384 # 2^16
+FILE_SIZE=16384 # 2^1
 # NOTE don't include "log/" directory or final "/"
 # Specify path to log folder
 LOGGER_PATH=
