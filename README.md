@@ -34,12 +34,12 @@ Sometimes, functions take a long time. I wanted to create something that automat
 </br>
 </details>
 
-#####Create .env in current working directory and fill out information that you wanna use
+##### Create .env in current working directory and fill out information that you wanna use
 
 <details>
 <summary>.env</summary>
 <a href="https://raw.githubusercontent.com/kevinfjiang/FuncNotify/master/template.env">Strongly encourage copying this template, below is an attempt to embed the file</a>
-<p></p><p></p><p>
+<p></p><p></p>
 <iframe src="https://www.w3.org/services/html2txt?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkevinfjiang%2FFuncNotify%2Fmaster%2Ftemplate.env"></iframe>
 
 
