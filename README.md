@@ -14,8 +14,8 @@ Sometimes, functions take a long time. I wanted to create something that automat
 **Admin stuff/documentation**
 - [ ]  Complete ReadMe
 - [x]  Remove my environment variables
-- [ ]  Document environment variables
-- [ ]  Write some tests
+- [X]  Document environment variables
+- [X]  Write some tests
 
 **Code stuff**
 - [x] Add support for texts
@@ -38,8 +38,9 @@ Sometimes, functions take a long time. I wanted to create something that automat
 
 <details>
 <summary>.env</summary>
-
-<embed src="https://raw.githubusercontent.com/kevinfjiang/FuncNotify/master/template.txt">
+<a href="https://raw.githubusercontent.com/kevinfjiang/FuncNotify/master/template.env">Strongly encourage copying this template, below is an attempt to embed the file</a>
+<p></p><p></p><p>
+<iframe src="https://www.w3.org/services/html2txt?url=https%3A%2F%2Fraw.githubusercontent.com%2Fkevinfjiang%2FFuncNotify%2Fmaster%2Ftemplate.env"></iframe>
 
 
 </details>
