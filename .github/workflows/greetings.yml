@@ -1,0 +1,16 @@
+name: Greetings
+
+on: [pull_request, issues]
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+    - uses: actions/first-interaction@v1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        issue-message: 'hey **#**, hank you for helping solve the issues!'
+        pr-message: ' hey **#**, thank you for pulling the repository! Please check out `FuncNotify/TemplateMethod_.py` for more info'

@@ -1,12 +1,26 @@
-# Birthday Notify Bot
+# FuncNotify
 ### **Premise:**
 Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed or of any errors, training ML. The advantage over other decorator nontifiers is that there's an added option to hide your api tokens and emails so they aren't accidentally pushed to a public repo. 
 
-### **Setup:**
-- [ ]  Complete setup guide, feeling lazy
+#### Installation
+```$ pip install FuncNotify```
 
+#### Use
+```python
+@time_func(dot_env=True, NotifyMethod="Text", cellphone="8001234567")
+def wait_func():
+    do_something()
+
+@time_text
+def wait_func2():
+    do_something()
+```
+Both accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
+
+#### Conribution:
+Pleaes follow the instructions in ```TemplateMethod_.py``` and add to ```template.env```. Thank you!
 ### **TODO:**
-#### Personal stuff for Kevin to organize and show what's currently accocmplished in the project
+##### Personal stuff to organize and show what's currently accocmplished in the project
 <details>
 <summary>Project TODOs</summary>
 <br>
@@ -28,6 +42,9 @@ Sometimes, functions take a long time. I wanted to create something that automat
 - [X] Add .env support
 - [X] Write Tests
 - [X] Add logger support
+- [X] Dropped support for 2.7, too annoying to mantain as metaclass was different
+- [X] Made super easy to add to (automated imports, define the decorator at the same time).
+- [ ] Separate tests
 - [ ] GitHub action auto deploymentt
 - [ ] Add Microsoft teams
 - [ ] Add Some other 

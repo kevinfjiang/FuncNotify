@@ -1,4 +1,4 @@
-from funcNotify import *
+from FuncNotify import *
 
 import unittest
 import time
@@ -12,7 +12,7 @@ class TestDecorator(unittest.TestCase):
     # Basic notify method, testing it works   
     def test_PrintDef(self, *args, **kwargs):
         time_func(wait_test, True, *args, **kwargs)(**kwargs)
-        self.confirm_method(PrintMethod)
+        self.confirm_method(PrintMethod.PrintMethod)
         self.confirm_cred()
 
     # Base tests, testing NotifyMethod features
@@ -26,7 +26,7 @@ class TestDecorator(unittest.TestCase):
     # Tests for slack notify methds
     def test_slack(self, *args, **kwargs):
         time_func(wait_test, True, NotifyMethod="Slack", *args, **kwargs)(**kwargs)
-        self.confirm_method(SlackMethod)
+        self.confirm_method(SlackMethod.SlackMethod)
         self.confirm_cred()
     def test_slackfunc(self, *args, **kwargs):
         pass
@@ -35,15 +35,15 @@ class TestDecorator(unittest.TestCase):
     def test_text(self, *args, **kwargs):
         if wastemoney:
             time_func(wait_test, True, NotifyMethod="Text", *args, **kwargs)()
-            self.confirm_method(TextMethod)
+            self.confirm_method(TextMethod.TextMethod)
             self.confirm_cred()
     def test_textfunc(self, *args, **kwargs):
         if wastemoney:
-            time_text(wait_test, True, *args, **kwargs)()
-            self.confirm_method(TextMethod)
+            time_Text(wait_test, True, *args, **kwargs)()
+            self.confirm_method(TextMethod.TextMethod)
             self.confirm_cred()
 
-    # Stress testing
+    #  Stress testing
     def test_stressPrint(self):
         self.stressMethod(self.test_PrintDef, time_=.01, verbose=False)
     def test_stressSlack(self):
