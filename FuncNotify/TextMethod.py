@@ -5,15 +5,16 @@ from .NotifyMethods import * # Using the predefined functions from the abstract 
 # Specify here other Packages to be imported specific for Text Alerts.
 from twilio.rest import Client
 
-def time_Text(function=None, dot_env=True, cellphone=None, *args, **kwargs): # Include something to check the rest of the arguments in the word
+def time_Text(function=None, use_env=True, cellphone=None, *args, **kwargs): # Include something to check the rest of the arguments in the word
     """Decorator specific for text, if no credentials specified, it wil fill in with .env variables
     
     Args:
         function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
-        dot_env (bool, optional): Loads .env file envionment variables. Defaults to False
+        use_env (bool, optional): Loads .env file envionment variables. Defaults to False
         cellphone ([type], optional): [description]. Defaults to None."""
-    return time_func(function=function, dot_env=dot_env, cellphone=cellphone, funcSpecify="Text", *args, **kwargs) 
+    from . import time_func
+    return time_func(function=function, use_env=use_env, cellphone=cellphone, NotifyMethod="Text", *args, **kwargs) 
 
 class TextMethod(NotifyMethods):
     """Sends message via twilio if twilio api is set up for text alerts. If a twilio emplooyee reads this, HELLO!

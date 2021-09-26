@@ -31,6 +31,7 @@ def time_xNotifyx(function=None, dot_env=True,  *args, **kwargs)->None: # Includ
         the function. Defaults to None.
         NOTE add all key word arguments that could be used by the class to enable more accurate mesaging
         [variable] ([type], optional): [Summary]. Defaults to [Default]"""
+    from . import time_func # Hacky solution but if it works. Hopefully somebody smarter than me will have a fix
     return time_func(function=function, dot_env=dot_env, funcSpecify="xNotifyx", *args, **kwargs) 
 
 class xNotifyxMethod(NotifyMethods):

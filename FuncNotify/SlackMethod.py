@@ -7,15 +7,16 @@ from slack import WebClient
 from random import randint # For random emojis
 
 
-def time_Slack(function=None, dot_env: bool=True, *args, **kwargs):
+def time_Slack(function=None, use_env: bool=True, *args, **kwargs):
     """Decorator specific for Slack, if no credentials specified, it wil fill in with .env variables
     
     
     Args:
         function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
-        dot_env (bool): Loads .env file envionment variables. Defaults to False"""
-    return time_func(function=function, dot_env=dot_env, funcSpecify="Slack",  *args, **kwargs) 
+        use_env (bool): Loads .env file envionment variables. Defaults to False"""
+    from . import time_func
+    return time_func(function=function, use_env=use_env, NotifyMethod="Slack",  *args, **kwargs) 
 
 
 class SlackMethod(NotifyMethods):
