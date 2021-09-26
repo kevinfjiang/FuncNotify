@@ -18,7 +18,7 @@ def wait_func2():
 Both accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
 
 #### Conribution:
-Pleaes follow the instructions in ```TemplateMethod_.py``` and add to ```template.env```. Thank you!
+Pleaes follow the instructions in ```TemplateMethod_.py``` and add to ```template.env``` and create a new branch. Also, test your credentials in a `.env` file and share them with me eventually!! I promise all I need them for is testing. If anybody knows a better method than my current secrets method, contact me at kevin.j@columbia.edu Thank you!
 ### **TODO:**
 ##### Personal stuff to organize and show what's currently accocmplished in the project
 <details>
