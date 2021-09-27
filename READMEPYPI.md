@@ -16,7 +16,17 @@ def wait_func():
 def wait_func2():
     do_something()
 ```
+
+
 Both accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
+
+### Supported Notify Methods
+|               Platform                |
+| :-----------------------------------: |
+|            Console Print              |
+|            Email                      |
+|        [Slack](https://slack.com/)    |
+
 ###### Create .env in current working directory and fill out information that you wanna use
 
 [template.env](https://raw.githubusercontent.com/kevinfjiang/FuncNotify/master/template.env)

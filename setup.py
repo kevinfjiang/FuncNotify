@@ -14,7 +14,7 @@ with open("requirements.txt") as file: # Pulls from requirements.txt
 
 setup(
     name="FuncNotify",
-    version="1.0.6",
+    version="1.1.0",
     description="Get notified when your functions finish running",
     long_description=README,
     long_description_content_type="text/markdown",
