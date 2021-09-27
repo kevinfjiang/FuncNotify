@@ -2,7 +2,7 @@
 ### **Premise:**
 Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed or of any errors, training ML. The advantage over other decorator nontifiers is that there's an added option to hide your api tokens and emails so they aren't accidentally pushed to a public repo. 
 
-#### Installation
+#### Installation use `pip` or equivalent
 ```$ pip install FuncNotify```
 
 #### Use
@@ -18,7 +18,15 @@ def wait_func2():
 Both accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
 
 #### Conribution:
-Pleaes follow the instructions in ```TemplateMethod_.py``` and add to ```template.env``` and create a new branch. Also, test your credentials in a `.env` file and share them with me eventually!! I promise all I need them for is testing. If anybody knows a better method than my current secrets method, contact me at kevin.j@columbia.edu Thank you!
+Please follow the instructions in ```TemplateMethod_.py``` and add to ```template.env``` and create a new branch. Also, test your credentials in a `.env` file and share them with me eventually!! I promise all I need them for is testing. If anybody knows a better method than my current secrets method, contact me at kevin.j@columbia.edu Thank you!
+
+#### Supported Notify Methods
+|               Platform                |
+| :-----------------------------------: |
+|            Console Print              |
+|            Email                      |
+|        [Slack](https://slack.com/)    |
+
 ### **TODO:**
 ##### Personal stuff to organize and show what's currently accocmplished in the project
 <details>
