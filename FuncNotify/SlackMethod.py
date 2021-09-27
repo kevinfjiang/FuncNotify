@@ -32,7 +32,7 @@ class SlackMethod(NotifyMethods):
         self.client = WebClient(self.str_or_env(token, "SLACK_API_TOKEN"))
         
 
-    def addon(self, type_: str=None)->str:
+    def addon(self, type_: str="Error")->str:
         try:
             emoji_dict = self.client.emoji_list()['emoji']
             rand_emoji = list(emoji_dict.keys())[randint(0, len(emoji_dict))]

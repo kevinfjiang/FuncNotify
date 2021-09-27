@@ -51,31 +51,44 @@ class NotifyMethods(metaclass=AbstractFactoryRegistry):
                               "Fail Traceback: {4}"]} 
     
     def __init__(self, mute=False, *args, **kwargs):
-        NotifyMethods.set_mute(mute)
-        NotifyMethods._logger_init_(*args, **kwargs) # Note logger only logs errors in sending the messages, not in the function exectuion
-        
         try:  
+            NotifyMethods._logger_init_(*args, **kwargs) # Note logger only logs errors in sending the messages, not in the function itself
+            
             self._set_credentials(*args, **kwargs)
             self.notify=True # Always default to notify user
 
         except Exception as ex:
             # Consider adding traceback and error here
-            NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message="Connection to setting up notifications interupted, double check env variables")
-            NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message=f"EXCEPTION: {ex}")
+            NotifyMethods.log(status="ERROR", method=self.__class__.__name__, 
+                              message="[CREDENTIALS] Connection to setting up notifications interupted, double check env variables")
+            NotifyMethods.log(status="ERROR", method=self.__class__.__name__, 
+                              message=f"[CREDENTIALS] {ex}")
             self.notify=False # If error with credentials
         
+        NotifyMethods.set_mute(mute)
         NotifyMethods._register(self)
         
     
     def str_or_env(self, val, env_variable: str)->str:
         """Checks if inputted value is string, otherwise searches environment 
-        for that variable. If not found, doesn't notify users.
-        """        
+        for that variable. If not found, doesn't notify users.s
+
+        Args:
+            val ([type]): Input, should always be a string but if not will search environment
+            env_variable (str): environment variable name
+
+        Returns:
+            str: important information used by apis as a string
+        Raises:
+            KeyErrorException: Raises if environment variable not found in name, this will set `self.notify` 
+            to false as the credentials aren't found
+        """             
         return val if isinstance(val, str) else os.environ[env_variable]
     
     @classmethod
     def _register(cls, NotifyObject):
-        """Registers each object and creates sa pseudo cyclical buffer that holds 3 objects that can be checked when youu grab the registry
+        """Registers each object and creates sa pseudo cyclical buffer that holds 3 objects that
+        can be checked when youu grab the registry
         """ 
         if not NotifyObject.notify:
             NotifyObject = None
@@ -125,7 +138,9 @@ class NotifyMethods(metaclass=AbstractFactoryRegistry):
             cls.logger.addHandler(console_handler)
 
             logger_file_format = "[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d"
-            file_handler = logging.handlers.RotatingFileHandler(filename="{}/logs/{}.log".format(path, logger_name), maxBytes=int(os.getenv("FILE_SIZE", default=buffer)), backupCount=2)
+            file_handler = logging.handlers.RotatingFileHandler(filename="{}/logs/{}.log".format(path, logger_name), 
+                                                                maxBytes=int(os.getenv("FILE_SIZE", default=buffer)), 
+                                                                backupCount=2)
             file_handler.setLevel(logging.DEBUG)
             file_handler.setFormatter(logging.Formatter(logger_file_format))
             cls.logger.addHandler(file_handler)
@@ -164,15 +179,16 @@ class NotifyMethods(metaclass=AbstractFactoryRegistry):
             cls.log_method_dict.get(status, 
                                     lambda *args, **kwargs: 
                                         [cls.logger.error(*args, **kwargs),
-                                         cls.logger.error("Logger method not found, using [ERROR]"),])(log_message, **kwdict)
+                                         cls.logger.error("Logger method not found, using [ERROR]"),]
+                                    )(log_message, **kwdict)
     
     def format_message(self, formatList: list, type_: str="Error"):
-        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname())+self.addon(type_=type_)
+        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname()) + self.addon(type_=type_)
     
 
-    def addon(self, type_: str=None)->str:
-        """Pseudo-abstsract method, sometimess will ad emojis and other fun messages
-        that are platform specific
+    def addon(self, type_: str="Error")->str:
+        """Pseudo-abstsract method, sometimess will add emojis and other fun messages
+        that are platform specific. Not necessary to implement but you can for personalization!
         """        
         return ""
     
@@ -184,11 +200,14 @@ class NotifyMethods(metaclass=AbstractFactoryRegistry):
 
     # Suite of funcitons sends and formats messages for each different method. These guys help format each message for each of the instances
     def send_start_MSG(self, func): 
-        self._send_MSG_base(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime())], type_="Start")
+        self._send_MSG_base(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime())], 
+                            type_="Start")
     def send_end_MSG(self, func, diff: float): 
-        self._send_MSG_base(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime()), diff], type_="End")
+        self._send_MSG_base(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime()), diff], 
+                            type_="End")
     def send_error_MSG(self, func, ex: Exception): 
-        self._send_MSG_base(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], type_="Error")
+        self._send_MSG_base(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], 
+                            type_="Error")
 
     @abstractmethod
     def send_message(self, message: str)->None: 
@@ -212,9 +231,11 @@ class NotifyMethods(metaclass=AbstractFactoryRegistry):
                     raise Exception("Error: Issue with initialized values, double check env variables/decorator arguments")
                 
                 self.send_message(MSG)
-                NotifyMethods.log(status="DEBUG", method=self.__class__.__name__, message=MSG)
+                NotifyMethods.log(status="DEBUG", method=self.__class__.__name__, 
+                                  message=MSG)
 
             except Exception:
-                NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message="[ERROR WITH SEND CREDENTIALS] " + MSG)
+                NotifyMethods.log(status="ERROR", method=self.__class__.__name__, 
+                                  message="[CREDENTIALS] " + MSG)
               
    
