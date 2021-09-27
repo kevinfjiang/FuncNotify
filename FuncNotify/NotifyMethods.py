@@ -51,19 +51,27 @@ class NotifyMethods(metaclass=AbstractFactoryRegistry):
                               "Fail Traceback: {4}"]} 
     
     def __init__(self, mute=False, *args, **kwargs):
+        NotifyMethods.set_mute(mute)
+        NotifyMethods._logger_init_(*args, **kwargs) # Note logger only logs errors in sending the messages, not in the function exectuion
+        
         try:  
-            self._set_credentials()
+            self._set_credentials(*args, **kwargs)
             self.notify=True # Always default to notify user
 
-        except Exception:
+        except Exception as ex:
             # Consider adding traceback and error here
             NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message="Connection to setting up notifications interupted, double check env variables")
+            NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message=f"EXCEPTION: {ex}")
             self.notify=False # If error with credentials
         
         NotifyMethods._register(self)
-        NotifyMethods.set_mute(mute)
-        NotifyMethods._logger_init_(*args, **kwargs) # Note logger only logs errors in sending the messages, not in the functioon exectuion
+        
     
+    def str_or_env(self, val, env_variable: str)->str:
+        """Checks if inputted value is string, otherwise searches environment 
+        for that variable. If not found, doesn't notify users.
+        """        
+        return val if isinstance(val, str) else os.environ[env_variable]
     
     @classmethod
     def _register(cls, NotifyObject):
@@ -169,7 +177,7 @@ class NotifyMethods(metaclass=AbstractFactoryRegistry):
         return ""
     
     @abstractmethod
-    def _set_credentials(self)->None:
+    def _set_credentials(self, *args, **kwargs)->None:
         """Sets up object with environment variables
         """        
         pass
@@ -207,6 +215,6 @@ class NotifyMethods(metaclass=AbstractFactoryRegistry):
                 NotifyMethods.log(status="DEBUG", method=self.__class__.__name__, message=MSG)
 
             except Exception:
-                NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message=MSG)
+                NotifyMethods.log(status="ERROR", method=self.__class__.__name__, message="[ERROR WITH SEND CREDENTIALS] " + MSG)
               
    

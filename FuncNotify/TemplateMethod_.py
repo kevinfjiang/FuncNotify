@@ -20,18 +20,19 @@ NOTE replace anything in brackets
 import os # Grabbing environment variables
 
 from .NotifyMethods import * # Using the predefined functions from the abstract class
+from .NotifyDecorators import time_func
 
 # Specify here other Packages to be imported specific for `xNotifyx`. Include why each package is here
 
 def time_xNotifyx(function=None, dot_env=True,  *args, **kwargs)->None: # Include something to check the rest of the arguments in the word
-    """Decorator specific for xNotifyx, if no credentials specified, it wil fill in with .env variables
+    """Decorator specific for xNotifyx, if no credentials specified, it wil fill in with .env variables. 
+    The import is necessary and cheap due to python's import system. If anyone has a solution please lmk!!
     
     Args:
-        function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
+        function (function, optional): In case you want to use time_func as a pure decorator without argumetns, Alert serves as 
         the function. Defaults to None.
         NOTE add all key word arguments that could be used by the class to enable more accurate mesaging
         [variable] ([type], optional): [Summary]. Defaults to [Default]"""
-    from . import time_func # Hacky solution but if it works. Hopefully somebody smarter than me will have a fix
     return time_func(function=function, dot_env=dot_env, funcSpecify="xNotifyx", *args, **kwargs) 
 
 class xNotifyxMethod(NotifyMethods):
@@ -43,12 +44,13 @@ class xNotifyxMethod(NotifyMethods):
         """        
         super().__init__(*args, **kwargs)
 
-    def _set_credentials(self)->None:
+    def _set_credentials(self, token: str=None, *args, **kwargs)->None:
         """If instance variables are not defined, define environment variables here
         Then add the env variables to my.env for your specific environment variables
         Finally add the variable name and equal sign in a new section in template.env 
         for future use
-        """        
+        """   
+        self.token = self.str_or_env(token, "TOKEN") # Example use with a random token
         pass
     def add_on(self)->str:
         """Specify an addon to tack on to the end of each message, solely a cosmetic thing

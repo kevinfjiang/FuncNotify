@@ -1,6 +1,7 @@
 import os # Grabbing environment variables
 
 from .NotifyMethods import * # Using the predefined functions from the abstract class
+from .NotifyDecorators import time_func
 
 # Specify here other Packages to be imported specific for [Method].
 from slack import WebClient
@@ -15,7 +16,6 @@ def time_Slack(function=None, use_env: bool=True, *args, **kwargs):
         function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
         use_env (bool): Loads .env file envionment variables. Defaults to False"""
-    from . import time_func
     return time_func(function=function, use_env=use_env, NotifyMethod="Slack",  *args, **kwargs) 
 
 
@@ -23,17 +23,14 @@ class SlackMethod(NotifyMethods):
     """Sends slack notification to slack channel and user email specified
     """    
 
-    def __init__(self, email: str=None, *args, **kwargs):
-        self.email = email
-        super(SlackMethod, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         
 
-    def _set_credentials(self):
-            slackToken = os.environ["SLACK_API_TOKEN"]
-            self.client = WebClient(slackToken)
-            
-            if self.email is None:
-                self.email = os.environ["EMAIL"]
+    def _set_credentials(self, email: str=None, token: str=None, *args, **kwargs):
+        self.email = self.str_or_env(email, "EMAIL")
+        self.client = WebClient(self.str_or_env(token, "SLACK_API_TOKEN"))
+        
 
     def addon(self, type_: str=None)->str:
         try:

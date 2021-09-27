@@ -1,6 +1,7 @@
 import os # Grabbing environment variables
 
-from .NotifyMethods import * # Using the predefined functions from the abstract class
+from . import NotifyMethods # Using the predefined functions from the abstract class
+from .NotifyDecorators import time_func
 
 # Specify here other Packages to be imported specific for Text Alerts.
 from twilio.rest import Client
@@ -13,23 +14,20 @@ def time_Text(function=None, use_env=True, cellphone=None, *args, **kwargs): # I
         the function. Defaults to None.
         use_env (bool, optional): Loads .env file envionment variables. Defaults to False
         cellphone ([type], optional): [description]. Defaults to None."""
-    from . import time_func
     return time_func(function=function, use_env=use_env, cellphone=cellphone, NotifyMethod="Text", *args, **kwargs) 
 
 class TextMethod(NotifyMethods):
     """Sends message via twilio if twilio api is set up for text alerts. If a twilio emplooyee reads this, HELLO!
     """    
 
-    def __init__(self, cellphone=None, *args, **kwargs):
-        self.cellphone = cellphone
-        super(TextMethod, self).__init__(args, kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
         
 
-    def _set_credentials(self):
-        if self.cellphone is None:
-            self.cellphone = os.environ["PHONE"]
-        self.twilio_number = os.environ["TWILIOPHONE"]
-        self.client = Client(os.environ["TWILIOACCOUNT"], os.environ["TWILIOTOKEN"])
+    def _set_credentials(self, phone: str=None, twiliophone: str=None, twilioaccount: str=None, twiliotoken: str=None, *args, **kwargs):
+        self.cellphone = self.str_or_env(phone, "PHONE")
+        self.twilio_number = self.str_or_env(twiliophone, "TWILIOPHONE")
+        self.client = Client(self.str_or_env(twilioaccount, "TWILIOACCOUNT"), self.str_or_env(twiliotoken, "TWILIOTOKEN"))
 
     def send_message(self, message):
         try:

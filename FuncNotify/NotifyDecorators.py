@@ -4,8 +4,7 @@ from dotenv import load_dotenv
 
 from .NotifyMethods import *
 
-# Dictionary to instatiate the objects that define the method which the user is notified
-NotifyType = NotifyMethods.get_cls_registry()
+NOTIFY_TYPE=None
 
 # Main decorator
 def time_func(function=None, use_env=False, env_path=".env", NotifyMethod="Print", *dec_args, **dec_kwargs): 
@@ -21,7 +20,12 @@ def time_func(function=None, use_env=False, env_path=".env", NotifyMethod="Print
     Returns:
         function: decorator function for timing
     """    
-    if NotifyMethod not in NotifyType:
+    global NOTIFY_TYPE
+    
+    if NOTIFY_TYPE is None:
+        NOTIFY_TYPE = NotifyMethods.get_cls_registry()
+    
+    if NotifyMethod not in NOTIFY_TYPE:
         warnings.warn("Invalid NotifyMethod type specified, will use `PrintMethod`, select a type within this criteria: {}".format(NotifyType.keys()))
     
     if use_env:
@@ -41,7 +45,7 @@ def time_func(function=None, use_env=False, env_path=".env", NotifyMethod="Print
             Returns:
                 Object: returns func's output
             """           
-            result = timer_base(func, NotifyType.get(NotifyMethod, NotifyType["Print"])(*dec_args, **dec_kwargs), *func_args, **func_kwargs)
+            result = timer_base(func, NOTIFY_TYPE.get(NotifyMethod, NOTIFY_TYPE["Print"])(*dec_args, **dec_kwargs), *func_args, **func_kwargs)
             return result
         return timer
 
