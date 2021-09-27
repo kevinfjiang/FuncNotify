@@ -14,7 +14,7 @@ def time_func(function=None, use_env=False, env_path=".env", NotifyMethod="Print
     Args:
         function (func, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
-        dot_env (bool): Loads .env file envionment variables. Defaults to False
+        dot_env (str): Loads .env file envionment variables. Defaults to False
         NotifyMethod (str, optional): Specifies the type of method used to notify user, selected from NotifyType. Defaults to "Print".
 
     Returns:

@@ -24,7 +24,7 @@ from .NotifyDecorators import time_func
 
 # Specify here other Packages to be imported specific for `xNotifyx`. Include why each package is here
 
-def time_xNotifyx(function=None, dot_env=True,  *args, **kwargs)->None: # Include something to check the rest of the arguments in the word
+def time_xNotifyx(function=None, dot_env=True,  *args, **kwargs): # Include something to check the rest of the arguments in the word
     """Decorator specific for xNotifyx, if no credentials specified, it wil fill in with .env variables. 
     The import is necessary and cheap due to python's import system. If anyone has a solution please lmk!!
     
@@ -48,10 +48,9 @@ class xNotifyxMethod(NotifyMethods):
         """If instance variables are not defined, define environment variables here
         Then add the env variables to my.env for your specific environment variables
         Finally add the variable name and equal sign in a new section in template.env 
-        for future use
+        for future use. Extension of __init__
         """   
         self.token = self.str_or_env(token, "TOKEN") # Example use with a random token
-        pass
     def add_on(self)->str:
         """Specify an addon to tack on to the end of each message, solely a cosmetic thing
         If there are big issues with this, ie some platforms are much more annoying I can change 

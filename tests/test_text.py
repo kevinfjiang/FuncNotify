@@ -4,7 +4,6 @@ wastemoney=False
 class TestText(TestGeneric):
     """Testing the text method of FuncNotify
     """    
-    
     # Tests if text alerts are working, set waste money to true if u want to test, costs money
     def test_text(self, *args, **kwargs):
         if wastemoney:

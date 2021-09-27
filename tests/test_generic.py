@@ -8,24 +8,6 @@ class TestGeneric(unittest.TestCase):
     """Note will not actually test decorator but an equivalent variation
     """ 
     # Basic notify method, testing it works   
-    def test_PrintDef(self, *args, **kwargs):
-        time_func(self.wait_test, True, *args, **kwargs)(**kwargs)
-        self.confirm_method(PrintMethod)
-        self.confirm_cred()
-
-    # Base tests, testing NotifyMethod features
-    def test_ENV(self, *args, **kwargs):
-        time_func(self.wait_test, True, *args, **kwargs)(**kwargs)
-        self.confirm_dotenv("ALIVE")
-    def test_DeadENV(self, *args, **kwargs):
-        time_func(self.wait_test, False, *args, **kwargs)(**kwargs)
-        self.confirm_dotenv(None)
-
-    #  Stress testing
-    def test_stressPrint(self):
-        self.stressMethod(self.test_PrintDef, time_=.01, verbose=False)
-        # Tests for slack notify methds
-
     def stressMethod(self, method, count=100, *args, **kwargs):
         for _ in range(count):
             method(*args, **kwargs)
