@@ -14,11 +14,11 @@ from abc import ABCMeta, abstractmethod
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
     
 
-class AbstractFactoryRegistry(ABCMeta):
+class FactoryRegistry(ABCMeta):
     _REGISTRY = {} 
     
     def __new__(cls, clsname, bases, attrs):
-        newclass = super(AbstractFactoryRegistry, cls).__new__(cls, clsname, bases, attrs)
+        newclass = super(FactoryRegistry, cls).__new__(cls, clsname, bases, attrs)
         cls._REGISTRY[newclass.__name__.replace("Method", "")] = newclass
         return newclass
     
@@ -27,7 +27,7 @@ class AbstractFactoryRegistry(ABCMeta):
         return dict(cls._REGISTRY)
     
     
-class NotifyMethods(metaclass=AbstractFactoryRegistry):
+class NotifyMethods(metaclass=FactoryRegistry):
     """Abstract class for the methods of notifying the user, 
     handles the messages and logger for error checking
     """    
