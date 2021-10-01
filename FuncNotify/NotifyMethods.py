@@ -140,7 +140,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
             logger_file_format = "[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d"
             file_handler = logging.handlers.RotatingFileHandler(filename="{}/logs/{}.log".format(path, logger_name), 
                                                                 maxBytes=int(os.getenv("FILE_SIZE", default=buffer)), 
-                                                                backupCount=2)
+                                                                backupCount=1)
             file_handler.setLevel(logging.DEBUG)
             file_handler.setFormatter(logging.Formatter(logger_file_format))
             cls.logger.addHandler(file_handler)
