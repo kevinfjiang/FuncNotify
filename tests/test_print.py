@@ -1,5 +1,4 @@
 from . import *
-from FuncNotify import *
 
 class PrintTest(TestGeneric):
     """Tests generic printmethood with ENV tests

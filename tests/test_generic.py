@@ -17,9 +17,9 @@ class TestGeneric(unittest.TestCase):
     def confirm_method(self, methodName):
         self.assertEqual(type(NotifyMethods.get_registry()[-1]), methodName)
     def confirm_cred(self):
-        self.assertTrue(NotifyMethods.get_registry()[-1].notify)
+        self.assertEqual(NotifyMethods.get_registry()[-1].error, None)
     
-    def wait_test(self, time_=.25, **kwargs):
+    def wait_test(self, time_=.25, *args, **kwargs):
         time.sleep(time_)
 
 if __name__ == '__main__':

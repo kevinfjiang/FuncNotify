@@ -1,5 +1,4 @@
 from . import *
-from FuncNotify import *
 
 class TestSlack(TestGeneric):
     """Testing the slack method of FuncNotify

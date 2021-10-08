@@ -32,8 +32,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
     handles the messages and logger for error checking
     """    
     # Tracking and testing, intended to in case one needs to check functions ran
-    _registry = collections.deque([], maxlen=5) # Tracks last five for error checking
-    _mute=False
+    _registry = collections.deque([], maxlen=5) # Tracks last five for error checking, 
+    _mute=False                                 # circular buffer so the garbage collectoor works
     
     logger=None
         
@@ -55,7 +55,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
             NotifyMethods._logger_init_(*args, **kwargs) # Note logger only logs errors in sending the messages, not in the function itself
             
             self._set_credentials(*args, **kwargs)
-            self.notify=True # Always default to notify user
+            self.error=None # Always default to notify user
 
         except Exception as ex:
             # Consider adding traceback and error here
@@ -63,7 +63,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
                               message="[CREDENTIALS] Connection to setting up notifications interupted, double check env variables")
             NotifyMethods.log(status="ERROR", method=self.__class__.__name__, 
                               message=f"[CREDENTIALS] {ex}")
-            self.notify=False # If error with credentials
+            self.error=ex # If error with credentials
         
         NotifyMethods.set_mute(mute)
         NotifyMethods._register(self)
@@ -80,8 +80,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
         Returns:
             str: important information used by apis as a string
         Raises:
-            KeyErrorException: Raises if environment variable not found in name, this will set `self.notify` 
-            to false as the credentials aren't found
+            KeyErrorException: Raises if environment variable not found in name, this will set `self.Error` 
+            to that exception so it can be accessed
         """             
         return val if isinstance(val, str) else os.environ[env_variable]
     
@@ -90,7 +90,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         """Registers each object and creates sa pseudo cyclical buffer that holds 3 objects that
         can be checked when youu grab the registry
         """ 
-        if not NotifyObject.notify:
+        if not NotifyObject.error is None:
             NotifyObject = None
         cls._registry.append(NotifyObject)
         
@@ -171,7 +171,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
     @classmethod
     def _format_log(cls, status, method="", message="", *args, **kwargs):
         ret_messsage = "[METHOD={}] Message = {}.".format(method, message) 
-        return ret_messsage, {'exc_info': status>logging.INFO} # No stack_info in version <3.2
+        return ret_messsage, {'exc_info': status>logging.INFO} 
     @classmethod
     def log(cls, status: str="DEBUG", *args, **kwargs):
         if cls.logger:
@@ -227,15 +227,17 @@ class NotifyMethods(metaclass=FactoryRegistry):
         if not NotifyMethods._mute:       
             MSG = self.format_message(*args, **kwargs)
             try:
-                if not self.notify:
-                    raise Exception("Error: Issue with initialized values, double check env variables/decorator arguments")
+                if not self.error is None:
+                    raise self.error
                 
                 self.send_message(MSG)
                 NotifyMethods.log(status="DEBUG", method=self.__class__.__name__, 
                                   message=MSG)
 
-            except Exception:
+            except Exception as ex:
                 NotifyMethods.log(status="ERROR", method=self.__class__.__name__, 
-                                  message="[CREDENTIALS] " + MSG)
+                                  message=f"[CREDENTIALS] {MSG}")
+                self.error = ex
+                
               
    
