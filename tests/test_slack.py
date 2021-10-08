@@ -16,4 +16,4 @@ class TestSlack(TestGeneric):
         self.confirm_cred()
         
     def test_stressSlack(self):
-        self.stressMethod(self.test_slack, time_=2, count=10)
+        self.stressMethod(self.test_slack, time_=3, count=5) # Rate limited lol
