@@ -13,7 +13,7 @@ def import_all(modules: list):
     """    
     for mod in modules:
         try:
-            module = importlib.import_module(f'FuncNotify.{mod}') # TODO find a way too impoort the small functions!
+            module = importlib.import_module(f'FuncNotify.{mod}') 
             globals().update({k: v for (k, v) in module.__dict__.items() if not k.startswith('_')})
         except Exception as ex:
             print(f"Unable to import {mod} due to the following error")

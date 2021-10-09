@@ -4,16 +4,16 @@ class PrintTest(TestGeneric):
     """Tests generic printmethood with ENV tests
     """    
     def test_PrintDef(self, *args, **kwargs):
-        time_func(self.wait_test, True, *args, **kwargs)(**kwargs)
+        time_func(self.wait_test, use_env=True, *args, **kwargs)(**kwargs)
         self.confirm_method(PrintMethod)
         self.confirm_cred()
 
     # Base tests, testing NotifyMethod features
     def test_ENV(self, *args, **kwargs):
-        time_func(self.wait_test, True, *args, **kwargs)(**kwargs)
+        time_func(self.wait_test, update_env=True, use_env=True, *args, **kwargs)(**kwargs)
         self.confirm_dotenv("ALIVE")
     def test_DeadENV(self, *args, **kwargs):
-        time_func(self.wait_test, False, *args, **kwargs)(**kwargs)
+        time_func(self.wait_test, update_env=True, use_env=False, *args, **kwargs)(**kwargs)
         self.confirm_dotenv(None)
 
     #  Stress testing

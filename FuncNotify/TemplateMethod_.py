@@ -16,24 +16,22 @@ The specific notify function will make it easier on end users to see what specif
 
 NOTE replace anything in brackets
 """
-    
-import os # Grabbing environment variables
 
 from .NotifyMethods import * # Using the predefined functions from the abstract class
 from .NotifyDecorators import time_func
 
 # Specify here other Packages to be imported specific for `xNotifyx`. Include why each package is here
 
-def time_xNotifyx(function=None, dot_env=True,  *args, **kwargs): # Include something to check the rest of the arguments in the word
+def time_xNotifyx(function=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, *args, **kwargs): # Include something to check the rest of the arguments in the word
     """Decorator specific for xNotifyx, if no credentials specified, it wil fill in with .env variables. 
     The import is necessary and cheap due to python's import system. If anyone has a solution please lmk!!
-    
+    funcSpecify automatically pulls the object if you wrote the class correctly
     Args:
         function (function, optional): In case you want to use time_func as a pure decorator without argumetns, Alert serves as 
         the function. Defaults to None.
         NOTE add all key word arguments that could be used by the class to enable more accurate mesaging
         [variable] ([type], optional): [Summary]. Defaults to [Default]"""
-    return time_func(function=function, dot_env=dot_env, funcSpecify="xNotifyx", *args, **kwargs) 
+    return time_func(function=function, NotifyMethod="xNotifyx", use_env=use_env, env_path=env_path, update_env=update_env, *args, **kwargs) 
 
 class xNotifyxMethod(NotifyMethods):
     """[Summaraize exactly how this Method will notify the end user and what platform.]

@@ -50,9 +50,12 @@ class NotifyMethods(metaclass=FactoryRegistry):
                               "Machine Name: {machine}",
                               "Fail Traceback: {4}"]} 
     
-    def __init__(self, mute=False, *args, **kwargs):
+    def __init__(self, environ=None, mute=False, *args, **kwargs):
+        self.environ_dict = environ if environ else {}
+        NotifyMethods.set_mute(mute)
+        
         try:  
-            NotifyMethods._logger_init_(*args, **kwargs) # Note logger only logs errors in sending the messages, not in the function itself
+            NotifyMethods._logger_init_(self.environ_dict, *args, **kwargs) # Note logger only logs errors in sending the messages, not in the function itself
             
             self._set_credentials(*args, **kwargs)
             self.error=None # Always default to notify user
@@ -65,7 +68,6 @@ class NotifyMethods(metaclass=FactoryRegistry):
                               message=f"[CREDENTIALS] {ex}")
             self.error=ex # If error with credentials
         
-        NotifyMethods.set_mute(mute)
         NotifyMethods._register(self)
         
     
@@ -83,7 +85,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
             KeyErrorException: Raises if environment variable not found in name, this will set `self.Error` 
             to that exception so it can be accessed
         """             
-        return val if isinstance(val, str) else os.environ[env_variable]
+        return val if isinstance(val, str) else self.environ_dict[env_variable]
     
     @classmethod
     def _register(cls, NotifyObject):
@@ -91,7 +93,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         can be checked when youu grab the registry
         """ 
         if not NotifyObject.error is None:
-            NotifyObject = None
+            NotifyObject=None
         cls._registry.append(NotifyObject)
         
     @classmethod
@@ -100,11 +102,11 @@ class NotifyMethods(metaclass=FactoryRegistry):
     
     @classmethod
     def set_mute(cls, mute: bool=False):
-        cls._mute = mute
+        cls._mute=mute
     
 
     @classmethod
-    def _logger_init_(cls, log: bool=False, buffer: int=65536, logger_path=None, *args, **kwargs):
+    def _logger_init_(cls, environ, log: bool=False, buffer: int=65536, logger_path: str=None, *args, **kwargs):
         """Sets up the class logger, should only need to be run once, although if you init it once 
         it'll always be active.
 
@@ -113,14 +115,13 @@ class NotifyMethods(metaclass=FactoryRegistry):
             debug (bool, optional): [whether to enable debug mode]. Defaults to False.
             buffer (int, optional): [size of each log file]. Defaults to 65536 (2**16).
         """        
-        if (os.getenv("LOG") or log or logger_path) and not cls.logger: # Uses existing logger if it existss
+        if (environ.get("LOG") or log or logger_path) and not cls.logger: # Uses existing logger if it existss
             
             if logger_path:
                 path=logger_path
             else:
-                path = os.getenv("LOGGER_PATH", "")
-                if path == "":
-                    path = os.getcwd() # If env variable but not defined is empty sets path to cwd
+                path = environ.get("LOGGER_PATH", "")
+                path = path if path else os.getcwd() # If env variable but not defined is empty sets path to cwd
                 
             if not os.path.isdir(os.path.join(path, "logs")):
                 os.mkdir("logs")
@@ -139,7 +140,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
 
             logger_file_format = "[%(levelname)s] - %(asctime)s - %(name)s - : %(message)s in %(pathname)s:%(lineno)d"
             file_handler = logging.handlers.RotatingFileHandler(filename="{}/logs/{}.log".format(path, logger_name), 
-                                                                maxBytes=int(os.getenv("FILE_SIZE", default=buffer)), 
+                                                                maxBytes=int(environ.get("FILE_SIZE", buffer)), 
                                                                 backupCount=1)
             file_handler.setLevel(logging.DEBUG)
             file_handler.setFormatter(logging.Formatter(logger_file_format))
@@ -158,7 +159,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
                                   "ERROR": logging.ERROR,
                                   "FATAL": logging.FATAL,
                                  }
-        elif not (os.getenv("LOG") or log or logger_path):
+        elif not (environ.get("LOG") or log or logger_path):
             cls.logger=None
             
 

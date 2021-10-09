@@ -1,5 +1,3 @@
-import os # Grabbing environment variables
-
 from .NotifyMethods import * # Using the predefined functions from the abstract class
 from .NotifyDecorators import time_func
 
@@ -8,15 +6,19 @@ from slack import WebClient
 from random import randint # For random emojis
 
 
-def time_Slack(function=None, use_env: bool=True, *args, **kwargs):
+def time_Slack(function=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, *args, **kwargs):
     """Decorator specific for Slack, if no credentials specified, it wil fill in with .env variables
     
     
     Args:
         function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
-        use_env (bool): Loads .env file envionment variables. Defaults to False"""
-    return time_func(function=function, use_env=use_env, NotifyMethod="Slack",  *args, **kwargs) 
+        use_env (str, optional): Loads .env file envionment variables. Defaults to False
+        env_path (str, optional): path to .env file. Defaults to ".env".
+        update_env (bool, optional): whether to update the .env file to current. Always updatess on 
+        initialization. Defaults to False.
+"""
+    return time_func(function=function, NotifyMethod="Slack", use_env=use_env, env_path=env_path, update_env=update_env, *args, **kwargs) 
 
 
 class SlackMethod(NotifyMethods):
@@ -37,7 +39,7 @@ class SlackMethod(NotifyMethods):
             emoji_dict = self.client.emoji_list()['emoji']
             rand_emoji = list(emoji_dict.keys())[randint(0, len(emoji_dict))]
             return f":{rand_emoji}:"
-        except:
+        except Exception:
             pass
         finally:
             return ":tada:"
