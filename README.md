@@ -1,4 +1,4 @@
-# FuncNotify
+# FuncNotify ⏰ 
 > **Get notified when your functions run**
 ### **Premise:**
 Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed without risking exposing your phone nubmer.
