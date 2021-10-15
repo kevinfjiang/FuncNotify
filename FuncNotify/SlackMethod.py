@@ -3,7 +3,6 @@ from .NotifyDecorators import time_func
 
 # Specify here other Packages to be imported specific for [Method].
 from slack import WebClient
-from random import randint # For random emojis
 
 
 def time_Slack(function=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, username: str="alerty", token: str=None, email: str=None, *args, **kwargs):

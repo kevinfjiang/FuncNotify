@@ -40,10 +40,12 @@ class NotifyMethods(metaclass=FactoryRegistry):
     _messageDict = {"Start": ["Function: {0}() called...",
                               "Machine Name: {machine}",
                               "Start Time: {1}"],
+                    
                     "End":   ["Function: {0}() completed",
                               "Machine Name: {machine}",
                               "Finish Time: {1}",
                               "Total Time: {2:.2f}"],
+                    
                     "Error": ["Function: {0}() failed due to a {1}",
                               "Exception Reason: \n{2}"
                               "Fail Time Stamp: \n{3}",
