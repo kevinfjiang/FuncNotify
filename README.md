@@ -1,21 +1,40 @@
-# FuncNotify
+# FuncNotify ⏰ 
+> **Get notified when your functions run**
 ### **Premise:**
-Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed or of any errors, training ML. The advantage over other decorator nontifiers is that there's an added option to hide your api tokens and emails so they aren't accidentally pushed to a public repo. 
+Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed without risking exposing your phone nubmer.
 
 #### Installation use `pip` or equivalent
 ```$ pip install FuncNotify```
 
 #### Use
 ```python
-@time_func(dot_env=True, NotifyMethod="Text", cellphone="8001234567")
+# Add more as projects grow!
+from FuncNotify import time_func, time_text, time_slack
+
+
+@time_func(NotifyMethod="Text", use_env=True, env_path".env", update_env=True, cellphone="8001234567")
 def wait_func():
+    """This function will use the text method and pull env varaibles from
+    `.env`, it will update the already determined env variables too!"""
+    do_something()
+
+
+@time_text()
+def wait_func2():
+    """All parameters are optional and each method has a personal decorator, even the 
+    function call is optional see below"""
     do_something()
 
 @time_text
-def wait_func2():
+def wait_func3():
+    """Auto pull from `.env` is enabled by default with Method specific time decorators"""
     do_something()
+
+if __name__ == "__main__":
+    """You don't even need to use the timer as a decorator, use it as a normal function
+    This is how we do testing :) """
+    time_func(function=wait_func4)(func4_args, func4_kwargs)
 ```
-Both accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
 
 #### Conribution:
 Please follow the instructions in ```TemplateMethod_.py``` and add to ```template.env``` and create a new branch. Also, test your credentials in a `.env` file and share them with me eventually!! I promise all I need them for is testing. If anybody knows a better method than my current secrets method, contact me at kevin.j@columbia.edu Thank you!
@@ -52,8 +71,8 @@ Please follow the instructions in ```TemplateMethod_.py``` and add to ```templat
 - [X] Add logger support
 - [X] Dropped support for 2.7, too annoying to mantain as metaclass was different
 - [X] Made super easy to add to (automated imports, define the decorator at the same time).
-- [ ] Separate tests
-- [ ] GitHub action auto deploymentt
+- [X] Separate tests
+- [X] GitHub action auto deploymentt
 - [ ] Add Microsoft teams
 - [ ] Add Some other 
 </br>
