@@ -71,8 +71,8 @@ Please follow the instructions in ```TemplateMethod_.py``` and add to ```templat
 - [X] Add logger support
 - [X] Dropped support for 2.7, too annoying to mantain as metaclass was different
 - [X] Made super easy to add to (automated imports, define the decorator at the same time).
-- [ ] Separate tests
-- [ ] GitHub action auto deploymentt
+- [X] Separate tests
+- [X] GitHub action auto deploymentt
 - [ ] Add Microsoft teams
 - [ ] Add Some other 
 </br>
