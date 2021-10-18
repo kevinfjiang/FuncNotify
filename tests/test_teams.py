@@ -17,4 +17,4 @@ class TestTeams(TestGeneric):
         self.confirm_cred()
         
     def test_stressSlack(self):
-        self.stressMethod(self.test_slack, time_=5, count=10)
+        self.stressMethod(self.test_teamss, time_=5, count=10)
