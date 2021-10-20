@@ -15,7 +15,7 @@ with open("requirements.txt") as file: # Pulls from requirements.txt
 
 setup(
     name="FuncNotify",
-    version=requests.get("https://api.github.com/repos/kevinfjiang/FuncNotify/releases/latest").json()['name'],
+    version=requests.get("https://api.github.com/repos/kevinfjiang/FuncNotify/releases/latest").json()['name'].split("v")[1],
     description="Get notified when your functions finish running",
     long_description=README,
     long_description_content_type="text/markdown",
