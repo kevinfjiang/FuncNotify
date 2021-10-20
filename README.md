@@ -1,6 +1,10 @@
 # FuncNotify ⏰ 
 > **Get notified when your functions run**
+
+![build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI)![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD)![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases)
+![wheel](https://img.shields.io/pypi/wheel/FuncNotify)
 ### **Premise:**
+
 Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed without risking exposing your phone nubmer.
 
 #### Installation use `pip` or equivalent
