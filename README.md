@@ -1,7 +1,8 @@
 # FuncNotify ⏰ 
 > **Get notified when your functions run**
 
-![build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI)![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD)![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases)
+![Build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI)![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD)
+![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify)![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases)
 ![wheel](https://img.shields.io/pypi/wheel/FuncNotify)
 ### **Premise:**
 

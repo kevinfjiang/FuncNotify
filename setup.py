@@ -1,4 +1,5 @@
 import pathlib
+import requests
 from setuptools import setup
 
 # The directory containing this file
@@ -14,7 +15,7 @@ with open("requirements.txt") as file: # Pulls from requirements.txt
 
 setup(
     name="FuncNotify",
-    version="1.1.1",
+    version=requests.get("https://api.github.com/repos/kevinfjiang/FuncNotify/releases/latest").json()['name'],
     description="Get notified when your functions finish running",
     long_description=README,
     long_description_content_type="text/markdown",
