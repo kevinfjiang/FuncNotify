@@ -8,7 +8,7 @@ Sometimes, functions take a long time. I wanted to create something that automat
 #### This is a super lean ReadMe, check out the github linked [here](https://github.com/kevinfjiang/FuncNotify)
 
 #### Installation
-```$ pip install funcNotify```
+```$ pip install FuncNotify```
 #### Use case
 ```python
 @time_func(dot_env=True, NotifyMethod="Text", cellphone="8001234567")
