@@ -41,9 +41,6 @@ if __name__ == "__main__":
     time_func(function=wait_func4)(func4_args, func4_kwargs)
 ```
 
-#### Conribution:
-Please follow the instructions in ```TemplateMethod_.py``` and add to ```template.env``` and create a new branch. Also, test your credentials in a `.env` file and share them with me eventually!! I promise all I need them for is testing. If anybody knows a better method than my current secrets method, contact me at kevin.j@columbia.edu Thank you!
-
 #### Philosophy:
 This project is intended as a good jumping off point for people to learn how to contribute/code. I wrote the project to be as easy as possible to add new NotifyMethods and tests through a abstract class. Please feel free to reach out if you would like to help or need help! I wanted this project to be super easy and safe to use and super easy to contribute to. 
 
