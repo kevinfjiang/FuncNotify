@@ -7,4 +7,4 @@
 - [ ] Documentation and comments.
 - [ ] Contacted `kevin.j@columbia.edu` for testing credential modifications.
 - [ ] All issues/project todoss are properly marked.
-- [ ] Taught you  something new.
+- [ ] Taught you something new.
