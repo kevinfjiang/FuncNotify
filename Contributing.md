@@ -3,7 +3,7 @@
 
 #### Conribution Guide:
 1. ⭐⭐ Give us a Star on GitHub ⭐⭐
-2. Fork the repository into your user
+2. Fork the repository into your account
 3. Clone your repository into your working drive `git clone [url in green code dropdown]`
    a. Replace anything in `[anything]` in brackets
 4. Please follow the instructions in `FuncNotify/TemplateMethod_.py` and add to `template.env` and create a new branch. Also let me know of any more credentials so I can add them to testing
