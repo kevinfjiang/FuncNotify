@@ -29,11 +29,11 @@ class TextMethod(NotifyMethods):
     """    
 
     def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
+        super().__init__(*args, **kwargs)
         
 
     def _set_credentials(self, phone: str=None, twiliophone: str=None, twilioaccount: str=None, twiliotoken: str=None, *args, **kwargs):
-        """[summary]
+        """Sets credentialls for Twilios
 
         Args:
             phone (str, optional): your phonenumber. Defaults to None.

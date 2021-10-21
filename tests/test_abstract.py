@@ -1,4 +1,5 @@
-from abc import ABCMeta, abstractmethod    
+from abc import ABCMeta, abstractmethod
+import inspect  
 import unittest
 import time
 
@@ -10,10 +11,14 @@ class ABCAstractEnableTests(ABCMeta):
         this is the way I've choosen to do it with minimal headache for test writers.
         """        
         newclass = super(ABCAstractEnableTests, cls).__new__(cls, clsname, bases, attrs)
-        newclass.__test__ = ("TestGeneric" not in newclass.__name__)
+        newclass.__test__ = (not inspect.isabstract(newclass)) and newclass.__dict__.get("__test__", True)
+        # Necessary for allowing __test__ to still disable tests, and preventing abstract
+        # tests from being instantiated
+        
         return newclass
+    
 
-class TestGeneric(unittest.TestCase, metaclass=ABCAstractEnableTests):
+class TestAbstract(unittest.TestCase, metaclass=ABCAstractEnableTests):
     """Will not test this Class because of ABCAstractEnableTests disabless this test,
     which is intended because this is an abstract class
     """ 

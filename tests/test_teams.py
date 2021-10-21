@@ -1,10 +1,10 @@
 from FuncNotify.TeamsMethod import TeamsMethod
 from . import *
 
-class TestTeams(TestGeneric):
+class TestTeams(TestAbstract):
     """Testing the Teams method of FuncNotify
-    """    
-    __test__=False
+    """   
+    __test__ = False # Allows dissabling of tests
     
     # Tests if Teams alerts are working
     def test_Method(self, *args, **kwargs):
@@ -18,4 +18,4 @@ class TestTeams(TestGeneric):
         self.confirm_cred()
         
     def test_Stress(self):
-        self.stressMethod(self.test_Method, time_=5, count=1)
+        self.stressMethod(self.test_Method, time_=5, count=5)
