@@ -12,5 +12,5 @@ jobs:
     - uses: actions/first-interaction@v1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        issue-message: 'hey ${{ github.actor }}, thank you for helping make `FuncNotify` better and contributing to the project!'
-        pr-message: 'hey ${{ github.actor }}, thank you for pulling the repository! Please check out `Contributing.md` and the current issues pleaes reach out to `kevin.j@columbia.edu`'
+        issue-message: 'hey ${{ github.actor }}, thank you for helping make `FuncNotify` better. Welcome to the Project!'
+        pr-message: 'hey ${{ github.actor }}, thank you for pulling the repository! Please check out `Contributing.md` and the current issues,s pleaes reach out to `kevin.j@columbia.edu`'
