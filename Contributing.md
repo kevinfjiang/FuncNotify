@@ -8,6 +8,7 @@
    a. Replace anything in `[anything]` in brackets
 4. Please follow the instructions in `FuncNotify/TemplateMethod_.py` and add to `template.env` and create a new branch. Also let me know of any more credentials so I can add them to testing
    a. Just add a file called `[Method_Name]Method.py` and a decorator called `def time_[Method_Name]():`, and a `test_[Method_Name].py` for tests.
+   b. Add any additional packages to `requirements.txt`, this allows me to dynamically track every package necessary so builds are easier
 5. REACH OUT to me at `kevin.j@columbia.edu` for help or issues.
 
 #### Abstract Class and Automated implementation:
