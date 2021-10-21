@@ -16,6 +16,8 @@ Make sure any Class you must inherit from the Abstract Class `NotifyMethods` via
 
 All classes will automatically added to a dictionary that can be accessed with a string as a key `"[Method_Name]"`. Pass that string as an argument to get notified via that method.
 
+Ideally, please stay within the design principless of the class so the automation I set up still works. Other than that, there are no realy constraints on how to solve isssues. This project ideally helpss users get familiar with enterprise APIs and learn some cool tricks while doing it.
+
 #### Comments:
 Try and write as detailed comments on **why** things happen. Try and write code that is self-explanatory, without too many comments. Try and keep the same format of docstrings for each new method. Check out this link for a VsCode extension to automatically create docstrings
 
