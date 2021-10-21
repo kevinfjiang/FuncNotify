@@ -1,4 +1,3 @@
-from FuncNotify.TeamsMethod import TeamsMethod
 from . import *
 
 class TestTeams(TestAbstract):
