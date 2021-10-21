@@ -36,11 +36,12 @@ def time_func(function=None, NotifyMethod: str="Print", use_env: bool=False, env
         ENV_DICT={**os.environ, **dotenv_values(env_path)} if use_env else {} 
     
     notify_obj = NOTIFY_TYPE.get(NotifyMethod, default_notify)(environ=ENV_DICT,
-                                                                *dec_args, 
-                                                                **dec_kwargs)
+                                                               *dec_args, 
+                                                               **dec_kwargs)
     
     def time_function(func):
-        """Inner wrapped function, used for timing and control
+        """Inner wrapped function, used for timing and control, necessary to give the
+        decorator additional arguments that can be passed in
 
         Args:
             func (function): passes function and arguments down below to the final timer
@@ -62,7 +63,8 @@ def time_func(function=None, NotifyMethod: str="Print", use_env: bool=False, env
 
 def timer_base(func, NotifyObj: NotifyMethods, *args, **kwargs): 
     """ Timer base, depending on the type of object of NotifyObj, it will notify the 
-    user of the methood and time the function.Errors are raised the same method
+    user of the method and time the function. Errors are raised in the same method
+    Leverages a factory that created the object and utilizes the abstract methodss
 
     Args:
         func (function): Any function
@@ -92,4 +94,4 @@ def timer_base(func, NotifyObj: NotifyMethods, *args, **kwargs):
 
 def default_notify(*args, **kwargs):
     warnings.warn(f"Invalid NotifyMethod type specified, will use `PrintMethod`, select a type within this criteria: {NOTIFY_TYPE.keys()}")
-    return NOTIFY_TYPE["Print"](args, kwargs)
+    return NOTIFY_TYPE["Print"](*args, **kwargs)

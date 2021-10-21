@@ -148,7 +148,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
             file_handler.setFormatter(logging.Formatter(logger_file_format))
             cls.logger.addHandler(file_handler)
 
-            # Dictionary houses all logging methdos
+            # Dictionary houses all logging methods
+            # TODO find a more efficient way of writing this, probs with zip()
             cls.log_method_dict = {"DEBUG": cls.logger.debug,
                                    "INFO" : cls.logger.info,
                                    "WARNING": cls.logger.warning,
@@ -161,6 +162,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
                                   "ERROR": logging.ERROR,
                                   "FATAL": logging.FATAL,
                                  }
+            
         elif not (environ.get("LOG") or log or logger_path):
             cls.logger=None
             
