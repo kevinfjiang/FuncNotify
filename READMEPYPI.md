@@ -1,11 +1,15 @@
 # FuncNotify
+
+![Build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI) ![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD)
+![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify) ![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases)
+![License](https://img.shields.io/github/license/kevinfjiang/FuncNotify.svg)
 ### **Premise:**
 Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed or of any errors, training ML. The advantage over other decorator nontifiers is that there's an added option to hide your api tokens and emails so they aren't accidentally pushed to a public repo. 
 
 #### This is a super lean ReadMe, check out the github linked [here](https://github.com/kevinfjiang/FuncNotify)
 
 #### Installation
-```$ pip install funcNotify```
+```$ pip install FuncNotify```
 #### Use case
 ```python
 @time_func(dot_env=True, NotifyMethod="Text", cellphone="8001234567")

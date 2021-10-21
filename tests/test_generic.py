@@ -1,12 +1,35 @@
-from FuncNotify import *
-
+from abc import ABCMeta, abstractmethod    
 import unittest
 import time
-import os
 
-class TestGeneric(unittest.TestCase):
-    """Note will not actually test decorator but an equivalent variation
+from FuncNotify import *
+
+class ABCAstractEnableTests(ABCMeta):
+    def __new__(cls, clsname, bases, attrs):
+        """You must disable __test__ for TestGeneric because it's abstract, 
+        this is the way I've choosen to do it with minimal headache for test writers.
+        """        
+        newclass = super(ABCAstractEnableTests, cls).__new__(cls, clsname, bases, attrs)
+        newclass.__test__ = ("TestGeneric" not in newclass.__name__)
+        return newclass
+
+class TestGeneric(unittest.TestCase, metaclass=ABCAstractEnableTests):
+    """Will not test this Class because of ABCAstractEnableTests disabless this test,
+    which is intended because this is an abstract class
     """ 
+    @abstractmethod
+    def test_Method(self, *args, **kwargs):
+        pass
+    
+    @abstractmethod
+    def test_Decorator(self, *args, **kwargs):
+        pass
+    
+    @abstractmethod
+    def test_Stress(self):
+        pass
+    
+    
     # Basic notify method, testing it works   
     def stressMethod(self, method, count=100, *args, **kwargs):
         for _ in range(count):
@@ -24,6 +47,8 @@ class TestGeneric(unittest.TestCase):
     
     def wait_test(self, time_=.25, *args, **kwargs):
         time.sleep(time_)
+
+
 
 if __name__ == '__main__':
     unittest.main()
