@@ -48,5 +48,5 @@ The body should provide a meaningful commit message, which:
 #### Testing:
 Create a copy of the `template.env` and name it `.env` and fill it out with your full credentials for full scale testing.
 
-For writing your own tests, create your own file called `test_[Method_Name].py` and create a class that inherits from TestGeneric `class Test[Method_name](TestAbstract)`. Implement the `@abstractmethods` according to the templates and usse the other methods in the class `TestAbstract`. Enable/disable tests with `__test__=False` (Note, this a default unittest feature but I had to do some metaclass stuff to make it work somehow)
+For writing your own tests, create your own file called `test_[Method_Name].py` and create a class that inherits from TestGeneric `class Test[Method_name](TestAbstract)`. Implement the `@abstractmethods` according to the templates and usse the other methods in the class `TestAbstract`. Enable/disable tests with `__test__=False` (Note, this a default unittest feature but I had to do some metaclass stuff to make it work somehow). Run `pytest tests/test_[Method_Name]` to test a specific file
 

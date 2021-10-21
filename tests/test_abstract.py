@@ -1,5 +1,6 @@
 from abc import ABCMeta, abstractmethod
-import inspect  
+import inspect
+from types import FunctionType  
 import unittest
 import time
 
@@ -13,7 +14,7 @@ class ABCAstractEnableTests(ABCMeta):
         newclass = super(ABCAstractEnableTests, cls).__new__(cls, clsname, bases, attrs)
         newclass.__test__ = (not inspect.isabstract(newclass)) and newclass.__dict__.get("__test__", True)
         # Necessary for allowing __test__ to still disable tests, and preventing abstract
-        # tests from being instantiated
+        # tests classes from being instantiated, without this, it would instatiate `TestAbstract` and error
         
         return newclass
     

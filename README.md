@@ -38,7 +38,7 @@ def wait_func3():
 if __name__ == "__main__":
     """You don't even need to use the timer as a decorator, use it as a normal function
     This is how we do testing :) """
-    time_func(function=wait_func4)(func4_args, func4_kwargs)
+    time_func(function=wait_func4)(*func4_args, **func4_kwargs)
 ```
 
 #### Philosophy:
@@ -76,7 +76,10 @@ if __name__ == "__main__":
 - [X] Dropped support for 2.7, too annoying to mantain as metaclass was different
 - [X] Made super easy to add to (automated imports, define the decorator at the same time).
 - [X] Separate tests
-- [X] GitHub action auto deploymentt
+- [X] GitHub action auto deployment
+- [ ] Add email
+- [ ] Add whatsapp
+- [ ] Add wechat
 - [ ] Add Microsoft teams
 - [ ] Add Some other 
 </br>

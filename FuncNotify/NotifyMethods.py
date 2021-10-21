@@ -150,18 +150,12 @@ class NotifyMethods(metaclass=FactoryRegistry):
 
             # Dictionary houses all logging methods
             # TODO find a more efficient way of writing this, probs with zip()
-            cls.log_method_dict = {"DEBUG": cls.logger.debug,
-                                   "INFO" : cls.logger.info,
-                                   "WARNING": cls.logger.warning,
-                                   "ERROR": cls.logger.error,
-                                   "FATAL": cls.logger.fatal,
-                                  }
-            cls.log_level_dict = {"DEBUG": logging.DEBUG,
-                                  "INFO": logging.INFO,
-                                  "WARNING": logging.WARNING,
-                                  "ERROR": logging.ERROR,
-                                  "FATAL": logging.FATAL,
-                                 }
+            logger_strings = ["DEBUG", "INFO", "WARNING", "ERROR", "FATAL"]
+            logger_levels = range(logging.DEBUG, logging.FATAL + 1, 10)
+            logger_funcs = [cls.logger.debug, cls.logger.info, cls.logger.warning, cls.logger.error, cls.logger.fatal]
+            
+            cls.log_method_dict = dict(zip(logger_strings, logger_funcs))
+            cls.log_level_dict = dict(zip(logger_strings, logger_levels))
             
         elif not (environ.get("LOG") or log or logger_path):
             cls.logger=None

@@ -62,7 +62,7 @@ class SlackMethod(NotifyMethods):
 
     def send_message(self, message: str):
         try:
-            self.client.chat_postMessage(username=self.username, # NOTE this can be any username, set up the credentials!
+            self.client.chat_postMessage(username=self.username, # NOTE this can be any username, set up the bot credentials!
                                          text=message,
                                          channel=self.client.users_lookupByEmail(email=self.email)['user']['id'])
 
