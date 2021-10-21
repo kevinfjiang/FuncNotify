@@ -1,6 +1,6 @@
 from . import *
 
-class TestSlack(TestGeneric):
+class TestSlack(TestAbstract):
     """Testing the slack method of FuncNotify
     """    
     # Tests if slack alerts are working

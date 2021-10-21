@@ -42,7 +42,6 @@ if __name__ == "__main__":
 ```
 
 #### Philosophy:
-This project is intended as a good jumping off point for people to learn how to contribute/code. I wrote the project to be as easy as possible to add new NotifyMethods and tests through a abstract class. Please feel free to reach out if you would like to help or need help! I wanted this project to be super easy and safe to use and super easy to contribute to. 
 
 #### Supported Notify Methods
 |               Platform                |

@@ -14,7 +14,7 @@ just look at the template.
 
 The specific notify function will make it easier on end users to see what specific arguments to specify for your function to help it.
 
-NOTE replace anything in brackets
+NOTE replace anything is `xNotifyx`
 """
 
 from .NotifyMethods import * # Using the predefined functions from the abstract class
@@ -26,15 +26,22 @@ def time_xNotifyx(function=None, use_env: bool=True, env_path: str=".env", updat
     """Decorator specific for xNotifyx, if no credentials specified, it wil fill in with .env variables. 
     The import is necessary and cheap due to python's import system. If anyone has a solution please lmk!!
     funcSpecify automatically pulls the object if you wrote the class correctly
+    
     Args:
-        function (function, optional): In case you want to use time_func as a pure decorator without argumetns, Alert serves as 
+        function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
+        use_env (str, optional): Loads .env file envionment variables. Defaults to False
+        env_path (str, optional): path to .env file. Defaults to ".env".
+        update_env (bool, optional): whether to update the .env file to current. Always updatess on 
+        initialization. Defaults to False.
+        
+        Insert remaining args here
         NOTE add all key word arguments that could be used by the class to enable more accurate mesaging
         [variable] ([type], optional): [Summary]. Defaults to [Default]"""
     return time_func(function=function, NotifyMethod="xNotifyx", use_env=use_env, env_path=env_path, update_env=update_env, *args, **kwargs) 
 
 class xNotifyxMethod(NotifyMethods):
-    """[Summaraize exactly how this Method will notify the end user and what platform.]
+    """Summaraize exactly how this Method will notify the end user and what platform.
     """    
 
     def __init__(self, *args, **kwargs):
@@ -47,12 +54,18 @@ class xNotifyxMethod(NotifyMethods):
         Then add the env variables to my.env for your specific environment variables
         Finally add the variable name and equal sign in a new section in template.env 
         for future use. Extension of __init__
-        Use self.str_or_env to prevent accidentally passing int or long as arguments, 
+        
+        Use self.str_or_env(str | any, str) to prevent accidentally passing int or long as arguments, 
         and also to allow users to define some values
+        
+        NOTE/TODO one day i plan to add multi notification support, it would probably be done
+        here with an additional layer in the str_or_env variable to allow lists of people to be notified
+        
         Args:
             Add your own and document!
         """   
         self.token = self.str_or_env(token, "TOKEN") # Example use with a random token
+        
     def add_on(self, type_: str="Error")->str:
         """Specify an addon to tack on to the end of each message, solely a cosmetic thing
         If there are big issues with this, ie some platforms are much more annoying I can change 

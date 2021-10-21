@@ -1,6 +1,6 @@
 from . import *
 
-class PrintTest(TestGeneric):
+class PrintTest(TestAbstract):
     """Tests generic printmethood with ENV tests
     __test__ needs to be set to True in order to be tested,
     The parent TestGeneric is abstract so it is previously set as false
