@@ -5,12 +5,11 @@ from .NotifyDecorators import time_func
 import json
 import requests
 
-def time_Teams(function=None, use_env: bool=True, env_path: str=".env", update_env: bool=False,  username: str=None, webhook_url: str=None, *args, **kwargs): # Include something to check the rest of the arguments in the word
+def time_Teams(func=None, use_env: bool=True, env_path: str=".env", update_env: bool=False,  username: str=None, webhook_url: str=None, *args, **kwargs): # Include something to check the rest of the arguments in the word
     """Decorator specifically for microsoft teams
 
     Args:
-        function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
-        the function. Defaults to None.
+        func (function, optional): In case you want to use time_func as a pure decoratr without argumetns. Defaults to None.
         use_env (str, optional): Loads .env file envionment variables. Defaults to False
         env_path (str, optional): path to .env file. Defaults to ".env".
         update_env (bool, optional): whether to update the .env file to current. Always updatess on 
@@ -19,7 +18,7 @@ def time_Teams(function=None, use_env: bool=True, env_path: str=".env", update_e
         username (str, optional): username of the message bot Defaults to None.
         webhook_url (str, optional): url for the teams channel. Defaults to None.
     """    
-    return time_func(function=function, NotifyMethod="Teams", use_env=use_env, env_path=env_path, update_env=update_env,  username=username, webhook_url=webhook_url,*args, **kwargs) 
+    return time_func(func=func, NotifyMethod="Teams", use_env=use_env, env_path=env_path, update_env=update_env,  username=username, webhook_url=webhook_url,*args, **kwargs) 
 
 class TeamsMethod(NotifyMethods):
     """Sends a posted message to the webhook url from the specified username. Uses standard get and post requests.

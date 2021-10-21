@@ -22,13 +22,13 @@ from .NotifyDecorators import time_func
 
 # Specify here other Packages to be imported specific for `xNotifyx`. Include why each package is here
 
-def time_xNotifyx(function=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, *args, **kwargs): # Include something to check the rest of the arguments in the word
+def time_xNotifyx(func=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, *args, **kwargs): # Include something to check the rest of the arguments in the word
     """Decorator specific for xNotifyx, if no credentials specified, it wil fill in with .env variables. 
     The import is necessary and cheap due to python's import system. If anyone has a solution please lmk!!
     funcSpecify automatically pulls the object if you wrote the class correctly
     
     Args:
-        function (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
+        func (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
         the function. Defaults to None.
         use_env (str, optional): Loads .env file envionment variables. Defaults to False
         env_path (str, optional): path to .env file. Defaults to ".env".
@@ -38,7 +38,7 @@ def time_xNotifyx(function=None, use_env: bool=True, env_path: str=".env", updat
         Insert remaining args here
         NOTE add all key word arguments that could be used by the class to enable more accurate mesaging
         [variable] ([type], optional): [Summary]. Defaults to [Default]"""
-    return time_func(function=function, NotifyMethod="xNotifyx", use_env=use_env, env_path=env_path, update_env=update_env, *args, **kwargs) 
+    return time_func(func=func, NotifyMethod="xNotifyx", use_env=use_env, env_path=env_path, update_env=update_env, *args, **kwargs) 
 
 class xNotifyxMethod(NotifyMethods):
     """Summaraize exactly how this Method will notify the end user and what platform.

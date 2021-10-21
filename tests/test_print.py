@@ -25,5 +25,5 @@ class PrintTest(TestAbstract):
 
     #  Stress testing
     def test_Stress(self):
-        self.stressMethod(self.test_Method, time_=.01, verbose=False)
+        self.stress_method(self.test_Method, time_=.01, verbose=False)
         # Tests for slack notify methds

@@ -21,5 +21,5 @@ class TestText(TestAbstract):
         self.confirm_cred()
     
     def test_Stress(self):
-        self.stressMethod(self.test_Method, time_=2, count=5)
+        self.stress_method(self.test_Method, time_=2, count=5)
     

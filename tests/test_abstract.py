@@ -1,6 +1,5 @@
 from abc import ABCMeta, abstractmethod
 import inspect
-from types import FunctionType  
 import unittest
 import time
 
@@ -37,7 +36,7 @@ class TestAbstract(unittest.TestCase, metaclass=ABCAstractEnableTests):
     
     
     # Basic notify method, testing it works   
-    def stressMethod(self, method, count=100, *args, **kwargs):
+    def stress_method(self, method, count=100, *args, **kwargs):
         for _ in range(count):
             method(*args, **kwargs)
 

@@ -8,12 +8,12 @@ NOTIFY_TYPE=None
 ENV_DICT=None
 
 # Main decorator
-def time_func(function=None, NotifyMethod: str="Print", use_env: bool=False, env_path: str=".env", update_env: bool=False, *dec_args, **dec_kwargs): 
+def time_func(func=None, NotifyMethod: str="Print", use_env: bool=False, env_path: str=".env", update_env: bool=False, *dec_args, **dec_kwargs): 
     """Decorator for how to handle a notify function. Allows for additional arguments in the decorator
     and support for args like emails/api keys. Is able to handle errors.
 
     Args:
-        function (func, optional): In case you want to use time_func as a decorator without argumetns, 
+        func (function, optional): In case you want to use time_func as a decorator without argumetns, 
         NotifyMethod (str, optional): Specifies the type of method used to notify user, selected 
         from NotifyType. Defaults to "Print".
         use_env (str, optional): Loads .env file envionment variables. Defaults to False
@@ -39,24 +39,24 @@ def time_func(function=None, NotifyMethod: str="Print", use_env: bool=False, env
                                                                *dec_args, 
                                                                **dec_kwargs)
     
-    def time_function(func):
+    def time_function(func_inner):
         """Inner wrapped function, used for timing and control, necessary to give the
         decorator additional arguments that can be passed in
 
         Args:
-            func (function): passes function and arguments down below to the final timer
+            func_inner (function): passes function and arguments down below to the final timer
         """         
         def timer(*func_args, **func_kwargs):
-            """Takes arguments from main functioon and passes it down
+            """Takes arguments from main function and passes it down
 
             Returns:
                 Object: returns func's output
             """           
-            return timer_base(func, notify_obj, *func_args, **func_kwargs)
+            return timer_base(func_inner, notify_obj, *func_args, **func_kwargs)
         return timer
 
-    if callable(function): # Checks time_func was used as a decorator (@time_func vs @time_func(NotifyMethod="Slack"))
-        return time_function(function)
+    if callable(func): # Checks time_func was used as a decorator (@time_func vs @time_func(NotifyMethod="Slack"))
+        return time_function(func)
 
     return time_function
 
