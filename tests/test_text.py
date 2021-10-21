@@ -11,6 +11,7 @@ class TestText(TestGeneric):
             time_func(self.wait_test, use_env=True, update_env=True, NotifyMethod="Text", *args, **kwargs)()
             self.confirm_method(TextMethod)
             self.confirm_cred()
+            
     def test_Decorator(self, *args, **kwargs):
         if TestText.wastemoney:
             time_Text(wait_test, use_env=True, *args, **kwargs)()
