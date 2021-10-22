@@ -6,5 +6,8 @@
 - [ ] Tests written for a new features.
 - [ ] Documentation and comments.
 - [ ] Contacted `kevin.j@columbia.edu` for testing credential modifications.
-- [ ] All issues/project todoss are properly marked.
+- [ ] All issues/project todos are properly marked.
 - [ ] Taught you something new.
+
+#### Description:
+[Optional]
