@@ -14,6 +14,7 @@ assignees: ''
 * [ ] Can you create a detailed roadmap of the feature?
 * [ ] Is it similar to any other repositories/projects?
 * [ ] Is it similar to any other requests, open or closed?
+* [ ] Has a dedicated project been created for this yet?
 * [ ] Would you be willing to contribute? 😊 
 
 For more information, see the `CONTRIBUTING` guide.
@@ -27,6 +28,8 @@ For more information, see the `CONTRIBUTING` guide.
 1. [First Step]
 2. [Second Step]
 3. [and so on...]
+
+**Project Name:** [Optional]
 
 **Why this feature:** [Optional]
 
