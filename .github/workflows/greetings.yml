@@ -13,4 +13,4 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         issue-message: 'hey ${{ github.actor }}, thank you for helping make `FuncNotify` better.'
-        pr-message: 'hey ${{ github.actor }}, thank you for pulling the repository! Please check out `Contributing.md` and the current issues, pleaes reach out to `kevin.j@columbia.edu`'
+        pr-message: 'hey ${{ github.actor }}, thank you for making a pull request! Please check out `Contributing.md` and the current issues, pleaes reach out to `kevin.j@columbia.edu`'
