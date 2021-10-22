@@ -12,13 +12,32 @@ Sometimes, functions take a long time. I wanted to create something that automat
 ```$ pip install FuncNotify```
 #### Use case
 ```python
-@time_func(dot_env=True, NotifyMethod="Text", cellphone="8001234567")
+# Add more as projects grow!
+from FuncNotify import time_func, time_text, time_slack
+
+
+@time_func(NotifyMethod="Text", use_env=True, env_path".env", update_env=True, cellphone="8001234567")
 def wait_func():
+    """This function will use the text method and pull env varaibles from
+    `.env`, it will update the already determined env variables too!"""
+    do_something()
+
+
+@time_text()
+def wait_func2():
+    """All parameters are optional and each method has a personal decorator, even the 
+    function call is optional see below"""
     do_something()
 
 @time_text
-def wait_func2():
+def wait_func3():
+    """Auto pull from `.env` is enabled by default with Method specific time decorators"""
     do_something()
+
+if __name__ == "__main__":
+    """You don't even need to use the timer as a decorator, use it as a normal function
+    This is how we do testing :) """
+    time_func(function=wait_func4)(*func4_args, **func4_kwargs)
 ```
 
 
