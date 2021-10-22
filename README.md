@@ -11,7 +11,7 @@ Sometimes, functions take a long time. I wanted to create something that automat
 #### Installation use `pip` or equivalent
 ```$ pip install FuncNotify```
 
-#### Use
+#### Quick Guide
 ```python
 # Add more as projects grow!
 from FuncNotify import time_func, time_text, time_slack
@@ -41,14 +41,17 @@ if __name__ == "__main__":
     time_func(function=wait_func4)(*func4_args, **func4_kwargs)
 ```
 
-#### Philosophy:
+#### [Contributing:](Contributing.md)  
+Click above for instructions on how to contribute
 
 #### Supported Notify Methods
 |               Platform                |
 | :-----------------------------------: |
 |            Console Print              |
 |            Email                      |
-|        [Slack](https://slack.com/)    |
+|        [Text](https://www.twilio.com/docs/sms/send-messages)                          |
+|        [Slack](https://api.slack.com/messaging/sending)                                |
+|        [Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook)            |
 
 ### **TODO:**
 ##### Personal stuff to organize and show what's currently accocmplished in the project
