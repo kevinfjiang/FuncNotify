@@ -1,5 +1,6 @@
 import pathlib
 import requests
+import pbr
 from setuptools import setup
 
 # The directory containing this file
