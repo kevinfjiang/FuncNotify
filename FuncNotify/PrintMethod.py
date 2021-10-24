@@ -5,6 +5,8 @@ class PrintMethod(NotifyMethods):
     """Default print message, only notification is a print in terminal
     """    
 
+    __slots__ = ("V") # List all instance variables here in string form, saves memory
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

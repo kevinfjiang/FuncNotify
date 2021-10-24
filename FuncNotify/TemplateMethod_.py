@@ -41,7 +41,9 @@ def time_xNotifyx(func=None, use_env: bool=True, env_path: str=".env", update_en
 
 class xNotifyxMethod(NotifyMethods):
     """TODO Summaraize exactly how xNotifyxMethod will notify the end user and what platform.
-    """    
+    """   
+    
+    __slots__ = ("") # List all instance variables here in string form, saves memory
 
     def __init__(self, *args, **kwargs):
         """TODO Specify key word arguments in the init as var=xyz and define them as instances

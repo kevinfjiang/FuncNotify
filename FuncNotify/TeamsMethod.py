@@ -24,6 +24,9 @@ class TeamsMethod(NotifyMethods):
     """Sends a posted message to the webhook url from the specified username. Uses standard get and post requests.
     Inspiredd by knocknock
     """    
+    
+    __slots__ = ("webhook_url", "dump") # List all instance variables here in string form, saves memory
+    
     emoji_dict = {
         "Start":    ":clapper:",
         "End":      ":tada:",

@@ -35,6 +35,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
     _registry = collections.deque([], maxlen=5) # Tracks last five for error checking, 
     _mute=False                                 # circular buffer so the garbage collectoor works
     
+    __slots__ = ("environ_dict", "error")
+    
     logger=None
         
     _messageDict = {"Start": ["Function: {0}() called...",

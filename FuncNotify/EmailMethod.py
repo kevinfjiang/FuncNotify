@@ -21,7 +21,9 @@ def time_Email(func=None, use_env: bool=True, env_path: str=".env", update_env: 
 
 class EmailMethod(NotifyMethods):
     """Summaraize exactly how this EmailMethod will notify the end user and what platform.
-    """    
+    """   
+    
+    __slots__ = ("email")
 
     def __init__(self, *args, **kwargs):
         """Specify key word arguments in the init as var=xyz and define them as instances

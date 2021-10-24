@@ -27,6 +27,8 @@ class SlackMethod(NotifyMethods):
     """Sends slack notification to slack channel and user email specified
     """ 
     
+    __slots__ = ("username", "email", "client") # List all instance variables here in string form, saves memory
+    
     emoji_dict = {
         "Start":    ":clapper:",
         "End":      ":tada:",
