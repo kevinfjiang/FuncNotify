@@ -59,10 +59,13 @@ class xNotifyxMethod(NotifyMethods):
         Use self.str_or_env(str | any, str) to prevent accidentally passing int or long as arguments, 
         and also to allow users to define some values
         
+        NOTE Try and keep all client errors here, and try and catch as many CredentialErrors
+        here by making some api calls here
+        
         Args:
             Add your own and document!
         """   
-        self.token = self.str_or_env(token, "TOKEN") # Example use with a random token
+        self.token = self.type_or_env(token, "TOKEN") # Example use with a random token
         
     def add_on(self, type_: str="Error")->str:
         """TODO Specify an addon to tack on to the end of each message, solely a cosmetic thing

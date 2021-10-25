@@ -44,9 +44,9 @@ class TextMethod(NotifyMethods):
             twiliotoken (str, optional): twilio specific access token, should all be found 
             in settings tab. Defaults to None.
         """        
-        self.cellphone = self.str_or_env(phone, "PHONE")
-        self.twilio_number = self.str_or_env(twiliophone, "TWILIOPHONE")
-        self.client = Client(self.str_or_env(twilioaccount, "TWILIOACCOUNT"), self.str_or_env(twiliotoken, "TWILIOTOKEN"))
+        self.cellphone = self.type_or_env(phone, "PHONE")
+        self.twilio_number = self.type_or_env(twiliophone, "TWILIOPHONE")
+        self.client = Client(self.type_or_env(twilioaccount, "TWILIOACCOUNT"), self.type_or_env(twiliotoken, "TWILIOTOKEN"))
 
     def send_message(self, message):
         try:

@@ -1,3 +1,4 @@
+from FuncNotify.TeamsMethod import TeamsMethod
 from . import *
 
 class TestTeams(TestAbstract):
@@ -11,10 +12,15 @@ class TestTeams(TestAbstract):
         self.confirm_method(TeamsMethod)
         self.confirm_cred()
         
-    def test_Decorator(self, *args, **kwargs):
-        time_Teams(self.wait_test, use_env=True, *args, **kwargs)()
+    def test_Decorator(self):
+        time_Teams(self.exception_test, update_env=True, use_env=True)()
         self.confirm_method(TeamsMethod)
         self.confirm_cred()
         
+    def test_Error(self):
+        self.assertRaises(TException, time_Teams(self.exception_test, use_env=True))
+        self.confirm_method(TeamsMethod)
+        self.confirm_cred()
+    
     def test_Stress(self):
         self.stress_method(self.test_Method, time_=5, count=5)

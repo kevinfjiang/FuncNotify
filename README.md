@@ -80,11 +80,11 @@ Click above for instructions on how to contribute
 - [X] Made super easy to add to (automated imports, define the decorator at the same time).
 - [X] Separate tests
 - [X] GitHub action auto deployment
+- [ ] Multi person texting enabled
 - [ ] Add email
 - [ ] Add whatsapp
 - [ ] Add wechat
 - [ ] Add Microsoft teams
-- [ ] Add Some other 
 </br>
 </details>
 

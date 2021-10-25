@@ -5,18 +5,14 @@ class PrintMethod(NotifyMethods):
     """Default print message, only notification is a print in terminal
     """    
 
-    __slots__ = ("V") # List all instance variables here in string form, saves memory
+    __slots__ = ("verbose") # List all instance variables here in string form, saves memory
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
     def _set_credentials(self, verbose: bool=True, *args, **kwargs):
-        self.V = verbose
-        pass
+        self.verbose = self.type_or_env(verbose, "verbose", bool)
         
-    def send_message(self, message: str):
-        try:
-            if self.V:
-                print(message)
-        except Exception as ex:
-            raise ex
+    def send_message(self, MSG: str):
+        if self.verbose:
+            print(MSG)

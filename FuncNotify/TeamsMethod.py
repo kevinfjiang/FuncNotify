@@ -45,10 +45,10 @@ class TeamsMethod(NotifyMethods):
             username (str, optional): username of the message bot Defaults to None.
             webhook_url (str, optional): url for the teams channel. Defaults to None.
         """        
-        self.webhook_url = self.str_or_env(webhook_url, "WEBHOOK")
+        self.webhook_url = self.type_or_env(webhook_url, "WEBHOOK")
         
         self.dump = { # Creates json dump with the credentials, more is added laters
-            "username": self.str_or_env(username, "USERNAME"),
+            "username": self.type_or_env(username, "USERNAME"),
             "icon_emoji": ":clapper:",
         }
         

@@ -48,20 +48,20 @@ class SlackMethod(NotifyMethods):
             email (str, optional): email of recepient. Defaults to None.
             
         """        
-        self.username =  self.str_or_env(username, "USERNAME")
-        self.client = WebClient(self.str_or_env(token, "SLACK_API_TOKEN"))
+        self.username =  self.type_or_env(username, "USERNAME")
+        self.client = WebClient(self.type_or_env(token, "SLACK_API_TOKEN"))
         
-        self.id = self.client.users_lookupByEmail(email=self.str_or_env(email, "EMAIL"))['user']['id']
+        self.id = self.client.users_lookupByEmail(email=self.type_or_env(email, "EMAIL"))['user']['id']
         
         
 
     def addon(self, type_: str="Error")->str:
         return SlackMethod.emoji_dict.get(type_, ":tada:")
 
-    def send_message(self, message: str):
+    def send_message(self, MSG: str):
         try:
-            self.client.chat_postMessage(username=self.username, # NOTE this can be any username, set up the bot credentials!
-                                         text=message,
+            self.client.chat_postMessage(username=self.username, # NOTE this can be any username, 
+                                         text=MSG,               # set up the bot credentials!
                                          channel=self.id)
 
         except Exception as ex:

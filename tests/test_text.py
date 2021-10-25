@@ -9,14 +9,18 @@ class TestText(TestAbstract):
     __test__=False # Not testing because Twilio gives me a limited budget
                    # Which I've almost entirely used up, lol
     
-    
     def test_Method(self, *args, **kwargs):
         time_func(self.wait_test, use_env=True, update_env=True, NotifyMethod="Text", *args, **kwargs)(**kwargs)
         self.confirm_method(TextMethod)
         self.confirm_cred()
             
-    def test_Decorator(self, *args, **kwargs):
-        time_Text(wait_test, use_env=True, *args, **kwargs)()
+    def test_Decorator(self):
+        time_Text(self.wait_test, update_env=True, use_env=True)()
+        self.confirm_method(TextMethod)
+        self.confirm_cred()
+    
+    def test_Error(self):
+        self.assertRaises(TException, time_Text(self.exception_test, use_env=True))
         self.confirm_method(TextMethod)
         self.confirm_cred()
     

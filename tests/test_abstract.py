@@ -25,34 +25,44 @@ class TestAbstract(unittest.TestCase, metaclass=ABCAstractEnableTests):
     @abstractmethod
     def test_Method(self, *args, **kwargs):
         pass
-    
     @abstractmethod
-    def test_Decorator(self, *args, **kwargs):
+    def test_Decorator(self):
         pass
-    
+    @abstractmethod
+    def test_Error(self):
+        pass
     @abstractmethod
     def test_Stress(self):
         pass
     
     
-    # Basic notify method, testing it works   
-    def stress_method(self, method, count=100, *args, **kwargs):
-        for _ in range(count):
-            method(*args, **kwargs)
-
-    def _get_last(self):
-        return NotifyMethods.get_registry()[-1]
     
-    def confirm_dotenv(self, env_val):
-        self.assertEqual(self._get_last().environ_dict.get('TEST_ENV'), env_val)
-    def confirm_method(self, methodName):
-        self.assertEqual(type(self._get_last()), methodName)
-    def confirm_cred(self):
-        self.assertEqual(self._get_last().error, None)
+    # Basic notify method, testing it works   
+    def stress_method(self, func, count=100, *args, **kwargs):
+        for _ in range(count):
+            func(*args, **kwargs)
+
+    def _get_last(self, n: int=-1): # Returns last nth character, 
+                                    # be careful not to go too big
+        return NotifyMethods.get_registry()[n]
+    
+    def confirm_dotenv(self, env_val, n: int=-1):
+        self.assertEqual(self._get_last(n).environ_dict.get('TEST_ENV'), env_val)
+    def confirm_method(self, methodName, n: int=-1):
+        self.assertEqual(type(self._get_last(n)), methodName)
+    def confirm_cred(self, n: int=-1):
+        self.assertEqual(self._get_last(n).error, None)
     
     def wait_test(self, time_=.25, *args, **kwargs):
         time.sleep(time_)
+    def exception_test(self, *args, **kwargs):
+        raise TException
 
+class TException(Exception):
+    """Only Here to ensure that when we test raisisng exception, 
+    thests always get this exception
+    """    
+    pass
 
 
 if __name__ == '__main__':
