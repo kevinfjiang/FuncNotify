@@ -43,7 +43,7 @@ class xNotifyxMethod(NotifyMethods):
     """TODO Summaraize exactly how xNotifyxMethod will notify the end user and what platform.
     """   
     
-    __slots__ = ("") # List all instance variables here in string form, saves memory
+    __slots__ = ("") # List all instance variables here in string form, saves memory, optional but highly reccomended
 
     def __init__(self, *args, **kwargs):
         """TODO Specify key word arguments in the init as var=xyz and define them as instances
@@ -67,7 +67,10 @@ class xNotifyxMethod(NotifyMethods):
     def add_on(self, type_: str="Error")->str:
         """TODO Specify an addon to tack on to the end of each message, solely a cosmetic thing
         If there are big issues with this, ie some platforms are much more annoying I can change 
-        this 
+        this.
+        
+        Reccomended method, create a classs dict with emojis for "Start", "Stop", and "Error". Use a `.get`
+        to return a val but set the default return val one of the 3 emojis.
         Args:
             type_ (function, optional): One of three types of status of the function, "Start", "End", "Error". 
             Helps specify what type of add-on to tack on for personalization, not necessary to implement though!
