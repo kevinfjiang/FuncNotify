@@ -228,7 +228,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         if not NotifyMethods._mute:       
             MSG = self.format_message(*args, **kwargs)
             try:
-                if not self.error is None:
+                if self.error:
                     raise self.error
                 
                 self.send_message(MSG)

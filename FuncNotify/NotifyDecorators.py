@@ -50,8 +50,8 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=False, env_path: 
             notify_obj_list.append(
                 NOTIFY_TYPE.get(target.get('NotifyMethod', NotifyMethod), 
                                 default_notify)(environ=ENV_DICT,
-                                                **target,
                                                 *dec_args, 
+                                                **target,
                                                 **dec_kwargs)
                                 )
     elif multi_env:
@@ -124,7 +124,7 @@ def timer_base(func, NotifyObjList: list, *args, **kwargs):
 
     return result
 
-def default_notify(*args, **kwargs):
-    warnings.warn(f"Invalid NotifyMethod type specified, will use `PrintMethod`, \
+def default_notify(NotifyMethod: str="None", *args, **kwargs):
+    warnings.warn(f"Invalid NotifyMethod type '{NotifyMethod}' specified, will use `PrintMethod`, \
                     select a type within this criteria: {NOTIFY_TYPE.keys()}")
     return NOTIFY_TYPE["Print"](*args, **kwargs)

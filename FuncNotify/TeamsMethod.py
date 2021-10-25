@@ -58,7 +58,7 @@ class TeamsMethod(NotifyMethods):
             type_ (function, optional): One of three types of status of the function, "Start", "End", "Error". 
             Helps specify what type of add-on to tack on for personalization, not necessary to implement though!
         """
-        self.dump['icon_emoji'] = TeamsMethod.emoji_dict[type_] # Sets clapper as icon without returning val
+        self.dump['icon_emoji'] = TeamsMethod.emoji_dict.get(type_, ":tada:") # Sets clapper as icon without returning val
         
         return ""        
         
