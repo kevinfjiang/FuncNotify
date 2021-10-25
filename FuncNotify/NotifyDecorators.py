@@ -9,7 +9,7 @@ NOTIFY_TYPE=None
 ENV_DICT=None
 
 # Main decorator 
-def time_func(func=None, NotifyMethod: str="Print", use_env: bool=False, env_path: str=".env", 
+def time_func(func=None, NotifyMethod: str=None, use_env: bool=False, env_path: str=".env", 
               update_env: bool=False, multi_target: list=None, multi_env: list=None, *dec_args, **dec_kwargs): 
     """Decorator for how to handle a notify function. Allows for additional arguments in the decorator
     and support for args like emails/api keys. Is able to handle errors.
@@ -17,7 +17,7 @@ def time_func(func=None, NotifyMethod: str="Print", use_env: bool=False, env_pat
     Args:
         func (function, optional): In case you want to use time_func as a decorator without argumetns, 
         NotifyMethod (str, optional): Specifies the type of method used to notify user, selected 
-        from NotifyType. Defaults to "Print".
+        from NotifyType. Defaults to None.
         use_env (str, optional): Loads .env file envionment variables. Defaults to False
         env_path (str, optional): path to .env file. Defaults to ".env".
         update_env (bool, optional): whether to update the .env file to current. Always updatess on 
@@ -43,30 +43,33 @@ def time_func(func=None, NotifyMethod: str="Print", use_env: bool=False, env_pat
     if update_env or ENV_DICT is None:
         ENV_DICT={**os.environ, **dotenv_values(env_path)} if use_env else {} 
         
-    if multi_env and multi_target: # TODO set up os if using default override, look into this kevin
+    if multi_env and multi_target: 
         raise Exception("variables are exclusive") # TODO write custom exceptions and make the flow more robust
     elif multi_target :
         for target in multi_target:
             notify_obj_list.append(
-                NOTIFY_TYPE.get(target.get('NotifyMethod', NotifyMethod), default_notify)(environ=ENV_DICT,
-                                                                                         **target
-                                                                                         *dec_args, 
-                                                                                         **dec_kwargs)
-            )
+                NOTIFY_TYPE.get(target.get('NotifyMethod', NotifyMethod), 
+                                default_notify)(environ=ENV_DICT,
+                                                **target,
+                                                *dec_args, 
+                                                **dec_kwargs)
+                                )
     elif multi_env:
          for env in multi_env:
             spec_dict = {**ENV_DICT, **dotenv_values(env)}
             notify_obj_list.append(
-                NOTIFY_TYPE.get(spec_dict.get("DEFAULTNOTIFY", NotifyMethod), default_notify)(environ=spec_dict,
-                                                                                             *dec_args, 
-                                                                                             **dec_kwargs)
-            )
-    else: # TODO some wacky for loop right here
+                NOTIFY_TYPE.get(NotifyMethod if NotifyMethod else spec_dict.get("DEFAULTNOTIFY", "NotFound"), 
+                                default_notify)(environ=spec_dict,
+                                                *dec_args, 
+                                                **dec_kwargs)
+                                )
+    else:
         notify_obj_list.append(
-            NOTIFY_TYPE.get(NotifyMethod, default_notify)(environ=ENV_DICT,
-                                                                                        *dec_args, 
-                                                                                        **dec_kwargs)
-        )
+            NOTIFY_TYPE.get(NotifyMethod if NotifyMethod else ENV_DICT.get("DEFAULTNOTIFY", "NotFound"), 
+                            default_notify)(environ=ENV_DICT,
+                                            *dec_args, 
+                                            **dec_kwargs)
+                            )
     
     def time_function(func_inner):
         """Inner wrapped function, used for timing and control, necessary to give the
@@ -107,9 +110,9 @@ def timer_base(func, NotifyObjList: list, *args, **kwargs):
         Object: Returns whatever the function returns
     """    
     try:
-        deque(map(lambda NotifyObj: NotifyObj.send_start_MSG(func), NotifyObjList), maxlen=0)
-        start = time.time() #To separate timings to ensure most accurate timing
-
+        deque(map(lambda NotifyObj: NotifyObj.send_start_MSG(func), NotifyObjList), maxlen=0) # sends message on each item in list
+        start = time.time()                                                                   # without using too much memor
+        
         result = func(*args, **kwargs)
         
         end = time.time()
