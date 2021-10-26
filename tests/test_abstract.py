@@ -19,7 +19,7 @@ class ABCAstractEnableTests(ABCMeta):
     
 
 class TestAbstract(unittest.TestCase, metaclass=ABCAstractEnableTests):
-    """Will not test this Class because of ABCAstractEnableTests disabless this test,
+    """Will not test this Class because of ABCAstractEnableTests disables this test,
     which is intended because this is an abstract class
     """ 
     @abstractmethod
@@ -59,8 +59,9 @@ class TestAbstract(unittest.TestCase, metaclass=ABCAstractEnableTests):
         raise TException
 
 class TException(Exception):
-    """Only Here to ensure that when we test raisisng exception, 
-    thests always get this exception
+    """Only here to ensure that when we test raisisng exception, 
+    tests always get this specific exception
+    stands for TestException.
     """    
     pass
 

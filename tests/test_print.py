@@ -78,7 +78,7 @@ class PrintTest(TestAbstract):
         self.assertEqual(NotifyMethods.logger.name, __main__.__file__.split('/')[-1][:-3])
         with self.assertLogs(NotifyMethods.logger, logging.ERROR):
             NotifyMethods.set_logger(logging.DEBUG) # Verbose needs to be bool, not string
-            time_func(self.wait_test, NotifyMethod="Print", verbose="ad;fkafd", use_log=True, use_env=False) #TODO Why does uses_env need to be enabled???
+            time_func(self.wait_test, NotifyMethod="Print", verbose="ad;fkafd", use_log=True, use_env=False) 
         with self.assertNoLogs(NotifyMethods.logger, logging.ERROR):
             NotifyMethods.set_logger(logging.CRITICAL) 
-            time_func(self.wait_test, NotifyMethod="Print", verbose="ad;fkafd",use_env=False)
+            time_func(self.wait_test, NotifyMethod="Print", verbose="ad;fkafd", use_env=False)

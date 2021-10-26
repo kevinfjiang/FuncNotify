@@ -1,6 +1,7 @@
 import os
 import time
 import traceback
+import inspect
 
 import logging
 import logging.handlers
@@ -19,7 +20,8 @@ class FactoryRegistry(ABCMeta):
     
     def __new__(cls, clsname, bases, attrs):
         newclass = super(FactoryRegistry, cls).__new__(cls, clsname, bases, attrs)
-        cls._REGISTRY[newclass.__name__.replace("Method", "")] = newclass
+        if not inspect.isabstract(newclass):  # Removes abstract methods from registry
+            cls._REGISTRY[newclass.__name__.replace("Method", "")] = newclass
         return newclass
     
     @classmethod
@@ -59,8 +61,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
         NotifyMethods.set_mute(mute)
         
         try:  
-            NotifyMethods._logger_init_(self.environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending the messages, not in the function itself
-            
+            NotifyMethods._logger_init_(self.environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending  
+                                                                                         # the messages, not in the function itself
             self._set_credentials(*args, **kwargs)
             self.error=None # Always default to notify user
 
@@ -91,14 +93,14 @@ class NotifyMethods(metaclass=FactoryRegistry):
             KeyError: Raises if environment variable not found in name, this will set `self.Error` 
             to that exception so it can be accessed
         """             
-        return val if isinstance(val, type_) else self.environ_dict[env_variable] # Descriptive key error here
+        return val if isinstance(val, type_) else self.environ_dict[env_variable] #TODO Descriptive key error here pls
     
     @classmethod
     def _register(cls, NotifyObject):
         """Registers each object and creates a pseudo cyclical buffer that holds 5 objects that
         can be checked when youu grab the registry
         """ 
-        if isinstance(NotifyObject.error, Exception): # Change this a little bit, write a custom exception
+        if isinstance(NotifyObject.error, Exception): 
             NotifyObject=NotifyObject.error
         cls._registry.append(NotifyObject)
         
