@@ -140,8 +140,8 @@ def get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_
     """
     
     def default_notify(*args, **kwargs): # Sends a warning your notify method didn't ,match 
-        warnings.warn(f"Invalid NotifyMethod type '{Notif}' specified, will use `PrintMethod`, \
-                        select a type within this criteria: {NOTIFY_TYPE.keys()}")
+        warnings.warn(f"Invalid NotifyMethod type '{Notif}' specified, will use `PrintMethod`," \
+                      f"select a type within this criteria: {NOTIFY_TYPE.keys()}")
         return NOTIFY_TYPE["Print"](*args, **kwargs)
     
     if target_dict is None:

@@ -196,16 +196,6 @@ class NotifyMethods(metaclass=FactoryRegistry):
         """        
         pass
     
-    def format_message(self, formatList: list, type_: str="Error"):
-        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname()) + self.addon(type_=type_)
-    
-
-    def addon(self, type_: str="Error")->str:
-        """Pseudo-abstsract method, sometimess will add emojis and other fun messages
-        that are platform specific. Not necessary to implement but you can for personalization!
-        """        
-        return ""
-    
     @abstractmethod
     def send_message(self, message: str)->None: 
         """Interacts with the respective platforms apis, the prior 3 all call this functioon to send the message
@@ -223,6 +213,16 @@ class NotifyMethods(metaclass=FactoryRegistry):
         self._send_MSG_base(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], 
                             type_="Error")
     
+    def format_message(self, formatList: list, type_: str="Error"):
+        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname()) + self.addon(type_=type_)
+    
+
+    def addon(self, type_: str="Error")->str:
+        """Pseudo-abstsract method, sometimess will add emojis and other fun messages
+        that are platform specific. Not necessary to implement but you can for personalization!
+        """        
+        return ""
+    
     def _send_MSG_base(self, *args, **kwargs)->None:
         """All functions begin by calling send_MSG_base and depending on the status of that functioon, it'll be sent or
         an error will be logged if the initial credentials aren't valid
@@ -234,8 +234,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
         if not NotifyMethods._mute:       
             if self.error:
                 NotifyMethods.log(status="ERROR", METHOD=self.__class__.__name__, 
-                                  message=f"Attempted sen of invalid credentials error as follows \n \
-                                            [ERROR] {self.error} \n[Message] {MSG}")
+                                  message=f"Attempted sen of invalid credentials error as follows \n" \
+                                          f"[ERROR] {self.error} \n[Message] {MSG}")
                 return
             
             try:
@@ -260,9 +260,9 @@ class CredentialError(Exception):
         super().__init__(self.__str__())
     
     def __str__(self):
-        return f"The following exception occurred with in the credentials of using {self.NotifyObject.__class__.__name__} \n \
-                [Error] {self.error} \n \
-                [Fix] Check all credentials are strings and are accurate, check the type hints, and env variables"
+        return f"The following exception occurred with in the credentials of using {self.NotifyObject.__class__.__name__} \n" \
+               f"[Error] {self.error} \n "\
+               f"[Fix] Check all credentials are strings and are accurate, check the type hints, and env variables"
         
 class MessageSendError(Exception):
     __slots__=("NotifyObject", "error")
@@ -272,9 +272,9 @@ class MessageSendError(Exception):
         super().__init__(self.__str__())
     
     def __str__(self):
-        return f"The following exception occurred while sening the messagge with the method {self.NotifyObject.__class__.__name__} \n \
-                [Error] {self.error} \n \
-                [Fix] This is an error with the respective platform sAPI, ensure the credentials for are valid and you have access, \
-                check env variables, and ensure that all the types are correct. This is likely an issue with your implementation"
+        return f"The following exception occurred while sening the messagge with the method {self.NotifyObject.__class__.__name__} \n "\
+               f"[Error] {self.error} \n" \
+               f"[Fix] This is an error with the respective platform sAPI, ensure the credentials for are valid and you have access," \
+               f"check env variables, and ensure that all the types are correct. This is likely an issue with your implementation."
         
         
