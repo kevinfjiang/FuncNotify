@@ -24,21 +24,27 @@ def wait_func():
     do_something()
 
 
-@time_text()
+@time_Text()
 def wait_func2():
     """All parameters are optional and each method has a personal decorator, even the 
     function call is optional see below"""
     do_something()
 
-@time_text
+@time_Text
 def wait_func3():
     """Auto pull from `.env` is enabled by default with Method specific time decorators"""
     do_something()
 
+@time_func(multi_target=[{...}, {...}], multi_env=["1.env", "2.env"])
+def wait_func4():
+    """Send to multiple sources either through specifiying multiple dictionaries of kwargs
+    or multiple .env paths, or both in pairs!"""
+    do_something()
+
 if __name__ == "__main__":
     """You don't even need to use the timer as a decorator, use it as a normal function
-    This is how we do testing :) """
-    time_func(function=wait_func4)(*func4_args, **func4_kwargs)
+    This is how we do testing 😊 """
+    time_func(function=wait_func5)(*func5_args, **func5_kwargs)
 ```
 
 #### [Contributing:](Contributing.md)  
@@ -48,7 +54,8 @@ Click above for instructions on how to contribute
 |               Platform                |
 | :-----------------------------------: |
 |            Console Print              |
-|            Email                      |
+|            [Email Twilio](https://docs.sendgrid.com/for-developers/sending-email/v3-python-code-example)           |
+|            [Email Yagmail](https://github.com/kootenpv/yagmai)|
 |        [Text](https://www.twilio.com/docs/sms/send-messages)                          |
 |        [Slack](https://api.slack.com/messaging/sending)                                |
 |        [Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook)            |
@@ -80,8 +87,8 @@ Click above for instructions on how to contribute
 - [X] Made super easy to add to (automated imports, define the decorator at the same time).
 - [X] Separate tests
 - [X] GitHub action auto deployment
-- [ ] Multi person texting enabled
-- [ ] Add email
+- [X] Multi person texting enabled
+- [X] Add email
 - [ ] Add whatsapp
 - [ ] Add wechat
 - [ ] Add Microsoft teams

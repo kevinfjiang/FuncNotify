@@ -1,5 +1,4 @@
 from . import *
-import sys
 
 
 class TestText(TestAbstract):
