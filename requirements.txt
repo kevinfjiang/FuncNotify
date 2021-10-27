@@ -4,3 +4,5 @@ python-dotenv
 requests
 slackclient
 twilio
+yagmails
+sendgrid

@@ -234,7 +234,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         if not NotifyMethods._mute:       
             if self.error:
                 NotifyMethods.log(status="ERROR", METHOD=self.__class__.__name__, 
-                                  message=f"Attempted sen of invalid credentials error as follows \n" \
+                                  message=f"Attempted send of invalid credentials error as follows \n" \
                                           f"[ERROR] {self.error} \n[Message] {MSG}")
                 return
             
@@ -260,8 +260,8 @@ class CredentialError(Exception):
         super().__init__(self.__str__())
     
     def __str__(self):
-        return f"The following exception occurred with in the credentials of using {self.NotifyObject.__class__.__name__} \n" \
-               f"[Error] {self.error} \n "\
+        return f"The following exception occurred with the credentials of using {self.NotifyObject.__class__.__name__} \n" \
+               f"[Error] {self.error} \n" \
                f"[Fix] Check all credentials are strings and are accurate, check the type hints, and env variables"
         
 class MessageSendError(Exception):
@@ -272,9 +272,9 @@ class MessageSendError(Exception):
         super().__init__(self.__str__())
     
     def __str__(self):
-        return f"The following exception occurred while sening the messagge with the method {self.NotifyObject.__class__.__name__} \n "\
+        return f"The following exception occurred while sening the messagge with the method {self.NotifyObject.__class__.__name__} \n"\
                f"[Error] {self.error} \n" \
-               f"[Fix] This is an error with the respective platform sAPI, ensure the credentials for are valid and you have access," \
+               f"[Fix] This is an error with the respective platform's API, ensure the credentials for are valid and you have access," \
                f"check env variables, and ensure that all the types are correct. This is likely an issue with your implementation."
         
         
