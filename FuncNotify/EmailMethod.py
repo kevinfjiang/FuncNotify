@@ -2,8 +2,11 @@ from .NotifyMethods import * # Using the predefined functions from the abstract 
 from .NotifyDecorators import time_func
 
 # Specify here other Packages to be imported specific for `Email`. Include why each package is here
+import yagmail
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
-def time_Email(func=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, *args, **kwargs): # Include something to check the rest of the arguments in the word
+def time_Email(func=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, twilio_email: bool=False,sender_email: str=None, subject_line: str=None, sender_password: str=None, target_email: str=None, *args, **kwargs): # Include something to check the rest of the arguments in the word
     """TODO Decorator specific for Email, if no credentials specified, it wil fill in with .env variables. 
     
     Args:
@@ -14,53 +17,64 @@ def time_Email(func=None, use_env: bool=True, env_path: str=".env", update_env: 
         update_env (bool, optional): whether to update the .env file to current. Always updatess on 
         initialization. Defaults to False.
         
+        sender_email (str, optional): your email. Defaults to None.
+        sender_passsword (str, pls don't use this, not safe). Defaultss to None
+        target_email (str, optional): target email. Defaults to None.
+        
         Insert remaining args here
         NOTE add all key word arguments that could be used by the class to enable more accurate mesaging
         [variable] ([type], optional): [Summary]. Defaults to [Default]"""
-    return time_func(func=func, NotifyMethod="Email", use_env=use_env, env_path=env_path, update_env=update_env, *args, **kwargs) 
+    return time_func(func=func, NotifyMethod="Email", use_env=use_env, env_path=env_path, update_env=update_env, twilio_email=twilio_email, subject_line=subject_line, sender_email=sender_email, sender_password=sender_password, target_email=target_email, *args, **kwargs) 
 
 class EmailMethod(NotifyMethods):
-    """Summaraize exactly how this EmailMethod will notify the end user and what platform.
+    """Sends emails wih yagmail
     """   
     
-    __slots__ = ("email")
+    __slots__ = ("client", "mail")
 
     def __init__(self, *args, **kwargs):
         """Specify key word arguments in the init as var=xyz and define them as instances
         """        
         super().__init__(*args, **kwargs)
 
-    def _set_credentials(self, token: str=None, *args, **kwargs)->None:
-        """If instance variables are not defined, define environment variables here
-        Then add the env variables to my.env for your specific environment variables
-        Finally add the variable name and equal sign in a new section in template.env 
-        for future use. Extension of __init__
-        
-        Use self.str_or_env(str | any, str) to prevent accidentally passing int or long as arguments, 
-        and also to allow users to define some values
-        
-        NOTE/TODO one day i plan to add multi notification support, it would probably be done
-        here with an additional layer in the str_or_env variable to allow lists of people to be notified
-        
+    def _set_credentials(self, twilio_email: bool=False, subject_line: str=None, sender_email: str=None, sender_password: str=None, sendgrid_api: str=None, target_email: str=None, *args, **kwargs)->None:
+        """Uses yagmail to connect to an gmail aresss and to send emails from there
+        Highly reccomend not passing in password and also create a separate email for thi istuation
+        Highly reccomen creating an appspecific emailers
         Args:
-            Add your own and document!
+            sender_email (str, optional): your email. Defaults to None.
+            sender_passsword (str, pls don't use this, not safe). Defaults to None
+            target_email (str, optional): target email. Defaults to None.
+
         """   
-        self.token = self.str_or_env(token, "TOKEN") # Example use with a random token
+        if subject_line is None:
+            import __main__
+            subject_line = f"Notifications for { __main__.__file__.split('/')[-1][:-3]}"
+
+        if twilio_email:
+            self.client = SendGridAPIClient(self.type_or_env(sendgrid_api, "SENDGRID_API"))
+            self.mail = {"from_email":   self.type_or_env(sender_email, "SENDER_EMAIL"), 
+                         "to_emails":    [self.type_or_env(target_email, "TARGET_EMAIL")],
+                         "subject":      self.type_or_env(subject_line, "SUBJECT"),}
+            
+        else:
+            self.client = yagmail.SMTP(self.type_or_env(sender_email, "SENDER_EMAIL"), 
+                                       self.type_or_env(sender_password, "SENDER_PASSWORD"))
+            self.mail = {"to":      [self.type_or_env(target_email, "TARGET_EMAIL")], 
+                         "subject": self.type_or_env(subject_line, "SUBJECT")}
+            
         
-    def add_on(self, type_: str="Error")->str:
-        """Specify an addon to tack on to the end of each message, solely a cosmetic thing
-        If there are big issues with this, ie some platforms are much more annoying I can change 
-        this 
-        Args:
-            type_ (function, optional): One of three types of status of the function, "Start", "End", "Error". 
-            Helps specify what type of add-on to tack on for personalization, not necessary to implement though!
-        """
-        return ""        
-        
+     
     def send_message(self, MSG: str):
         try:
             """Specify the API and set up of sending a singular message"""
-            pass         
+            if len(self.mail)==2:
+                send_mail={**self.mail, 
+                           "contents": MSG}
+            else:
+                send_mail={"message": Mail(**self.mail, html_content=MSG)} # Wrapped for unpacking
+                
+            self.client.send(**send_mail)
         except Exception as ex:
             """Handle the error somewhat or don't. If you want to add more information do it here"""       
             raise ex

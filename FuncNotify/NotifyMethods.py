@@ -1,6 +1,7 @@
 import os
 import time
 import traceback
+import inspect
 
 import logging
 import logging.handlers
@@ -19,7 +20,8 @@ class FactoryRegistry(ABCMeta):
     
     def __new__(cls, clsname, bases, attrs):
         newclass = super(FactoryRegistry, cls).__new__(cls, clsname, bases, attrs)
-        cls._REGISTRY[newclass.__name__.replace("Method", "")] = newclass
+        if not inspect.isabstract(newclass):  # Removes abstract methods from registry
+            cls._REGISTRY[newclass.__name__.replace("Method", "")] = newclass
         return newclass
     
     @classmethod
@@ -59,8 +61,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
         NotifyMethods.set_mute(mute)
         
         try:  
-            NotifyMethods._logger_init_(self.environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending the messages, not in the function itself
-            
+            NotifyMethods._logger_init_(self.environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending  
+                                                                                         # the messages, not in the function itself
             self._set_credentials(*args, **kwargs)
             self.error=None # Always default to notify user
 
@@ -91,14 +93,14 @@ class NotifyMethods(metaclass=FactoryRegistry):
             KeyError: Raises if environment variable not found in name, this will set `self.Error` 
             to that exception so it can be accessed
         """             
-        return val if isinstance(val, type_) else self.environ_dict[env_variable] # Descriptive key error here
+        return val if isinstance(val, type_) else self.environ_dict[env_variable] #TODO Descriptive key error here pls
     
     @classmethod
     def _register(cls, NotifyObject):
         """Registers each object and creates a pseudo cyclical buffer that holds 5 objects that
         can be checked when youu grab the registry
         """ 
-        if isinstance(NotifyObject.error, Exception): # Change this a little bit, write a custom exception
+        if isinstance(NotifyObject.error, Exception): 
             NotifyObject=NotifyObject.error
         cls._registry.append(NotifyObject)
         
@@ -183,9 +185,9 @@ class NotifyMethods(metaclass=FactoryRegistry):
         if cls.logger:
             log_message, kwdict = cls._format_log(cls.log_level_dict.get(status, logging.ERROR), *args, **kwargs)
             cls.log_method_dict.get(status, 
-                                    lambda *args, **kwargs: 
-                                        [cls.logger.error(*args, **kwargs),
-                                         cls.logger.error("Logger method not found, using [ERROR]"),]
+                                    lambda *args, **kwargs: [
+                                        cls.logger.error(*args, **kwargs),
+                                        cls.logger.error("Logger method not found, using [ERROR]"),]
                                     )(log_message, **kwdict)
     
     @abstractmethod
@@ -193,16 +195,6 @@ class NotifyMethods(metaclass=FactoryRegistry):
         """Sets up object with environment variables
         """        
         pass
-    
-    def format_message(self, formatList: list, type_: str="Error"):
-        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname()) + self.addon(type_=type_)
-    
-
-    def addon(self, type_: str="Error")->str:
-        """Pseudo-abstsract method, sometimess will add emojis and other fun messages
-        that are platform specific. Not necessary to implement but you can for personalization!
-        """        
-        return ""
     
     @abstractmethod
     def send_message(self, message: str)->None: 
@@ -221,6 +213,16 @@ class NotifyMethods(metaclass=FactoryRegistry):
         self._send_MSG_base(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], 
                             type_="Error")
     
+    def format_message(self, formatList: list, type_: str="Error"):
+        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname()) + self.addon(type_=type_)
+    
+
+    def addon(self, type_: str="Error")->str:
+        """Pseudo-abstsract method, sometimess will add emojis and other fun messages
+        that are platform specific. Not necessary to implement but you can for personalization!
+        """        
+        return ""
+    
     def _send_MSG_base(self, *args, **kwargs)->None:
         """All functions begin by calling send_MSG_base and depending on the status of that functioon, it'll be sent or
         an error will be logged if the initial credentials aren't valid
@@ -232,8 +234,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
         if not NotifyMethods._mute:       
             if self.error:
                 NotifyMethods.log(status="ERROR", METHOD=self.__class__.__name__, 
-                                  message=f"Attempted sen of invalid credentials error as follows \n \
-                                            [ERROR] {self.error} \n[Message] {MSG}")
+                                  message=f"Attempted send of invalid credentials error as follows \n" \
+                                          f"[ERROR] {self.error} \n[Message] {MSG}")
                 return
             
             try:
@@ -258,9 +260,9 @@ class CredentialError(Exception):
         super().__init__(self.__str__())
     
     def __str__(self):
-        return f"The following exception occurred with in the credentials of using {self.NotifyObject.__class__.__name__} \n \
-                [Error] {self.error} \n \
-                [Fix] Check all credentials are strings and are accurate, check the type hints, and env variables"
+        return f"The following exception occurred with the credentials of using {self.NotifyObject.__class__.__name__} \n" \
+               f"[Error] {self.error} \n" \
+               f"[Fix] Check all credentials are strings and are accurate, check the type hints, and env variables"
         
 class MessageSendError(Exception):
     __slots__=("NotifyObject", "error")
@@ -270,9 +272,9 @@ class MessageSendError(Exception):
         super().__init__(self.__str__())
     
     def __str__(self):
-        return f"The following exception occurred while sening the messagge with the method {self.NotifyObject.__class__.__name__} \n \
-                [Error] {self.error} \n \
-                [Fix] This is an error with the respective platform sAPI, ensure the credentials for are valid and you have access, \
-                check env variables, and ensure that all the types are correct. This is likely an issue with your implementation"
+        return f"The following exception occurred while sening the messagge with the method {self.NotifyObject.__class__.__name__} \n"\
+               f"[Error] {self.error} \n" \
+               f"[Fix] This is an error with the respective platform's API, ensure the credentials for are valid and you have access," \
+               f"check env variables, and ensure that all the types are correct. This is likely an issue with your implementation."
         
         
