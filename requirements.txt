@@ -4,5 +4,5 @@ python-dotenv
 requests
 slackclient
 twilio
-yagmails
+yagmail
 sendgrid
