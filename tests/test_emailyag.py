@@ -24,4 +24,6 @@ class TestYagMail(TestAbstract):
     
     def test_Stress(self): # Not stress testing to save the twilio money
         self.stress_method(self.test_Method, time_=2, count=5)
+        for i in range(5):
+            self.confirm_method(SlackMethod, n=i)
     

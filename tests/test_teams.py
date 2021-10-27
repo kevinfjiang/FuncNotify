@@ -4,7 +4,6 @@ from . import *
 class TestTeams(TestAbstract):
     """Testing the Teams method of FuncNotify
     """   
-    __test__ = False # Allows dissabling of tests
     
     # Tests if Teams alerts are working
     def test_Method(self, *args, **kwargs):

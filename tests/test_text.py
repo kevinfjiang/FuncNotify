@@ -6,6 +6,8 @@ class TestText(TestAbstract):
     DisableTexts is set to True by default because I have limited
     money in my Twilio Accounts
     """ 
+    __test__=False # Not testing because Twilio gives me a limited budget
+                   # Which I've almost entirely used up, lol
     
     def test_Method(self, *args, **kwargs):
         time_func(self.wait_test, use_env=True, update_env=True, NotifyMethod="Text", *args, **kwargs)(**kwargs)
