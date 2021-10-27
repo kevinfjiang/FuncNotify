@@ -185,9 +185,9 @@ class NotifyMethods(metaclass=FactoryRegistry):
         if cls.logger:
             log_message, kwdict = cls._format_log(cls.log_level_dict.get(status, logging.ERROR), *args, **kwargs)
             cls.log_method_dict.get(status, 
-                                    lambda *args, **kwargs: 
-                                        [cls.logger.error(*args, **kwargs),
-                                         cls.logger.error("Logger method not found, using [ERROR]"),]
+                                    lambda *args, **kwargs: [
+                                        cls.logger.error(*args, **kwargs),
+                                        cls.logger.error("Logger method not found, using [ERROR]"),]
                                     )(log_message, **kwdict)
     
     @abstractmethod

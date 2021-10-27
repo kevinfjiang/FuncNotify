@@ -24,6 +24,6 @@ class TestText(TestAbstract):
         self.confirm_method(TextMethod)
         self.confirm_cred()
     
-    def test_Stress(self):
-        self.stress_method(self.test_Method, time_=2, count=5)
+    def test_Stress(self): # Not stress testing to save the twilio money
+        self.stress_method(self.test_Method, time_=2, count=0)
     

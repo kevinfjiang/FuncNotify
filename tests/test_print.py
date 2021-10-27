@@ -68,6 +68,7 @@ class PrintTest(TestAbstract):
     # Bad args
     def test_bad_method(self):
         with self.assertWarnsRegex(UserWarning, "a;lksdkfa;dfkwa"), self.assertLogs(NotifyMethods.logger, logging.DEBUG):
+            NotifyMethods.set_logger(logging.DEBUG)
             time_func(self.wait_test, NotifyMethod="a;lksdkfa;dfkwa", update_env=True, use_env=True)()
             
         self.confirm_method(PrintMethod)

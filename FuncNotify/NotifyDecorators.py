@@ -97,7 +97,7 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=False, env_path: 
 def timer_base(func, NotifyObjList: list, *args, **kwargs): 
     """ Timer base, depending on the type of object of NotifyObj, it will notify the 
     user of the method and time the function. Errors are raised in the same method
-    Leverages a factory that created the object and utilizes the abstract methodss
+    Leverages a factory that created the object and utilizes the abstract methods
 
     Args:
         func (function): Any function
@@ -139,7 +139,7 @@ def get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_
         NotifyObj: NotifyObject that allows you to send start, stop and error messages
     """
     
-    def default_notify(*args, **kwargs): # Sends a warning your notify method didn't ,match 
+    def default_notify(*args, **kwargs): # Sends a warning your notify method didn't match 
         warnings.warn(f"Invalid NotifyMethod type '{Notif}' specified, will use `PrintMethod`," \
                       f"select a type within this criteria: {NOTIFY_TYPE.keys()}")
         return NOTIFY_TYPE["Print"](*args, **kwargs)
@@ -148,8 +148,8 @@ def get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_
         target_dict={}
         
     return NOTIFY_TYPE.get(Notif, default_notify)(environ=environ_dict,
-                                                        *obj_args, 
-                                                        **target_dict,
-                                                        **obj_kwargs)
+                                                 *obj_args, 
+                                                 **target_dict,
+                                                 **obj_kwargs)
     
 
