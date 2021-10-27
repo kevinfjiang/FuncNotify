@@ -1,4 +1,5 @@
 from . import *
+import sys
 
 
 class TestYagMail(TestAbstract):
@@ -6,6 +7,8 @@ class TestYagMail(TestAbstract):
     DisableTexts is set to True by default because I have limited
     money in my Twilio Accounts
     """  
+    
+    __test__=False # Exceeded monthly limit, trust me it works
     
     def test_Method(self, *args, **kwargs):
         time_func(self.wait_test, use_env=True, update_env=True, NotifyMethod="Email", twilio_email=True, *args, **kwargs)(**kwargs)
@@ -25,5 +28,5 @@ class TestYagMail(TestAbstract):
     def test_Stress(self): # Not stress testing to save the twilio money
         self.stress_method(self.test_Method, time_=2, count=5)
         for i in range(5):
-            self.confirm_method(SlackMethod, n=i)
+            self.confirm_method(EmailMethod, n=i)
     
