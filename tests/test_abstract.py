@@ -46,8 +46,6 @@ class TestAbstract(unittest.TestCase, metaclass=ABCAstractEnableTests):
                                     # be careful not to go too big
         return NotifyMethods.get_registry()[n]
     
-    def confirm_dotenv(self, env_val, n: int=-1):
-        self.assertEqual(self._get_last(n).environ_dict.get('TEST_ENV'), env_val)
     def confirm_method(self, methodName, n: int=-1):
         self.assertEqual(type(self._get_last(n)), methodName)
     def confirm_cred(self, n: int=-1):

@@ -46,8 +46,23 @@ if __name__ == "__main__":
     This is how we do testing 😊 """
     time_func(function=wait_func5)(*func5_args, **func5_kwargs)
 ```
+#### CLI arguments
+```
+$ FuncNotify [command here] --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env 
+```
+```
+$ FuncNotify go run main.go --kwargs NotifyMethod=Text cellphone=8001234567 
+```
+Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. This allows you to time any script.
+`multi_target` not yet supported
 
-#### [Contributing:](Contributing.md)  
+#### Basic/Quick Demo
+```$ pip install FuncNotify```
+```FuncNotify sleep 5 --kwargs NotifyMethod=Print```
+To expand, create a `.env` file and a twilio account according to these [instructions](https://www.twilio.com/docs/sms/quickstart/python) (it's free!). Instead of hard coding variables or exporting them to your env, jusst put them in the twilio alerts section of your `.env`, skp installing twilio as it's already installed. Then try:
+```FuncNotify sleep 5 --kwargs NotifyMethod=Text```
+
+#### [Contributing:](.github/Contributing.md)  
 Click above for instructions on how to contribute
 
 #### Supported Notify Methods

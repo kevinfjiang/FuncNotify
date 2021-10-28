@@ -28,7 +28,7 @@ class TextMethod(NotifyMethods):
     """Sends message via twilio if twilio api is set up for text alerts. If a twilio emplooyee reads this, HELLO!
     """  
     
-    __slots__ = ("cellphone", "twilio_number", "client") # List all instance variables here in string form, saves memory  
+    __slots__ = ("_cellphone", "_twilio_number", "_client") # List all instance variables here in string form, saves memory  
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -44,14 +44,14 @@ class TextMethod(NotifyMethods):
             twiliotoken (str, optional): twilio specific access token, should all be found 
             in settings tab. Defaults to None.
         """        
-        self.cellphone = self.type_or_env(phone, "PHONE")
-        self.twilio_number = self.type_or_env(twiliophone, "TWILIOPHONE")
-        self.client = Client(self.type_or_env(twilioaccount, "TWILIOACCOUNT"), self.type_or_env(twiliotoken, "TWILIOTOKEN"))
+        self._cellphone = self.type_or_env(phone, "PHONE")
+        self._twilio_number = self.type_or_env(twiliophone, "TWILIOPHONE")
+        self._client = Client(self.type_or_env(twilioaccount, "TWILIOACCOUNT"), self.type_or_env(twiliotoken, "TWILIOTOKEN"))
 
     def send_message(self, message):
         try:
-            self.client.messages.create(to=self.cellphone,
-                            from_=self.twilio_number,
-                            body=message)
+            self._client.messages.create(to=self._cellphone,
+                                        from_=self._twilio_number,
+                                        body=message)
         except Exception as ex:
             raise ex

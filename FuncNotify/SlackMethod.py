@@ -27,7 +27,7 @@ class SlackMethod(NotifyMethods):
     """Sends slack notification to slack channel and user email specified
     """ 
     
-    __slots__ = ("username", "id", "client") # List all instance variables here in string form, saves memory
+    __slots__ = ("_username", "_id", "_client") # List all instance variables here in string form, saves memory
     
     emoji_dict = {
         "Start":    ":clapper:",
@@ -48,10 +48,10 @@ class SlackMethod(NotifyMethods):
             email (str, optional): email of recepient. Defaults to None.
             
         """        
-        self.username =  self.type_or_env(username, "USERNAME")
-        self.client = WebClient(self.type_or_env(token, "SLACK_API_TOKEN"))
+        self._username =  self.type_or_env(username, "USERNAME")
+        self._client = WebClient(self.type_or_env(token, "SLACK_API_TOKEN"))
         
-        self.id = self.client.users_lookupByEmail(email=self.type_or_env(email, "EMAIL"))['user']['id']
+        self._id = self._client.users_lookupByEmail(email=self.type_or_env(email, "EMAIL"))['user']['id']
         
         
 
@@ -60,9 +60,9 @@ class SlackMethod(NotifyMethods):
 
     def send_message(self, MSG: str):
         try:
-            self.client.chat_postMessage(username=self.username, # NOTE this can be any username, 
+            self._client.chat_postMessage(username=self._username, # NOTE this can be any username, 
                                          text=MSG,               # set up the bot credentials!
-                                         channel=self.id)
+                                         channel=self._id)
 
         except Exception as ex:
             raise ex

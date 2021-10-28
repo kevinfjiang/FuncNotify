@@ -43,7 +43,7 @@ class xNotifyxMethod(NotifyMethods):
     """TODO Summaraize exactly how xNotifyxMethod will notify the end user and what platform.
     """   
     
-    __slots__ = ("") # List all instance variables here in string form, saves memory, optional but highly reccomended
+    __slots__ = ("_token") # List all instance variables here in string form, saves memory, optional but highly reccomended, don't forget `_`
 
     def __init__(self, *args, **kwargs):
         """TODO Specify key word arguments in the init as var=xyz and define them as instances
@@ -61,11 +61,12 @@ class xNotifyxMethod(NotifyMethods):
         
         NOTE Try and keep all client errors here, and try and catch as many CredentialErrors
         here by making some api calls here
+        NOTE use `_` to make all private information truly private!!!
         
         Args:
             Add your own and document!
         """   
-        self.token = self.type_or_env(token, "TOKEN") # Example use with a random token
+        self._token = self.type_or_env(token, "TOKEN") # Example use with a random token
         
     def add_on(self, type_: str="Error")->str:
         """TODO Specify an addon to tack on to the end of each message, solely a cosmetic thing

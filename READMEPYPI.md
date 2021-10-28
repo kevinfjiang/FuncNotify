@@ -16,7 +16,8 @@ Sometimes, functions take a long time. I wanted to create something that automat
 from FuncNotify import time_func, time_text, time_slack
 
 
-@time_func(NotifyMethod="Text", use_env=True, env_path".env", update_env=True, cellphone="8001234567")
+@time_func(NotifyMethod="Text", use_env=True, env_path".env", 
+           update_env=True, cellphone="8001234567")
 def wait_func():
     """This function will use the text method and pull env varaibles from
     `.env`, it will update the already determined env variables too!"""
@@ -25,29 +26,45 @@ def wait_func():
 
 @time_Text()
 def wait_func2():
-    """All parameters are optional and each method has a personal decorator, even the 
-    function call is optional see below"""
+    """All parameters are optional and each method has a personal decorator, 
+    even the function call is optional see below"""
     do_something()
 
 @time_Text
 def wait_func3():
-    """Auto pull from `.env` is enabled by default with Method specific time decorators"""
+    """Auto pull from `.env` is enabled by default with Method specific 
+    time decorators"""
     do_something()
 
 @time_func(multi_target=[{...}, {...}], multi_env=["1.env", "2.env"])
 def wait_func4():
-    """Send to multiple sources either through specifiying multiple dictionaries of kwargs
-    or multiple .env paths, or both in pairs!"""
+    """Send to multiple sources either through specifiying multiple 
+    dictionaries of kwargs or multiple .env paths, or both in pairs!"""
     do_something()
 
 if __name__ == "__main__":
-    """You don't even need to use the timer as a decorator, use it as a normal function
-    This is how we do testing 😊 """
+    """You don't even need to use the timer as a decorator, 
+    use it as a normal function This is how we do testing 😊 """
     time_func(function=wait_func5)(*func5_args, **func5_kwargs)
 ```
 
+All accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
 
-Both accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
+#### CLI arguments
+```
+$ FuncNotify [command here] --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env 
+```
+```
+$ FuncNotify go run main.go --kwargs NotifyMethod=Text cellphone=8001234567 
+```
+Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. This allows you to time any script.
+`multi_target` not yet supported
+
+#### Basic/Quick Demo
+```$ pip install FuncNotify```
+```FuncNotify sleep 5 --kwargs NotifyMethod=Print```
+To expand, create a `.env` file and a twilio account according to these [instructions](https://www.twilio.com/docs/sms/quickstart/python) (it's free!). Instead of hard coding variables or exporting them to your env, jusst put them in the twilio alerts section of your `.env`, skp installing twilio as it's already installed. Then try:
+```FuncNotify sleep 5 --kwargs NotifyMethod=Text```
 
 ### Supported Notify Methods
 |               Platform                |
