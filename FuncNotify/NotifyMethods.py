@@ -272,7 +272,7 @@ class MessageSendError(Exception):
         super().__init__(self.__str__())
     
     def __str__(self):
-        return f"The following exception occurred while sening the messagge with the method {self.NotifyObject.__class__.__name__} \n"\
+        return f"The following exception occurred while sending the messagge with the method {self.NotifyObject.__class__.__name__} \n"\
                f"[Error] {self.error} \n" \
                f"[Fix] This is an error with the respective platform's API, ensure the credentials for are valid and you have access," \
                f"check env variables, and ensure that all the types are correct. This is likely an issue with your implementation."
