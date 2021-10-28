@@ -53,8 +53,8 @@ $ FuncNotify [command here] --kwargs NotifyMethod=Email multi_env=1.env multi_en
 ```
 $ FuncNotify go run main.go --kwargs NotifyMethod=Text cellphone=8001234567 
 ```
-Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. This allows you to time any script
-multi_target not yet supported
+Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. This allows you to time any script.
+`multi_target` not yet supported
 #### [Contributing:](.github/Contributing.md)  
 Click above for instructions on how to contribute
 

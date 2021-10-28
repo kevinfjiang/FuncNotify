@@ -16,7 +16,8 @@ Sometimes, functions take a long time. I wanted to create something that automat
 from FuncNotify import time_func, time_text, time_slack
 
 
-@time_func(NotifyMethod="Text", use_env=True, env_path".env", update_env=True, cellphone="8001234567")
+@time_func(NotifyMethod="Text", use_env=True, env_path".env", 
+           update_env=True, cellphone="8001234567")
 def wait_func():
     """This function will use the text method and pull env varaibles from
     `.env`, it will update the already determined env variables too!"""
@@ -25,24 +26,25 @@ def wait_func():
 
 @time_Text()
 def wait_func2():
-    """All parameters are optional and each method has a personal decorator, even the 
-    function call is optional see below"""
+    """All parameters are optional and each method has a personal decorator, 
+    even the function call is optional see below"""
     do_something()
 
 @time_Text
 def wait_func3():
-    """Auto pull from `.env` is enabled by default with Method specific time decorators"""
+    """Auto pull from `.env` is enabled by default with Method specific 
+    time decorators"""
     do_something()
 
 @time_func(multi_target=[{...}, {...}], multi_env=["1.env", "2.env"])
 def wait_func4():
-    """Send to multiple sources either through specifiying multiple dictionaries of kwargs
-    or multiple .env paths, or both in pairs!"""
+    """Send to multiple sources either through specifiying multiple 
+    dictionaries of kwargs or multiple .env paths, or both in pairs!"""
     do_something()
 
 if __name__ == "__main__":
-    """You don't even need to use the timer as a decorator, use it as a normal function
-    This is how we do testing 😊 """
+    """You don't even need to use the timer as a decorator, 
+    use it as a normal function This is how we do testing 😊 """
     time_func(function=wait_func5)(*func5_args, **func5_kwargs)
 ```
 
