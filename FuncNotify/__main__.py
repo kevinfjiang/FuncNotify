@@ -1,3 +1,8 @@
+"""Call this wiht `FuncNotify` to be able to time scripts as well as functions
+Note compiling function time may be counted, which is why some timings may 
+appear to be innacurate
+"""
+
 import argparse
 import subprocess
 
@@ -18,13 +23,13 @@ class ParseKwargs(argparse.Action):
         for value in values:
             if value is not None:
                 key, value = value.split('=')
-                value = ParseKwargs.translation_dict.get(value, value)
+                value = ParseKwargs.translation_dict.get(value, value) # Ensures bools are properly parsed
                 
-                if key in getattr(namespace, self.dest):
+                if key in getattr(namespace, self.dest): # If key in list
                     if isinstance(getattr(namespace, self.dest)[key], list):
-                         getattr(namespace, self.dest)[key].append(value)
+                         getattr(namespace, self.dest)[key].append(value) # Adds to list
                     else:
-                        getattr(namespace, self.dest)[key] = [getattr(namespace, self.dest)[key], value]
+                        getattr(namespace, self.dest)[key] = [getattr(namespace, self.dest)[key], value] # creates list
                 else:
                     getattr(namespace, self.dest)[key] = value
 
@@ -36,7 +41,7 @@ def main():
         """Validate text in form "key=val" internal func to access
         parsed_remain_arg to ad to 
         """
-        if not re.match('^[a-zA-Z0-9_]+(=[^\s]+)$', arg):
+        if not re.match('^[a-zA-Z0-9_]+(=[^\s]+)$', arg): # Ensures valid formatting
             parsed_remain_arg.append(arg)
             return
         return arg
@@ -52,13 +57,13 @@ def main():
     kwargs = {**args.kwargs} if args.kwargs else {}
     
     def sub_run(): 
-        if remaining_args or parsed_remain_arg:
+        if remaining_args or parsed_remain_arg: # Some non kwargs may get parsed but get recollected here
             return subprocess.run([*remaining_args, *parsed_remain_arg], check=True)
         else:
             print("No command specified to be executed")
     
-    sub_run.__name__ = " ".join([*remaining_args, *parsed_remain_arg])
-    time_func(sub_run, **kwargs)()
+    sub_run.__name__ = " ".join([*remaining_args, *parsed_remain_arg]) # Setting func.__name__ to this for clarity
+    time_func(sub_run, **kwargs)() # Faster than using decorator, less down time
 
 
 if __name__ == "__main__":
