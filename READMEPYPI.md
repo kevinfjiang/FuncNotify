@@ -63,7 +63,9 @@ Anything after `--kwargs` with an equal sign will automatically be parsesd as a 
 #### Basic/Quick Demo
 ```$ pip install FuncNotify```
 ```FuncNotify sleep 5 --kwargs NotifyMethod=Print```
+
 To expand, create a `.env` file and a twilio account according to these [instructions](https://www.twilio.com/docs/sms/quickstart/python) (it's free!). Instead of hard coding variables or exporting them to your env, jusst put them in the twilio alerts section of your `.env`, skp installing twilio as it's already installed. Then try:
+
 ```FuncNotify sleep 5 --kwargs NotifyMethod=Text```
 
 ### Supported Notify Methods
