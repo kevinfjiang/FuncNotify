@@ -1,12 +1,12 @@
 # FuncNotify ⏰ 
-> **Get notified when your functions run**
+> **Get notified when your code finishes/crashes with one line of code**
 
 ![Build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI?label=CI) ![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD?label=CD)
  ![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify) ![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases) ![License](https://img.shields.io/github/license/kevinfjiang/FuncNotify.svg)
 ![wheel](https://img.shields.io/pypi/wheel/FuncNotify)
 ### **Premise:**
 
-Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed without risking exposing your phone number.
+Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed without risking exposing your phone number. All this with just one line of code.
 
 #### Installation use `pip` or equivalent
 ```$ pip install FuncNotify```

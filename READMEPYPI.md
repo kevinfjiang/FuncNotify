@@ -1,10 +1,11 @@
 # FuncNotify
+> **Get notified when your code finishes/crashes with one line of code**
 
 ![Build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI) ![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD)
 ![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify) ![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases)
 ![License](https://img.shields.io/github/license/kevinfjiang/FuncNotify.svg)
 ### **Premise:**
-Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed or of any errors, training ML. The advantage over other decorator nontifiers is that there's an added option to hide your api tokens and emails so they aren't accidentally pushed to a public repo. 
+Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed or of any errors, training ML. The advantage over other decorator nontifiers is that there's an added option to hide your api tokens and emails so they aren't accidentally pushed to a public repo. All this with just one line of code. 
 
 #### This is a super lean ReadMe, check out the github linked [here](https://github.com/kevinfjiang/FuncNotify)
 
