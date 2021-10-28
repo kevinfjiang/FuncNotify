@@ -23,7 +23,7 @@ class TestYagMail(TestAbstract):
         self.confirm_cred()
     
     def test_Stress(self): # Not stress testing to save the twilio money
-        self.stress_method(self.test_Method, time_=2, count=5)
+        self.stress_method(self.test_Method, time_=5, count=5)
         for i in range(5):
             self.confirm_method(EmailMethod, n=i)
     
