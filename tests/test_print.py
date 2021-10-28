@@ -27,10 +27,10 @@ class PrintTest(TestAbstract):
     #Env testing
     def test_ENV(self):
         time_func(self.wait_test, NotifyMethod="Print", update_env=True, use_env=True)()
-        self.confirm_dotenv("ALIVE")
+        self.assertTrue(self._get_last(-1)._environ_dict)
     def test_DeadENV(self):
         time_func(self.wait_test, NotifyMethod="Print", update_env=True, use_env=False)()
-        self.confirm_dotenv(None)
+        self.assertFalse(self._get_last(-1)._environ_dict)
         
     #Multi target message sending
     def test_multi_target(self):
@@ -43,8 +43,8 @@ class PrintTest(TestAbstract):
         
     def test_multi_env(self):
         time_func(self.wait_test, NotifyMethod="Print", use_env=False, multi_env=[".env", ""])()
-        self.assertEqual(self._get_last(-2).environ_dict.get('TEST_ENV'), "ALIVE")
-        self.assertEqual(self._get_last(-1).environ_dict.get('TEST_ENV'), None)
+        self.assertTrue(self._get_last(-2)._environ_dict)
+        self.assertFalse(self._get_last(-1)._environ_dict)
         self.confirm_method(PrintMethod)
         
     def test_multi_env_target(self):
@@ -54,13 +54,13 @@ class PrintTest(TestAbstract):
                                      multi_target=[kwargs1, kwargs2, kwargs2, kwargs1], 
                                      multi_env=[".env", "", ".env", ""])()
         self.assertTrue(self._get_last(-1).verbose)
-        self.assertEqual(self._get_last(-1).environ_dict.get('TEST_ENV'), None)
+        self.assertFalse(self._get_last(-1)._environ_dict)
         self.assertFalse(self._get_last(-2).verbose)
-        self.assertEqual(self._get_last(-2).environ_dict.get('TEST_ENV'), "ALIVE")
+        self.assertTrue(self._get_last(-2)._environ_dict)
         self.assertFalse(self._get_last(-3).verbose)
-        self.assertEqual(self._get_last(-3).environ_dict.get('TEST_ENV'), None)
+        self.assertFalse(self._get_last(-3)._environ_dict)
         self.assertTrue(self._get_last(-4).verbose)
-        self.assertEqual(self._get_last(-4).environ_dict.get('TEST_ENV'), "ALIVE")
+        self.assertTrue(self._get_last(-4)._environ_dict)
         
         for i in range(-1, -5, -1):
             self.confirm_method(PrintMethod, n=i)

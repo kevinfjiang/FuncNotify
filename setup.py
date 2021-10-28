@@ -1,6 +1,6 @@
 import pathlib
 import requests
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -24,15 +24,21 @@ setup(
     author_email="kevin.jiang016@gmail.com",
     license="MIT",
     classifiers=[
+        'Intended Audience :: Developers',
+        'Intended Audience :: Science/Research'
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3",
     ],
-    packages=["FuncNotify"],
+    packages=find_packages(),
+        entry_points={
+            'console_scripts': [
+                'FuncNotify = FuncNotify.__main__:main',
+                'funcnotify = FuncNotify.__main__:main',
+                'funcNotify = FuncNotify.__main__:main',
+                'Funcnotify = FuncNotify.__main__:main',
+            ]
+    },
+    python_require='>=3.0',
     include_package_data=True,
     install_requires=req,
-    entry_points={ 
-        "console_scripts": [
-            "realpython=reader.__main__:main",
-        ]
-    },
 )

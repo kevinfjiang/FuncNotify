@@ -25,7 +25,7 @@ class TeamsMethod(NotifyMethods):
     Inspiredd by knocknock
     """    
     
-    __slots__ = ("webhook_url", "dump") # List all instance variables here in string form, saves memory
+    __slots__ = ("_webhook_url", "_dump") # List all instance variables here in string form, saves memory
     
     emoji_dict = {
         "Start":    ":clapper:",
@@ -45,9 +45,9 @@ class TeamsMethod(NotifyMethods):
             username (str, optional): username of the message bot Defaults to None.
             webhook_url (str, optional): url for the teams channel. Defaults to None.
         """        
-        self.webhook_url = self.type_or_env(webhook_url, "WEBHOOK")
+        self._webhook_url = self.type_or_env(webhook_url, "WEBHOOK")
         
-        self.dump = { # Creates json dump with the credentials, more is added laters
+        self._dump = { # Creates json dump with the credentials, more is added laters
             "username": self.type_or_env(username, "USERNAME"),
             "icon_emoji": ":clapper:",
         }
@@ -58,15 +58,15 @@ class TeamsMethod(NotifyMethods):
             type_ (function, optional): One of three types of status of the function, "Start", "End", "Error". 
             Helps specify what type of add-on to tack on for personalization, not necessary to implement though!
         """
-        self.dump['icon_emoji'] = TeamsMethod.emoji_dict.get(type_, ":tada:") # Sets clapper as icon without returning val
+        self._dump['icon_emoji'] = TeamsMethod.emoji_dict.get(type_, ":tada:") # Sets clapper as icon without returning val
         
         return ""        
         
     def send_message(self, MSG: str):
         try:
             """Specify the API and set up of sending a singular message"""
-            self.dump['text'] = MSG
-            requests.post(self.webhook_url, json.dump(self.dump)) # Posts the message
+            self._dump['text'] = MSG
+            requests.post(self._webhook_url, json.dump(self._dump)) # Posts the message
         except Exception as ex:
             """Handle the error somewhat or don't. If you want to add more information do it here"""       
             raise ex

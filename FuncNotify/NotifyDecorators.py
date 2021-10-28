@@ -9,7 +9,7 @@ NOTIFY_TYPE=None
 ENV_DICT=None
 
 # Main decorator TODO maybe, do i force static typing?
-def time_func(func=None, NotifyMethod: str=None, use_env: bool=False, env_path: str=".env", update_env: bool=False, 
+def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, 
               multi_target: list=None, multi_env: list=None, *dec_args, **dec_kwargs): 
     """Decorator for how to handle a notify function. Allows for additional arguments in the decorator
     and support for args like emails/api keys. Is able to handle errors.
@@ -18,7 +18,7 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=False, env_path: 
         func (function, optional): In case you want to use time_func as a decorator without argumetns, 
         NotifyMethod (str, optional): Specifies the type of method used to notify user, selected 
         from NotifyType. Defaults to None.
-        use_env (str, optional): Whether to load the current env+the env_path. Defaults to False
+        use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
         env_path (str, optional): path to .env file. Input "" for just the current environment. Defaults to ".env".
         update_env (bool, optional): whether to update the .env file to current. Always updates on 
         initialization. Defaults to False.
@@ -140,7 +140,7 @@ def get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_
     """
     
     def default_notify(*args, **kwargs): # Sends a warning your notify method didn't match 
-        warnings.warn(f"Invalid NotifyMethod type '{Notif}' specified, will use `PrintMethod`," \
+        warnings.warn(f"Invalid NotifyMethod type '{Notif}' specified, will use `PrintMethod`, " \
                       f"select a type within this criteria: {NOTIFY_TYPE.keys()}")
         return NOTIFY_TYPE["Print"](*args, **kwargs)
     

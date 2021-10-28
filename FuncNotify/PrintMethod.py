@@ -11,7 +11,7 @@ class PrintMethod(NotifyMethods):
         super().__init__(*args, **kwargs)
 
     def _set_credentials(self, verbose: bool=True, *args, **kwargs):
-        self.verbose = self.type_or_env(verbose, "verbose", bool)
+        self.verbose = self.type_or_env(verbose, "VERBOSE", bool)
         
     def send_message(self, MSG: str):
         if self.verbose:

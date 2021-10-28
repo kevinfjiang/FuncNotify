@@ -37,31 +37,31 @@ class NotifyMethods(metaclass=FactoryRegistry):
     _registry = collections.deque([], maxlen=5) # Tracks last five for error checking, 
     _mute=False                                 # circular buffer so the garbage collectoor works
     
-    __slots__ = ("environ_dict", "error")
+    __slots__ = ("_environ_dict", "error")
     
     logger=None
         
-    _messageDict = {"Start": ["Function: {0}() called...",
+    _messageDict = {"Start": ["Function: `{0}` called...",
                               "Machine Name: {machine}",
                               "Start Time: {1}"],
                     
-                    "End":   ["Function: {0}() completed",
+                    "End":   ["Function: `{0}` completed",
                               "Machine Name: {machine}",
                               "Finish Time: {1}",
                               "Total Time: {2:.2f}"],
                     
-                    "Error": ["Function: {0}() failed due to a {1}",
+                    "Error": ["Function: `{0}` failed due to a {1}",
                               "Exception Reason: \n{2}"
                               "Fail Time Stamp: \n{3}",
                               "Machine Name: {machine}",
                               "Fail Traceback: {4}"]} 
     
     def __init__(self, environ: dict=None, mute: bool=False, use_log: bool=False, *args, **kwargs):
-        self.environ_dict = environ if isinstance(environ, dict) else {}
+        self._environ_dict = environ if isinstance(environ, dict) else {}
         NotifyMethods.set_mute(mute)
         
         try:  
-            NotifyMethods._logger_init_(self.environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending  
+            NotifyMethods._logger_init_(self._environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending  
                                                                                          # the messages, not in the function itself
             self._set_credentials(*args, **kwargs)
             self.error=None # Always default to notify user
@@ -93,7 +93,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
             KeyError: Raises if environment variable not found in name, this will set `self.Error` 
             to that exception so it can be accessed
         """             
-        return val if isinstance(val, type_) else self.environ_dict[env_variable] #TODO Descriptive key error here pls
+        return val if isinstance(val, type_) else self._environ_dict[env_variable] #TODO Descriptive key error here pls
     
     @classmethod
     def _register(cls, NotifyObject):
@@ -135,7 +135,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
                 os.mkdir("logs")
 
             import __main__ # Necessary for naming, setting up print formatting
-            logger_name = __main__.__file__.split('/')[-1][:-3]
+            logger_name = __main__.__file__.split('/')[-1].split('.')[0]
 
             cls.logger = logging.getLogger(logger_name)
             cls.logger.setLevel(logging.DEBUG)

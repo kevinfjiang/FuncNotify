@@ -30,7 +30,7 @@ class EmailMethod(NotifyMethods):
     """Sends emails wih yagmail
     """   
     
-    __slots__ = ("client", "mail")
+    __slots__ = ("_client", "_mail")
 
     def __init__(self, *args, **kwargs):
         """Specify key word arguments in the init as var=xyz and define them as instances
@@ -52,29 +52,29 @@ class EmailMethod(NotifyMethods):
             subject_line = f"Notifications for { __main__.__file__.split('/')[-1][:-3]}"
 
         if twilio_email:
-            self.client = SendGridAPIClient(self.type_or_env(sendgrid_api, "SENDGRID_API"))
-            self.mail = {"from_email":   self.type_or_env(sender_email, "SENDER_EMAIL"), 
-                         "to_emails":    [self.type_or_env(target_email, "TARGET_EMAIL")],
-                         "subject":      self.type_or_env(subject_line, "SUBJECT"),}
+            self._client = SendGridAPIClient(self.type_or_env(sendgrid_api, "SENDGRID_API"))
+            self._mail = {"from_email":   self.type_or_env(sender_email, "SENDER_EMAIL"), 
+                          "to_emails":    [self.type_or_env(target_email, "TARGET_EMAIL")],
+                          "subject":      self.type_or_env(subject_line, "SUBJECT"),}
             
         else:
-            self.client = yagmail.SMTP(self.type_or_env(sender_email, "SENDER_EMAIL"), 
+            self._client = yagmail.SMTP(self.type_or_env(sender_email, "SENDER_EMAIL"), 
                                        self.type_or_env(sender_password, "SENDER_PASSWORD"))
-            self.mail = {"to":      [self.type_or_env(target_email, "TARGET_EMAIL")], 
-                         "subject": self.type_or_env(subject_line, "SUBJECT")}
+            self._mail = {"to":      [self.type_or_env(target_email, "TARGET_EMAIL")], 
+                          "subject": self.type_or_env(subject_line, "SUBJECT")}
             
         
      
     def send_message(self, MSG: str):
         try:
             """Specify the API and set up of sending a singular message"""
-            if len(self.mail)==2:
-                send_mail={**self.mail, 
+            if len(self._mail)==2:
+                send_mail={**self._mail, 
                            "contents": MSG}
             else:
-                send_mail={"message": Mail(**self.mail, html_content=MSG)} # Wrapped for unpacking
+                send_mail={"message": Mail(**self._mail, html_content=MSG)} # Wrapped for unpacking
                 
-            self.client.send(**send_mail)
+            self._client.send(**send_mail)
         except Exception as ex:
             """Handle the error somewhat or don't. If you want to add more information do it here"""       
             raise ex

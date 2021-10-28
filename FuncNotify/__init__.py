@@ -9,7 +9,7 @@ def import_all(modules: list):
     """Imports of a module, similar to `from package import *` but specifically for this package
 
     Args:
-        modules (list[str]): A file name in `FuncNotify` directoory/package
+        modules (list[str]): A file name in `FuncNotify` directory/package
     """    
     for mod in modules:
         try:

@@ -46,8 +46,17 @@ if __name__ == "__main__":
     time_func(function=wait_func5)(*func5_args, **func5_kwargs)
 ```
 
+All accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
 
-Both accomplish the same objective of notifying the user after ```wait_func()``` completes, one does so with the phone number saved as a env variable in ```.env``` so it never accidentally gets exposed.
+#### CLI arguments
+```
+$ FuncNotify [command here] --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env 
+```
+```
+$ FuncNotify go run main.go --kwargs NotifyMethod=Text cellphone=8001234567 
+```
+Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. This allows you to time any script.
+`multi_target` not yet supported
 
 ### Supported Notify Methods
 |               Platform                |
