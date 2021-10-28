@@ -76,7 +76,7 @@ class PrintTest(TestAbstract):
         
     def test_logger(self):
         import __main__
-        self.assertEqual(NotifyMethods.logger.name, __main__.__file__.split('/')[-1][:-3])
+        self.assertEqual(NotifyMethods.logger.name, __main__.__file__.split('/')[-1].split('.')[0])
         with self.assertLogs(NotifyMethods.logger, logging.ERROR):
             NotifyMethods.set_logger(logging.DEBUG) # Verbose needs to be bool, not string
             time_func(self.wait_test, NotifyMethod="Print", verbose="ad;fkafd", use_log=True, use_env=False) 
