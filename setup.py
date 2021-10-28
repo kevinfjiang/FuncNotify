@@ -26,8 +26,8 @@ setup(
     classifiers=[
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3",
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3',
     ],
     packages=find_packages(),
         entry_points={
