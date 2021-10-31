@@ -1,0 +1,26 @@
+name: DOC
+
+on:
+  push:
+    branches: [ gh-pages ]
+  release:
+    types: [ created ]
+  
+
+jobs:
+  deploy:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pdoc
+    - name: Build pages
+      run: |
+        pdoc --html FuncNotify --force
+        mv html/FuncNotify docs
+        rmdir html
+        

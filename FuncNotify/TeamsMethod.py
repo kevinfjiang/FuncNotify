@@ -9,7 +9,7 @@ def time_Teams(func=None, use_env: bool=True, env_path: str=".env", update_env: 
     """Decorator for microsoft teams messaging
 
     Args:
-         func (function, optional): In case you want to use time_func as a pure decoratr without \
+        func (function, optional): In case you want to use time_func as a pure decoratr without \
         arguments. Defaults to None.
         use_env (str, optional): Loads .env file envionment variables. Defaults to False
         env_path (str, optional): Path to .env file. Defaults to ".env".

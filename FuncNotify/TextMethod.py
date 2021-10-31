@@ -18,7 +18,7 @@ def time_Text(func=None, use_env: bool=True, env_path: str=".env", update_env: b
         
         phone (str, optional): your phonenumber. Defaults to None.
             twiliophone (str, optional): twilio specific phone number. Defaults to None.
-            twilioaccount (str, optional): twilioo account id. Defaults to None.
+            twilioaccount (str, optional): twilio account id. Defaults to None.
             twiliotoken (str, optional): twilio specific access token, should all be found \
             in settings tab. Defaults to None.
         """

@@ -22,5 +22,6 @@ def _import_all(modules: list):
 _import_all(MODULES)
 from FuncNotify.NotifyDecorators import *
 
+
 import pkg_resources  # part of setuptools
 __version__ = pkg_resources.require("FuncNotify")[0].version
