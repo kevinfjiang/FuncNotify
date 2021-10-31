@@ -19,6 +19,7 @@ jobs:
       env:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPIPASSWORD }}
+        REPOTOKEN: ${{ secrets.PAT }}
       run: |
         python setup.py sdist bdist_wheel
         twine upload --skip-existing dist/*
