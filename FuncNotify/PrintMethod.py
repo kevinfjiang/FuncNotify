@@ -12,7 +12,7 @@ class PrintMethod(NotifyMethods):
 
     def _set_credentials(self, verbose: bool=True, *args, **kwargs):
         self.verbose = self._type_or_env(verbose, "VERBOSE", bool)
-        
+        """Whether to print to the console or not"""        
     def _send_message(self, MSG: str):
         if self.verbose:
             print(MSG)

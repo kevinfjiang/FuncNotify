@@ -3,8 +3,6 @@ name: DOC
 on:
   push:
     branches: [ gh-pages ]
-  release:
-    types: [ created ]
   
 
 jobs:
@@ -20,6 +18,8 @@ jobs:
         pip install pdoc3
         pip install -r requirements.txt
     - name: Setup pages
+      env: 
+        PYTHONWARNINGS: error::UserWarning
       run: |
         pip install wheel; python setup.py sdist bdist_wheel
         pdoc --html FuncNotify --force

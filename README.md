@@ -1,19 +1,18 @@
-# FuncNotify ⏰ 
+# **FuncNotify ⏰**
 > **Get notified when your code finishes/crashes with one line of code**
 
 ![Build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI?label=CI) ![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD?label=CD)
- ![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify) ![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases) ![License](https://img.shields.io/github/license/kevinfjiang/FuncNotify.svg)
+![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify) ![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases) ![License](https://img.shields.io/github/license/kevinfjiang/FuncNotify.svg)
 ![wheel](https://img.shields.io/pypi/wheel/FuncNotify)
-### **Premise:**
 
-Sometimes, functions take a long time. I wanted to create something that automatically notifies you when they're completed without risking exposing your phone number. All this with just one line of code.
+**[Documenttation](https://kevinfjiang.github.io/FuncNotify/#header-submodules) | [GitHub](https://github.com/kevinfjiang/FuncNotify) | [PyPI](https://pypi.org/project/FuncNotify/)**
 
-#### Installation use `pip` or equivalent
+### **Installation:**
 ```$ pip install FuncNotify```
 
-#### Quick Guide
+### **Guide:**
 ```python
-# Add more as projects grow!
+"""Add more as projects grow!"""
 from FuncNotify import time_func, time_text, time_slack
 
 
@@ -46,29 +45,28 @@ if __name__ == "__main__":
     This is how we do testing 😊 """
     time_func(function=wait_func5)(*func5_args, **func5_kwargs)
 ```
-#### CLI arguments
-```
-$ FuncNotify [command here] --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env 
-```
-```
-$ FuncNotify go run main.go --kwargs NotifyMethod=Text cellphone=8001234567 
-```
-Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. This allows you to time any script.
-`multi_target` not yet supported
+#### **CLI arguments:**
+```$ FuncNotify [command here] --kwargs NotifyMethod=Text phone=8001234567 ```
 
-#### Basic/Quick Demo
+```$ FuncNotify go run main.go --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env ```
+
+```$ FuncNotify sleep 5 --kwargs NotifyMethod=Text multi_target="[{'NotifyMethod': 'Print', 'verbose': True}, {'phone': '8001234567'}]"```
+
+Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. Wrap lists, dicts, and tuples in `"` so they get read properly. This allows you to time any script.
+
+### **Demo:**
 ```$ pip install FuncNotify```
 
-```FuncNotify sleep 5 --kwargs NotifyMethod=Print```
+```$ FuncNotify sleep 5 --kwargs NotifyMethod=Print```
 
 To expand, create a `.env` file and a twilio account according to these [instructions](https://www.twilio.com/docs/sms/quickstart/python) (it's free!). Instead of hard coding variables or exporting them to your env, jusst put them in the twilio alerts section of your `.env`, skp installing twilio as it's already installed. Then try:
 
-```FuncNotify sleep 5 --kwargs NotifyMethod=Text```
+```$ FuncNotify sleep 5 --kwargs NotifyMethod=Text```
 
-#### [Contributing:](.github/Contributing.md)  
+### **[Contributing:](.github/Contributing.md)**
 Click above for instructions on how to contribute
 
-#### Supported Notify Methods
+### Supported Methods:
 |               Platform                |
 | :-----------------------------------: |
 |            Console Print              |
@@ -78,45 +76,9 @@ Click above for instructions on how to contribute
 |        [Slack](https://api.slack.com/messaging/sending)                                |
 |        [Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook)            |
 
-### **TODO:**
-##### Personal stuff to organize and show what's currently accocmplished in the project
+
+### Create following .env in CWD
 <details>
-<summary>Project TODOs</summary>
-<br>
-
-**Admin stuff/documentation**
-- [ ]  Complete ReadMe
-- [x]  Remove my environment variables
-- [X]  Document environment variables
-- [X]  Write some tests
-
-**Code stuff**
-- [x] Add support for texts
-- [x] Add support for slack
-- [x] Add Default notify
-- [x] Add ENV variable support
-- [x] Use user email to search for slackID
-- [x] Add generic decorator support
-- [X] Add arguments to decorator support so you can specify keyword arguments like "(email={email}, token={token})"
-- [X] Add .env support
-- [X] Write Tests
-- [X] Add logger support
-- [X] Dropped support for 2.7, too annoying to mantain as metaclass was different
-- [X] Made super easy to add to (automated imports, define the decorator at the same time).
-- [X] Separate tests
-- [X] GitHub action auto deployment
-- [X] Multi person texting enabled
-- [X] Add email
-- [ ] Add whatsapp
-- [ ] Add wechat
-- [ ] Add Microsoft teams
-</br>
-</details>
-
-##### Create .env in current working directory and fill out information that you wanna use
-
-<details>
-<summary>.env</summary>
-<a href="https://raw.githubusercontent.com/kevinfjiang/FuncNotify/master/template.env">Strongly encourage copying this template</a>
-
+<summary></summary>
+<a href="https://raw.githubusercontent.com/kevinfjiang/FuncNotify/master/template.env">&emsp; .env</a>
 </details>

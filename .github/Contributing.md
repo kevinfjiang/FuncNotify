@@ -18,16 +18,15 @@ All classes will automatically added to a dictionary that can be accessed with a
 
 Ideally, please stay within the design principless of the class so the automation I set up still works. Other than that, there are no realy constraints on how to solve isssues. This project ideally helpss users get familiar with enterprise APIs and learn some cool tricks while doing it.
 
-#### Comments:
-Try and write as detailed comments on **why** things happen. Try and write code that is self-explanatory, without too many comments. Try and keep the same format of docstrings for each new method. Check out this link for a VsCode extension to automatically create docstrings
+#### Documentation:
+Try and write as detailed comments on **why** things happen. Try and write code that is self-explanatory, without too many comments. Try and keep the same format of docstrings for each new method. Check out this [link](https://marketplace.visualstudio.com/items?itemName=njpwerner.autodocstring) for a VsCode extension to automatically create docstrings.
+
+How the documentation is created is through something called [pdoc3](https://pdoc.dev/). All this means is make sure you write really good doc strings describing decorators and the APIs of the function. The format in the VsCode extension is very solid
 
 #### Describe your changes well.
 > **skim this git guide, you don't *really* have to follow lol**
 
-The first line of the commit message should be a short description (50
-characters is the soft limit, see DISCUSSION in git-commit(1)), and
-should skip the full stop.  
-
+The first line of the commit message should be a short description.
 * push: allow pushing to multiple remotes
 
 * grep: allow passing in command-line arguments

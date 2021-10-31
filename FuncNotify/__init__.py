@@ -1,3 +1,7 @@
+"""
+.. include:: ../README.md
+"""
+
 from os.path import dirname, basename, isfile, join
 import glob
 import importlib
@@ -25,3 +29,6 @@ from FuncNotify.NotifyDecorators import *
 
 import pkg_resources  # part of setuptools
 __version__ = pkg_resources.require("FuncNotify")[0].version
+
+__pdoc__={'FuncNotify.__main__': True}
+"""Used only for pdoc documentation to inclue main for CLI documentation"""

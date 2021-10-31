@@ -10,7 +10,6 @@ import socket
 import collections
 
 from abc import ABCMeta, abstractmethod
-from types import prepare_class
 
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
@@ -20,14 +19,15 @@ class FactoryRegistry(ABCMeta):
     _REGISTRY = {} 
     
     def __new__(cls, clsname, bases, attrs):
-        newclass = super(FactoryRegistry, cls).__new__(cls, clsname, bases, attrs)
+        newclass = super().__new__(cls, clsname, bases, attrs)
         if not inspect.isabstract(newclass):  # Removes abstract methods from registry
             cls._REGISTRY[newclass.__name__.replace("Method", "")] = newclass
         return newclass
     
     @classmethod
     def get_cls_registry(cls)->dict:
-        """        
+        """Registers every class created in a dictionary, creating automated
+        factory methoods
         Returns:
             dict: Takes a string of type (Class name without method) and returns NotifyObj
         """        
@@ -83,7 +83,9 @@ class NotifyMethods(metaclass=FactoryRegistry):
 
     @property     
     def environ_dict(self):
-        """Wantted this as a very private object, this helps makes testing easier and hides it well"""        
+        """Wanted to hide environment variables but still be able to test
+        Returns:
+            bool: Whether environ_dict contains anything"""        
         return not not self.__environ_dict
     
     def _type_or_env(self, val, env_variable: str, type_: type=str)->str:
@@ -114,10 +116,10 @@ class NotifyMethods(metaclass=FactoryRegistry):
         
     @classmethod
     def get_buffer(cls):
-        """buffer holding previous objects
+        """Buffer holding previous NotifyMethods to be able to interact with
 
         Returns:
-            deque: holds last 5 objects
+            deque: Holds last 5 objects
         """
         return cls._buffer
     
@@ -192,7 +194,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         Args:
             level (int, optional): level to set log to level. Mututally exclusive with level_string. 
             Defaults to logging.DEBUG.
-            level_string (str, optional): str representation to set log level to. 
+            level_string (str, optional): str representation to set log level to. \
             Must be all capitalized letters. Mututally exclusive with level.  
             Defaults to "DEBUG".
         """        
@@ -286,12 +288,13 @@ class NotifyMethods(metaclass=FactoryRegistry):
                 
                 
 class CredentialError(Exception):
-    """Errrors occuring while setting up the credentials
-    """    
+    """Errrors occuring while setting up the credentials"""    
     __slots__=("NotifyObject", "error")
     def __init__(self, NotifyObject: NotifyMethods, error: Exception):
         self.NotifyObject=NotifyObject
+        """NotifyMethods object where something went wrong"""        
         self.error=error 
+        """The Error with the NotifyMethods object"""        
         super().__init__(self.__str__())
     
     def __str__(self):
@@ -300,12 +303,13 @@ class CredentialError(Exception):
                f"[Fix] Check all credentials are strings and are accurate, check the type hints, and env variables"
         
 class MessageSendError(Exception):
-    """Errors that occur when sending the message and are caught then
-    """    
+    """Errors that occur when sending the message and are caught then"""    
     __slots__=("NotifyObject", "error")
     def __init__(self, NotifyObject: NotifyMethods, error: Exception):
         self.NotifyObject=NotifyObject
+        """"NotifyMethods object where something went wrong""" 
         self.error=error 
+        """The Error with the NotifyMethods object"""  
         super().__init__(self.__str__())
     
     def __str__(self):
