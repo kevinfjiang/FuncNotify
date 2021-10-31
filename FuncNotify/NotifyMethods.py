@@ -10,6 +10,7 @@ import socket
 import collections
 
 from abc import ABCMeta, abstractmethod
+from types import prepare_class
 
 
 DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
@@ -26,20 +27,24 @@ class FactoryRegistry(ABCMeta):
     
     @classmethod
     def get_cls_registry(cls)->dict:
+        """        
+        Returns:
+            dict: Takes a string of type (Class name without method) and returns NotifyObj
+        """        
         return dict(cls._REGISTRY)
     
     
 class NotifyMethods(metaclass=FactoryRegistry):
-    """Abstract class for the methods of notifying the user, 
+    """Abstract class for the methods of notifying the user, \
     handles the messages and logger for error checking
     """    
     # Tracking and testing, intended to in case one needs to check functions ran
-    _registry = collections.deque([], maxlen=5) # Tracks last five for error checking, 
-    _mute=False                                 # circular buffer so the garbage collectoor works
+    _buffer = collections.deque([], maxlen=5) # Tracks last five for error checking, 
     
-    __slots__ = ("_environ_dict", "error")
+    __slots__ = ("__environ_dict", "_error")
     
     logger=None
+    log_method_dict={}
         
     _messageDict = {"Start": ["Function: `{0}` called...",
                               "Machine Name: {machine}",
@@ -51,35 +56,38 @@ class NotifyMethods(metaclass=FactoryRegistry):
                               "Total Time: {2:.2f}"],
                     
                     "Error": ["Function: `{0}` failed due to a {1}",
-                              "Exception Reason: \n{2}"
-                              "Fail Time Stamp: \n{3}",
+                              "Exception Reason: {2}"
+                              "Fail Time Stamp: {3}",
                               "Machine Name: {machine}",
                               "Fail Traceback: {4}"]} 
     
     def __init__(self, environ: dict=None, mute: bool=False, use_log: bool=False, *args, **kwargs):
-        self._environ_dict = environ if isinstance(environ, dict) else {}
+        self.__environ_dict = environ if isinstance(environ, dict) else {}
         NotifyMethods.set_mute(mute)
         
         try:  
-            NotifyMethods._logger_init_(self._environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending  
+            NotifyMethods._logger_init_(self.__environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending  
                                                                                          # the messages, not in the function itself
             self._set_credentials(*args, **kwargs)
-            self.error=None # Always default to notify user
+            self._error=None # Always default to notify user
 
         except Exception as ex:
-            # Consider adding traceback and error here
             NotifyMethods.log(status="ERROR", METHOD=self.__class__.__name__, 
-                              message="[CREDENTIALS] Connection to setting up notifications \
+                                message="[CREDENTIALS] Connection to setting up notifications \
                                         interupted, double check env variables")
             NotifyMethods.log(status="ERROR", METHOD=self.__class__.__name__, 
                               message=f"[CREDENTIALS] {ex}") 
-            self.error=CredentialError(self, ex) # If error with credentials
+            self._error=CredentialError(self, ex) # If error with credentials
         
-        NotifyMethods._register(self)
-        
+        NotifyMethods._add_buffer(self)
+
+    @property     
+    def environ_dict(self):
+        """Wantted this as a very private object, this helps makes testing easier and hides it well"""        
+        return not not self.__environ_dict
     
-    def type_or_env(self, val, env_variable: str, type_: type=str)->str:
-        """Checks if inputted value is oof the type `type_`, default to string, otherwise 
+    def _type_or_env(self, val, env_variable: str, type_: type=str)->str:
+        """Checks if inputted value is oof the type `type_`, default to string, otherwise \
         searches environment for that variable. If not found, doesn't notify ussers
 
         Args:
@@ -88,40 +96,48 @@ class NotifyMethods(metaclass=FactoryRegistry):
             env_variable (str): environment variable name
 
         Returns:
-            str or type_: important information used by apis
+            type_: important information used by apis
         Raises:
-            KeyError: Raises if environment variable not found in name, this will set `self.Error` 
+            KeyError: Raises if environment variable not found in name, this will set `self._error` \
             to that exception so it can be accessed
         """             
-        return val if isinstance(val, type_) else self._environ_dict[env_variable] #TODO Descriptive key error here pls
+        return val if isinstance(val, type_) else self.__environ_dict[env_variable] 
     
     @classmethod
-    def _register(cls, NotifyObject):
-        """Registers each object and creates a pseudo cyclical buffer that holds 5 objects that
-        can be checked when youu grab the registry
+    def _add_buffer(cls, NotifyObject):
+        """Ads each object to a pseudo cyclical buffer that holds 5 objects that
+        can be checked when you grab the buffer
         """ 
-        if isinstance(NotifyObject.error, Exception): 
-            NotifyObject=NotifyObject.error
-        cls._registry.append(NotifyObject)
+        if isinstance(NotifyObject._error, Exception): 
+            NotifyObject=NotifyObject._error
+        cls._buffer.append(NotifyObject)
         
     @classmethod
-    def get_registry(cls):
-        return cls._registry
+    def get_buffer(cls):
+        """buffer holding previous objects
+
+        Returns:
+            deque: holds last 5 objects
+        """
+        return cls._buffer
     
     @classmethod
     def set_mute(cls, mute: bool=False):
-        cls._mute=mute
+        """Mutes the send of messages for the entire class
+
+        Args:
+            mute (bool, optional): whether to enable/disable messages for a period of time. Defaults to False.
+        """        
+        cls._mute = mute if isinstance(mute, bool) else False
     
 
     @classmethod
     def _logger_init_(cls, environ, log: bool=False, buffer: int=65536, logger_path: str=None, *args, **kwargs):
-        """Sets up the class logger, should only need to be run once, although if you init it once 
-        it'll always be active.
-
-        Args:
-            log (bool, optional): [whether to log the files]. Defaults to False.
-            debug (bool, optional): [whether to enable debug mode]. Defaults to False.
-            buffer (int, optional): [size of each log file]. Defaults to 65536 (2**16).
+        """Args:
+            environ ([type]): current environment variables
+            log (bool, optional): Whether to log the files]. Defaults to False.
+            buffer (int, optional): Size of each log file. Defaults to 65536 (2**16).
+            logger_path (str, optional): [description]. Defaults to None.
         """        
         if (environ.get("LOG") or log or logger_path) and cls.logger is None: # Uses existing logger if it existss
             
@@ -150,32 +166,50 @@ class NotifyMethods(metaclass=FactoryRegistry):
             file_handler = logging.handlers.RotatingFileHandler(filename=f"{path}/logs/{logger_name}.log",
                                                                 maxBytes=int(environ.get("FILE_SIZE", buffer)), 
                                                                 backupCount=1)
-            file_handler.setLevel(logging.DEBUG)
+            file_handler.setLevel(logging.WARNING)
             file_handler.setFormatter(logging.Formatter(logger_file_format))
             cls.logger.addHandler(file_handler)
 
             # Dictionary houses all logging methods
-            logger_strings = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
-            logger_levels = range(logging.DEBUG, logging.CRITICAL + 1, 10)
+            logger_strings = ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL", "OFF"]
+            logger_levels = range(logging.DEBUG, logging.CRITICAL + 11, 10)
             logger_funcs = [cls.logger.debug, cls.logger.info, cls.logger.warning, cls.logger.error, cls.logger.critical]
             
             cls.log_method_dict = dict(zip(logger_strings, logger_funcs))
             cls.log_level_dict = dict(zip(logger_strings, logger_levels))
             
         elif not (environ.get("LOG") or log or logger_path) and environ:
-            cls.logger=None
+            cls.logger_off()
             
 
 
     # Logger suite, functions that control logging functinos that run
     @classmethod
-    def set_logger(cls, level: int=logging.DEBUG, level_string: str=""):
+    def set_logger(cls, level: int=None, level_string: str=None):
+        """Determines whether the loggger should pay atention to. The default \
+        level is `Warning` and calling this function will set it to `Debug`.
+
+        Args:
+            level (int, optional): level to set log to level. Mututally exclusive with level_string. 
+            Defaults to logging.DEBUG.
+            level_string (str, optional): str representation to set log level to. 
+            Must be all capitalized letters. Mututally exclusive with level.  
+            Defaults to "DEBUG".
+        """        
         if cls.logger is None:
             NotifyMethods._logger_init_(log=True)
-        cls.logger.setLevel(cls.log_level_dict.get(level_string, level))
+        
+        if level is not None and level_string is not None:
+            raise ValueError("`level` and `level_string` are mutually exclusive variables")
+        else:
+            lvl = max(level if isinstance(level, int) else -1, cls.log_level_dict.get(level_string, -1))
+            lvl = lvl if lvl != -1 else logging.DEBUG
+        cls.logger.setLevel(lvl)
     @classmethod
     def logger_off(cls):
-        cls.logger=None
+        """Turn off logger by setting the logger value so high nothing triggers it
+        """        
+        cls.set_logger(logging.CRITICAL+1)
     @classmethod
     def _format_log(cls, status: str, METHOD: str, message: str, *args, **kwargs):
         ret_messsage = f"[{METHOD=}] Message = {message}"
@@ -197,7 +231,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         pass
     
     @abstractmethod
-    def send_message(self, message: str)->None: 
+    def _send_message(self, message: str)->None: 
         """Interacts with the respective platforms apis, the prior 3 all call this functioon to send the message
         """        
         pass
@@ -213,11 +247,11 @@ class NotifyMethods(metaclass=FactoryRegistry):
         self._send_MSG_base(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], 
                             type_="Error")
     
-    def format_message(self, formatList: list, type_: str="Error"):
-        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname()) + self.addon(type_=type_)
+    def _format_message(self, formatList: list, type_: str="Error"):
+        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname()) + self._addon(type_=type_)
     
 
-    def addon(self, type_: str="Error")->str:
+    def _addon(self, type_: str="Error")->str:
         """Pseudo-abstsract method, sometimess will add emojis and other fun messages
         that are platform specific. Not necessary to implement but you can for personalization!
         """        
@@ -230,29 +264,30 @@ class NotifyMethods(metaclass=FactoryRegistry):
         Args:
             MSG (str): Current MSG to be sent. 
         """ 
-        MSG = self.format_message(*args, **kwargs)
+        MSG = self._format_message(*args, **kwargs)
         if not NotifyMethods._mute:       
-            if self.error:
+            if self._error:
                 NotifyMethods.log(status="ERROR", METHOD=self.__class__.__name__, 
-                                  message=f"Attempted send of invalid credentials error as follows \n" \
-                                          f"[ERROR] {self.error} \n[Message] {MSG}")
+                                  message=f"[ERROR] {self._error} \n[Message] {MSG}")
                 return
             
             try:
-                self.send_message(MSG)
+                self._send_message(MSG)
                 NotifyMethods.log(status="DEBUG", METHOD=self.__class__.__name__, 
                                   message=MSG)
 
             except Exception as ex:
-                self.error=MessageSendError(self, ex)
+                self._error=MessageSendError(self, ex)
                 NotifyMethods.log(status="ERROR", METHOD=self.__class__.__name__, 
-                                  message=f"[Error] {self.error} \n[Message] {MSG}")
+                                  message=f"[Error] {self._error} \n[Message] {MSG}")
         else:
-            NotifyMethods.log(status="DEBUG", METHOD=self.__class__.__name__, 
+            NotifyMethods.log(status="INFO", METHOD=self.__class__.__name__, 
                                   message=f"[Message] {MSG} \n[Muted] True")
                 
                 
 class CredentialError(Exception):
+    """Errrors occuring while setting up the credentials
+    """    
     __slots__=("NotifyObject", "error")
     def __init__(self, NotifyObject: NotifyMethods, error: Exception):
         self.NotifyObject=NotifyObject
@@ -265,6 +300,8 @@ class CredentialError(Exception):
                f"[Fix] Check all credentials are strings and are accurate, check the type hints, and env variables"
         
 class MessageSendError(Exception):
+    """Errors that occur when sending the message and are caught then
+    """    
     __slots__=("NotifyObject", "error")
     def __init__(self, NotifyObject: NotifyMethods, error: Exception):
         self.NotifyObject=NotifyObject

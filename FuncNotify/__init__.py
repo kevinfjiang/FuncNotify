@@ -5,7 +5,7 @@ import importlib
 module_list = glob.glob(join(dirname(__file__), "*Method.py"))
 MODULES = [basename(f)[:-3] for f in module_list if isfile(f)]
 
-def import_all(modules: list):
+def _import_all(modules: list):
     """Imports of a module, similar to `from package import *` but specifically for this package
 
     Args:
@@ -16,10 +16,10 @@ def import_all(modules: list):
             module = importlib.import_module(f'FuncNotify.{mod}') 
             globals().update({k: v for (k, v) in module.__dict__.items() if not k.startswith('_')})
         except Exception as ex:
-            print(f"Unable to import {mod} due to the following error")
-            print(f"[ERROR] Exception: {ex}")
+            print(f"Unable to import {mod} due to the following error\n " \
+                  f"[ERROR] Exception: {ex}")
 
-import_all(MODULES)
+_import_all(MODULES)
 from FuncNotify.NotifyDecorators import *
 
 import pkg_resources  # part of setuptools

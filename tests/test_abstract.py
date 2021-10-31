@@ -44,12 +44,12 @@ class TestAbstract(unittest.TestCase, metaclass=ABCAstractEnableTests):
 
     def _get_last(self, n: int=-1): # Returns last nth character, 
                                     # be careful not to go too big
-        return NotifyMethods.get_registry()[n]
+        return NotifyMethods.get_buffer()[n]
     
     def confirm_method(self, methodName, n: int=-1):
         self.assertEqual(type(self._get_last(n)), methodName)
     def confirm_cred(self, n: int=-1):
-        self.assertEqual(self._get_last(n).error, None)
+        self.assertEqual(self._get_last(n)._error, None)
     
     def wait_test(self, time_=.25, *args, **kwargs):
         time.sleep(time_)

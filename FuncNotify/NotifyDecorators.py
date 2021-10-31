@@ -8,7 +8,7 @@ from .NotifyMethods import *
 NOTIFY_TYPE=None
 ENV_DICT=None
 
-# Main decorator TODO maybe, do i force static typing?
+# Main decorator
 def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, 
               multi_target: list=None, multi_env: list=None, *dec_args, **dec_kwargs): 
     """Decorator for how to handle a notify function. Allows for additional arguments in the decorator
@@ -136,12 +136,12 @@ def get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_
         target_dict (dict, optional): Specific arguments specified for a user. Defaults to None.
 
     Returns:
-        NotifyObj: NotifyObject that allows you to send start, stop and error messages
+        NotifyMethods: NotifyMethods obbject that allows you to send start, stop and error messages
     """
     
     def default_notify(*args, **kwargs): # Sends a warning your notify method didn't match 
         warnings.warn(f"Invalid NotifyMethod type '{Notif}' specified, will use `PrintMethod`, " \
-                      f"select a type within this criteria: {NOTIFY_TYPE.keys()}")
+                      f"select a type within these keys: {[key for key in NOTIFY_TYPE]}.")
         return NOTIFY_TYPE["Print"](*args, **kwargs)
     
     if target_dict is None:

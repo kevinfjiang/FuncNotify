@@ -27,10 +27,10 @@ class PrintTest(TestAbstract):
     #Env testing
     def test_ENV(self):
         time_func(self.wait_test, NotifyMethod="Print", update_env=True, use_env=True)()
-        self.assertTrue(self._get_last(-1)._environ_dict)
+        self.assertTrue(self._get_last(-1).environ_dict)
     def test_DeadENV(self):
         time_func(self.wait_test, NotifyMethod="Print", update_env=True, use_env=False)()
-        self.assertFalse(self._get_last(-1)._environ_dict)
+        self.assertFalse(self._get_last(-1).environ_dict)
         
     #Multi target message sending
     def test_multi_target(self):
@@ -43,8 +43,8 @@ class PrintTest(TestAbstract):
         
     def test_multi_env(self):
         time_func(self.wait_test, NotifyMethod="Print", use_env=False, multi_env=[".env", ""])()
-        self.assertTrue(self._get_last(-2)._environ_dict)
-        self.assertFalse(self._get_last(-1)._environ_dict)
+        self.assertTrue(self._get_last(-2).environ_dict)
+        self.assertFalse(self._get_last(-1).environ_dict)
         self.confirm_method(PrintMethod)
         
     def test_multi_env_target(self):
@@ -54,13 +54,13 @@ class PrintTest(TestAbstract):
                                      multi_target=[kwargs1, kwargs2, kwargs2, kwargs1], 
                                      multi_env=[".env", "", ".env", ""])()
         self.assertTrue(self._get_last(-1).verbose)
-        self.assertFalse(self._get_last(-1)._environ_dict)
+        self.assertFalse(self._get_last(-1).environ_dict)
         self.assertFalse(self._get_last(-2).verbose)
-        self.assertTrue(self._get_last(-2)._environ_dict)
+        self.assertTrue(self._get_last(-2).environ_dict)
         self.assertFalse(self._get_last(-3).verbose)
-        self.assertFalse(self._get_last(-3)._environ_dict)
+        self.assertFalse(self._get_last(-3).environ_dict)
         self.assertTrue(self._get_last(-4).verbose)
-        self.assertTrue(self._get_last(-4)._environ_dict)
+        self.assertTrue(self._get_last(-4).environ_dict)
         
         for i in range(-1, -5, -1):
             self.confirm_method(PrintMethod, n=i)
@@ -83,3 +83,12 @@ class PrintTest(TestAbstract):
         with self.assertNoLogs(NotifyMethods.logger, logging.ERROR):
             NotifyMethods.set_logger(logging.CRITICAL) 
             time_func(self.wait_test, NotifyMethod="Print", verbose="ad;fkafd", use_env=False)
+    
+    def test_mute(self):
+        with self.assertNoLogs(NotifyMethods.logger, logging.INFO):
+            NotifyMethods.set_mute(True) 
+            time_func(self.wait_test, NotifyMethod="Print", verbose=True)()
+        
+        with self.assertLogs(NotifyMethods.logger, logging.DEBUG):
+            NotifyMethods.set_mute(False) 
+            time_func(self.wait_test, NotifyMethod="Print", verbose=True)()

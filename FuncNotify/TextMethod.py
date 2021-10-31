@@ -5,32 +5,41 @@ from .NotifyDecorators import time_func
 from twilio.rest import Client
 
 def time_Text(func=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, cellphone=None, twiliophone: str=None, twilioaccount: str=None, twiliotoken: str=None, *args, **kwargs): # Include something to check the rest of the arguments in the word
-    """Decorator specific for text, if no credentials specified, it wil fill in with .env variables
+    """Decorator for text alerts, using twilio
     
     Args:
     
-        func (function, optional): In case you want to use time_func as a pure decoratr without argumetns, Alert serves as 
-        the function. Defaults to None.
+        func (function, optional): In case you want to use time_func as a pure decoratr without \
+        arguments. Defaults to None.
         use_env (str, optional): Loads .env file envionment variables. Defaults to False
-        env_path (str, optional): path to .env file. Defaults to ".env".
-        update_env (bool, optional): whether to update the .env file to current. Always updatess on 
+        env_path (str, optional): Path to .env file. Defaults to ".env".
+        update_env (bool, optional): Whether to update the .env file to current. Always updates on \
         initialization. Defaults to False.
         
         phone (str, optional): your phonenumber. Defaults to None.
-        twiliophone (str, optional): twilio specific phone number. Defaults to None.
-        twilioaccount (str, optional): twilioo account id. Defaults to None.
-        twiliotoken (str, optional): twilio specific access token, should all be found 
-        in settings tab. Defaults to None.
+            twiliophone (str, optional): twilio specific phone number. Defaults to None.
+            twilioaccount (str, optional): twilioo account id. Defaults to None.
+            twiliotoken (str, optional): twilio specific access token, should all be found \
+            in settings tab. Defaults to None.
         """
     return time_func(func=func, NotifyMethod="Text", use_env=use_env, env_path=env_path, update_env=update_env, cellphone=cellphone, twiliophone=twiliophone, twilioaccount=twilioaccount, twiliotoken=twiliotoken,*args, **kwargs) 
 
 class TextMethod(NotifyMethods):
-    """Sends message via twilio if twilio api is set up for text alerts. If a twilio emplooyee reads this, HELLO!
+    """Sends message via twilio if twilio api is set up for text alerts. 
     """  
     
-    __slots__ = ("_cellphone", "_twilio_number", "_client") # List all instance variables here in string form, saves memory  
+    __slots__ = ("__cellphone", "__twilio_number", "__client") # List all instance variables here in string form, saves memory  
 
     def __init__(self, *args, **kwargs):
+        """Sets credentialls for Twilios
+
+        Args:
+            phone (str, optional): your phonenumber. Defaults to None.
+            twiliophone (str, optional): twilio specific phone number. Defaults to None.
+            twilioaccount (str, optional): twilioo account id. Defaults to None.
+            twiliotoken (str, optional): twilio specific access token, should all be found 
+            in settings tab. Defaults to None.
+        """   
         super().__init__(*args, **kwargs)
         
 
@@ -44,14 +53,14 @@ class TextMethod(NotifyMethods):
             twiliotoken (str, optional): twilio specific access token, should all be found 
             in settings tab. Defaults to None.
         """        
-        self._cellphone = self.type_or_env(phone, "PHONE")
-        self._twilio_number = self.type_or_env(twiliophone, "TWILIOPHONE")
-        self._client = Client(self.type_or_env(twilioaccount, "TWILIOACCOUNT"), self.type_or_env(twiliotoken, "TWILIOTOKEN"))
+        self.__cellphone = self._type_or_env(phone, "PHONE")
+        self.__twilio_number = self._type_or_env(twiliophone, "TWILIOPHONE")
+        self.__client = Client(self._type_or_env(twilioaccount, "TWILIOACCOUNT"), self._type_or_env(twiliotoken, "TWILIOTOKEN"))
 
-    def send_message(self, message):
+    def _send_message(self, message):
         try:
-            self._client.messages.create(to=self._cellphone,
-                                        from_=self._twilio_number,
+            self.__client.messages.create(to=self.__cellphone,
+                                        from_=self.__twilio_number,
                                         body=message)
         except Exception as ex:
             raise ex

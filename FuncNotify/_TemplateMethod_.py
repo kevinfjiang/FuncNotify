@@ -15,7 +15,7 @@ just look at the template.
 The specific notify function will make it easier on end users to see what specific arguments to specify for your function to help it.
 
 NOTE replace anything that is `xNotifyx`
-TODO do a cmd+shift+F2 on `xNotifyx` to the desired method so it auto changes. After you can delete the intro, or change it to explain more
+TODO do a cmd+F2 on `xNotifyx` to the desired method so it auto changes. After you can delete the intro, or change it to explain more
 """
 
 from .NotifyMethods import * # Using the predefined functions from the abstract class
@@ -43,7 +43,8 @@ class xNotifyxMethod(NotifyMethods):
     """TODO Summaraize exactly how xNotifyxMethod will notify the end user and what platform.
     """   
     
-    __slots__ = ("_token") # List all instance variables here in string form, saves memory, optional but highly reccomended, don't forget `_`
+    __slots__ = ("__token") # List all instance variables here in string form, saves memory, 
+                            # optional but highly reccomended, don't forget `__`
 
     def __init__(self, *args, **kwargs):
         """TODO Specify key word arguments in the init as var=xyz and define them as instances
@@ -61,12 +62,12 @@ class xNotifyxMethod(NotifyMethods):
         
         NOTE Try and keep all client errors here, and try and catch as many CredentialErrors
         here by making some api calls here
-        NOTE use `_` to make all private information truly private!!!
+        NOTE use `__` to make all private information sorta private!!!
         
         Args:
             Add your own and document!
         """   
-        self._token = self.type_or_env(token, "TOKEN") # Example use with a random token
+        self.__token = self.type_or_env(token, "TOKEN") # Example use with a random token
         
     def add_on(self, type_: str="Error")->str:
         """TODO Specify an addon to tack on to the end of each message, solely a cosmetic thing
