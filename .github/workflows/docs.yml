@@ -21,6 +21,7 @@ jobs:
         pip install -r requirements.txt
     - name: Build pages
       run: |
+        python setup.py sdist bdist_wheel
         pdoc --html FuncNotify --force
         mv html/FuncNotify docs
         rmdir html
