@@ -19,13 +19,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install pdoc3
         pip install -r requirements.txt
-    - name: Build pages
+    - name: Setup pages
+      run: |
+        pip install wheel; python setup.py sdist bdist_wheel
+        pdoc --html FuncNotify --force
+    - name: Deploy pages
       uses: JamesIves/github-pages-deploy-action@4.1.5
       with:
           branch: gh-pages # The branch the action should deploy to.
           folder: html/FuncNotify #
-      run: |
-        pip install wheel; python setup.py sdist bdist_wheel
-        pdoc --html FuncNotify --force
+        
         
         
