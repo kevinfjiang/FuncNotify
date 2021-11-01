@@ -16,13 +16,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
     - name: Publish to github pages
-      uses: s0/git-publish-subdir-action@develop
-      env:
-        REPO: self
-        BRANCH: gh-pages # The branch name where you want to push the assets
-        FOLDER: . # The directory where your assets are generated
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # GitHub will automatically add this - you don't need to bother getting a token
-        MESSAGE: "Build: ({sha}) New Release Details"
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: gh-pages
+        force: true
     - name: Build and publish to PYPI
       env:
         TWINE_USERNAME: __token__
