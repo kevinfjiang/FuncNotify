@@ -11,8 +11,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        token: ${{ secrets.PAT }}
     - uses: actions/setup-python@v2
     - name: Install dependencies
       run: |
