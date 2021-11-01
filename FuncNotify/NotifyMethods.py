@@ -28,6 +28,7 @@ class FactoryRegistry(ABCMeta):
     def get_cls_registry(cls)->dict:
         """Registers every class created in a dictionary, creating automated
         factory methoods
+        
         Returns:
             dict: Takes a string of type (Class name without method) and returns NotifyObj
         """        
@@ -89,7 +90,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         return not not self.__environ_dict
     
     def _type_or_env(self, val, env_variable: str, type_: type=str)->str:
-        """Checks if inputted value is oof the type `type_`, default to string, otherwise \
+        """Checks if inputted value is of the type `type_`, default to string, otherwise \
         searches environment for that variable. If not found, doesn't notify ussers
 
         Args:
@@ -107,7 +108,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
     
     @classmethod
     def _add_buffer(cls, NotifyObject):
-        """Ads each object to a pseudo cyclical buffer that holds 5 objects that
+        """Adds each object to a pseudo cyclical buffer that holds 5 objects that
         can be checked when you grab the buffer
         """ 
         if isinstance(NotifyObject._error, Exception): 
@@ -216,8 +217,14 @@ class NotifyMethods(metaclass=FactoryRegistry):
     def _format_log(cls, status: str, METHOD: str, message: str, *args, **kwargs):
         ret_messsage = f"[{METHOD=}] Message = {message}"
         return ret_messsage, {'exc_info': status>logging.INFO} 
+    
     @classmethod
     def log(cls, status: str="DEBUG", *args, **kwargs):
+        """Logs the current event, one can pass multiple argugments too
+        
+        Args:
+            status (str, optional): logging level. Defaults to "DEBUG".
+        """        
         if cls.logger:
             log_message, kwdict = cls._format_log(cls.log_level_dict.get(status, logging.ERROR), *args, **kwargs)
             cls.log_method_dict.get(status, 

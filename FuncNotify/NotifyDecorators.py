@@ -16,7 +16,7 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: s
 
     Args:
         func (function, optional): In case you want to use time_func as a decorator without argumetns, 
-        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected 
+        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected \
         from NotifyType. Defaults to None.
         use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
         env_path (str, optional): path to .env file. Input "" for just the current environment. Defaults to ".env".

@@ -1,6 +1,6 @@
 """
-.. include:: ../README.md
-"""
+.. include:: ../README.md 
+""" # For pdoc3
 
 from os.path import dirname, basename, isfile, join
 import glob
@@ -10,7 +10,7 @@ module_list = glob.glob(join(dirname(__file__), "*Method.py"))
 MODULES = [basename(f)[:-3] for f in module_list if isfile(f)]
 
 def _import_all(modules: list):
-    """Imports of a module, similar to `from package import *` but specifically for this package
+    """Dynamic import of a module, similar to `from package import *` but specifically for this package
 
     Args:
         modules (list[str]): A file name in `FuncNotify` directory/package
