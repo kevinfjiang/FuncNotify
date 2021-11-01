@@ -18,7 +18,7 @@ jobs:
     - name: Publish to github pages
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.PAT }}
         branch: gh-pages
         force: true
     - name: Build and publish to PYPI
