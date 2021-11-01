@@ -15,7 +15,7 @@
 from FuncNotify import time_func, time_text, time_slack
 
 
-@time_func(NotifyMethod="Text", use_env=True, env_path".env", update_env=True, cellphone="8001234567")
+@time_func(NotifyMethod="Text", use_env=True, env_path".env", update_env=True, phone="8001234567")
 def wait_func():
     """This function will use the text method and pull env varaibles from
     `.env`, it will update the already determined env variables too!"""
