@@ -38,7 +38,6 @@ setup(
                 'Funcnotify = FuncNotify.__main__:main',
             ]
     },
-    python_require='>=3.0',
     include_package_data=True,
     install_requires=req,
 )
