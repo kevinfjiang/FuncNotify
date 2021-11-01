@@ -11,7 +11,7 @@ class TestYagMail(TestAbstract):
     __test__=False # Exceeded monthly limit, trust me it works
     
     def test_Method(self, *args, **kwargs):
-        time_func(self.wait_test, use_env=True, update_env=True, NotifyMethod="Email", twilio_email=True, *args, **kwargs)(**kwargs)
+        time_func(self.wait_test, use_env=True, update_env=True, NotifyMethod="Email", *args, **kwargs)(**kwargs)
         self.confirm_method(EmailMethod)
         self.confirm_cred()
             

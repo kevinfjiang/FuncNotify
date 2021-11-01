@@ -43,7 +43,7 @@ class EmailMethod(NotifyMethods):
         """     
         super().__init__(*args, **kwargs)
 
-    def _set_credentials(self, use_gmail: bool=False, subject_line: str=None, sender_email: str=None, sender_password: str=None, sendgrid_api: str=None, target_email: str=None, *args, **kwargs)->None:      
+    def _set_credentials(self, use_gmail: bool=True, subject_line: str=None, sender_email: str=None, sender_password: str=None, sendgrid_api: str=None, target_email: str=None, *args, **kwargs)->None:      
         """Uses yagmail to connect to an gmail aresss and to send emails from there
         Highly reccomend not passing in password and also create a separate email for thi istuation
         Highly reccomen creating an appspecific emailers
@@ -62,16 +62,19 @@ class EmailMethod(NotifyMethods):
             subject_line = f"Notifications for { __main__.__file__.split('/')[-1][:-3]}"
 
         if use_gmail:
-            self.__client = yagmail.SMTP(self._type_or_env(sender_email, "SENDER_EMAIL"), 
-                                        self._type_or_env(sender_password, "SENDER_PASSWORD") if self._type_or_env(sender_password, "SENDER_PASSWORD") else None)
+            try:
+                self.__client = yagmail.SMTP(self._type_or_env(sender_email, "SENDER_EMAIL"),
+                                             self._type_or_env(sender_password, "SENDER_PASSWORD"))
+            except KeyError:
+                self.__client = yagmail.SMTP(self._type_or_env(sender_email, "SENDER_EMAIL"))
                 
-            self.__mail   = {"to":      [self._type_or_env(target_email, "TARGET_EMAIL")], 
+            self.__mail   = {"to":     [self._type_or_env(target_email, "TARGET_EMAIL")], 
                             "subject": self._type_or_env(subject_line, "SUBJECT")}
 
             
         else:
             self.__client = SendGridAPIClient(self._type_or_env(sendgrid_api, "SENDGRID_API"))
-            self.__mail = {"from_email":   self._type_or_env(sender_email, "SENDER_EMAIL"), 
+            self.__mail = {"from_email":  self._type_or_env(sender_email, "SENDER_EMAIL"), 
                           "to_emails":    [self._type_or_env(target_email, "TARGET_EMAIL")],
                           "subject":      self._type_or_env(subject_line, "SUBJECT"),}
             
