@@ -25,6 +25,7 @@ jobs:
         PYTHONWARNINGS: error::UserWarning
       run: |
         pdoc --html FuncNotify --force
+        touch .nojekyll
     - name: Deploy pages
       uses: JamesIves/github-pages-deploy-action@4.1.5
       with:
