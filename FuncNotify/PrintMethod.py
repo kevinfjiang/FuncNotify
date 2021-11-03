@@ -1,3 +1,8 @@
+"""Print Messages to console
+Setup:
+    None
+
+"""
 from .NotifyMethods import *
 from .NotifyDecorators import time_func
 

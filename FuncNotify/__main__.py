@@ -1,4 +1,7 @@
 """Call this module `FuncNotify` to be able to time scripts as well as functions
+
+To pass key word arguments, pass --kwargs followed by the arguments
+
 Note compiling function time may be counted, which is why some timings may 
 appear to be innacurate
 """

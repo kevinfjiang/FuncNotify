@@ -1,3 +1,7 @@
+"""Parent class for all of FuncNotify useability
+All NotifyMethods are child of this and use send_start_message, 
+send_end_message, and send_error_message functions
+"""
 import os
 import time
 import traceback

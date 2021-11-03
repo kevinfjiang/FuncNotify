@@ -1,3 +1,19 @@
+"""Send messages with sendgrid API (non-gmail)
+Setup: 
+    1. Sign up for sendgrid here: https://app.sendgrid.com/.
+    2. Go to user settings and grab an API key
+    3. Add a specified sender email an make sure you enable sendgrid to send emails on behalf of that account
+    4. Add to the .env file your details
+
+Send emails with Yagmail
+Setup: 
+    1. Sign up for gmail: https://accounts.google.com/SignUp?hl=en
+    2. Go to user settings and create an app password: https://support.google.com/accounts/answer/185833?hl=en
+    3. Add the password to keyring: https://pypi.org/project/keyring/#what-is-python-keyring-lib
+    4. Add email to the .env, alternatively add your password to the .env (not reccomended)
+    
+
+"""
 from .NotifyMethods import * # Using the predefined functions from the abstract class
 from .NotifyDecorators import time_func
 

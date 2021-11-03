@@ -1,3 +1,10 @@
+"""Sends text messages to users via a purchased number and twilio
+
+Setup:
+    1. Create a twilio accountt and purchase a (free) number. No credit card. Quick guide: https://www.twilio.com/docs/sms/quickstart/python
+        1b. Per account, one has limited notifications.
+    2. Grab the twilio account, API token, twilio phone and your phone to be added to .env
+"""
 from . import NotifyMethods # Using the predefined functions from the abstract class
 from .NotifyDecorators import time_func
 
@@ -17,10 +24,10 @@ def time_Text(func=None, use_env: bool=True, env_path: str=".env", update_env: b
         initialization. Defaults to False.
         
         phone (str, optional): your phonenumber. Defaults to None.
-            twiliophone (str, optional): twilio specific phone number. Defaults to None.
-            twilioaccount (str, optional): twilio account id. Defaults to None.
-            twiliotoken (str, optional): twilio specific access token, should all be found \
-            in settings tab. Defaults to None.
+        twiliophone (str, optional): twilio specific phone number. Defaults to None.
+        twilioaccount (str, optional): twilio account id. Defaults to None.
+        twiliotoken (str, optional): twilio specific access token, should all be found \
+        in settings tab. Defaults to None.
         """
     return time_func(func=func, NotifyMethod="Text", use_env=use_env, env_path=env_path, update_env=update_env, cellphone=cellphone, twiliophone=twiliophone, twilioaccount=twilioaccount, twiliotoken=twiliotoken,*args, **kwargs) 
 

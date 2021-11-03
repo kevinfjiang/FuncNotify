@@ -1,3 +1,11 @@
+"""Sends messages to a given slack server, currently only notifies a user as slack channel support
+not currently supported. 
+
+Setup:
+    1. Create a slackbot and server, enable messaging, emojis, reading usernames, etc.
+        1b. Grab the API token off a created slackbot: https://slack.com/help/articles/115005265703-Create-a-bot-for-your-workspace
+    2. Add user emails, slackbot name, and API token to .env
+"""
 from .NotifyMethods import * # Using the predefined functions from the abstract class
 from .NotifyDecorators import time_func
 

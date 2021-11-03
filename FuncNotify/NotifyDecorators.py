@@ -1,3 +1,7 @@
+"""Main decoratory for FuncNotify with all env variables
+
+To use, use @time_func as a decorator or pass arguments to @time_func(**kwargs)
+"""
 import time
 import warnings
 from collections import deque

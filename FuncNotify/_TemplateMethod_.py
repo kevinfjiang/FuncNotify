@@ -1,3 +1,5 @@
+"""TODO Add documentation here
+"""
 """Template to create a notify class out of that outlines the specific 
 criteria to noitfy someone. 
 
