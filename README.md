@@ -1,7 +1,7 @@
 # **FuncNotify ⏰**
 > **Get notified when your code finishes/crashes with one line of code**
 
-![Build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI?label=CI) ![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD?label=CD) [![DOC](https://github.com/kevinfjiang/FuncNotify/actions/workflows/docs.yml/badge.svg)][(https://github.com/kevinfjiang/FuncNotify/actions/workflows/docs.yml](https://kevinfjiang.github.io/FuncNotify/)) ![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify) ![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases) ![License](https://img.shields.io/github/license/kevinfjiang/FuncNotify.svg)
+![Build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI?label=CI) ![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD?label=CD) [![DOC](https://github.com/kevinfjiang/FuncNotify/actions/workflows/docs.yml/badge.svg)](https://kevinfjiang.github.io/FuncNotify/) ![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify) ![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases) ![License](https://img.shields.io/github/license/kevinfjiang/FuncNotify.svg)
 ![wheel](https://img.shields.io/pypi/wheel/FuncNotify)
 
 **[Documentation](https://kevinfjiang.github.io/FuncNotify/#header-submodules) | [GitHub](https://github.com/kevinfjiang/FuncNotify) | [PyPI](https://pypi.org/project/FuncNotify/)**
