@@ -11,7 +11,7 @@ from .NotifyDecorators import time_func
 import json
 import requests
 
-def time_Teams(func=None, use_env: bool=True, env_path: str=".env", update_env: bool=False,  username: str=None, webhook_url: str=None, *args, **kwargs): # Include something to check the rest of the arguments in the word
+def time_Teams(func=None, use_env: bool=True, env_path: str=".env", update_env: bool=False,  username: str=None, webhook_url: str=None, *args, **kwargs):
     """Decorator for microsoft teams messaging
 
     Args:
@@ -19,13 +19,13 @@ def time_Teams(func=None, use_env: bool=True, env_path: str=".env", update_env: 
         arguments. Defaults to None.
         use_env (str, optional): Loads .env file envionment variables. Defaults to False
         env_path (str, optional): Path to .env file. Defaults to ".env".
-        update_env (bool, optional): Whether to update the .env file to current. Always updates on \ 
+        update_env (bool, optional): Whether to update the .env file to current. Always updates on \
         initialization. Defaults to False.
         
         username (str, optional): Username of the message bot Defaults to None.
         webhook_url (str, optional): Url for the teams channel. Defaults to None.
     """    
-    return time_func(func=func, NotifyMethod="Teams", use_env=use_env, env_path=env_path, update_env=update_env,  username=username, webhook_url=webhook_url,*args, **kwargs) 
+    return time_func(**locals(), NotifyMethod="Teams") 
 
 class TeamsMethod(NotifyMethods):
     """Sends a posted message to the webhook url from the specified username. Uses standard get and post requests.

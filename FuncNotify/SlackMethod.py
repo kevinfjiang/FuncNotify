@@ -28,8 +28,8 @@ def time_Slack(func=None, use_env: bool=True, env_path: str=".env", update_env: 
         token (str, optional): Bot token . Defaults to None.
         email (str, optional): Email of recepient. Defaults to None.
 """
-    return time_func(func=func, NotifyMethod="Slack", use_env=use_env, env_path=env_path, update_env=update_env, username=username, email=email, token=token, *args, **kwargs) 
-
+    return time_func(**locals(), NotifyMethod="Slack") 
+   
 
 class SlackMethod(NotifyMethods):
     """Sends slack notification to slack channel and user email specified

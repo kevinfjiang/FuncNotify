@@ -38,7 +38,7 @@ def time_Email(func=None, use_env: bool=True, env_path: str=".env", update_env: 
         Reccomend using keyring, see yagmail source. Defaults to None
         target_email (str, optional): Target email. Defaults to None.
         """
-    return time_func(func=func, NotifyMethod="Email", use_env=use_env, env_path=env_path, update_env=update_env, twilio_email=twilio_email, subject_line=subject_line, sender_email=sender_email, sender_password=sender_password, target_email=target_email, *args, **kwargs) 
+    return time_func(**locals(), NotifyMethod="Email") 
 
 class EmailMethod(NotifyMethods):
     """Sends emails wih yagmail or sendgrid from twilio

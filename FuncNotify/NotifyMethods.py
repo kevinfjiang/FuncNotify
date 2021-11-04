@@ -64,7 +64,10 @@ class NotifyMethods(metaclass=FactoryRegistry):
                               "Exception Reason: {2}"
                               "Fail Time Stamp: {3}",
                               "Machine Name: {machine}",
-                              "Fail Traceback: {4}"]} 
+                              "Fail Traceback: {4}"],
+                    
+                    "Custom": ["{0}"],
+                    }
     
     def __init__(self, environ: dict=None, mute: bool=False, use_log: bool=False, *args, **kwargs):
         self.__environ_dict = environ if isinstance(environ, dict) else {}
@@ -251,17 +254,23 @@ class NotifyMethods(metaclass=FactoryRegistry):
 
     # Suite of funcitons sends and formats messages for each different method. These guys help format each message for each of the instances
     def send_start_MSG(self, func): 
-        self._send_MSG_base(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime())], 
+        self._send_MSG_base(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime())], machine=socket.gethostname(),
                             type_="Start")
     def send_end_MSG(self, func, diff: float): 
-        self._send_MSG_base(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime()), diff], 
+        self._send_MSG_base(formatList=[func.__name__, time.strftime(DATE_FORMAT, time.localtime()), diff], machine=socket.gethostname(), 
                             type_="End")
     def send_error_MSG(self, func, ex: Exception): 
-        self._send_MSG_base(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], 
+        self._send_MSG_base(formatList=[func.__name__, type(ex), str(ex), time.strftime(DATE_FORMAT, time.localtime()), traceback.format_exc()], machine=socket.gethostname(),
                             type_="Error")
+    def send_custom_MSG(self, MSG: str): 
+        """Send custom messages, kind of an easter egg and will require a bit of custom code ot set up
+        Args:
+            MSG (str): Any valid string
+        """        
+        self._send_MSG_base(formatList=[MSG], type_="Custom")
     
-    def _format_message(self, formatList: list, type_: str="Error"):
-        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, machine=socket.gethostname()) + self._addon(type_=type_)
+    def _format_message(self, formatList: list, type_: str="Error", *args, **kwargs):
+        return '\n'.join(NotifyMethods._messageDict[type_]).format(*formatList, *args, **kwargs) + self._addon(type_=type_)
     
 
     def _addon(self, type_: str="Error")->str:

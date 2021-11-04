@@ -29,7 +29,7 @@ def time_Text(func=None, use_env: bool=True, env_path: str=".env", update_env: b
         twiliotoken (str, optional): twilio specific access token, should all be found \
         in settings tab. Defaults to None.
         """
-    return time_func(func=func, NotifyMethod="Text", use_env=use_env, env_path=env_path, update_env=update_env, cellphone=cellphone, twiliophone=twiliophone, twilioaccount=twilioaccount, twiliotoken=twiliotoken,*args, **kwargs) 
+    return time_func(**locals(), NotifyMethod="Text") 
 
 class TextMethod(NotifyMethods):
     """Sends message via twilio if twilio api is set up for text alerts. 

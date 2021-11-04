@@ -14,7 +14,7 @@ ENV_DICT=None
 
 # Main decorator
 def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, 
-              multi_target: list=None, multi_env: list=None, *dec_args, **dec_kwargs): 
+              multi_target: list=None, multi_env: list=None, message: str=None, *dec_args, **dec_kwargs): 
     """Decorator for how to handle a notify function. Allows for additional arguments in the decorator
     and support for args like emails/api keys. Is able to handle errors.
 
@@ -31,7 +31,7 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: s
         multi_env (list[str], optional): list of strings of paths to `env` files. If you use multi_target and multi_env in
         conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.
 
-        use_log(bool, optional): Whether to log the output, defaults to True
+        message(bool, optional): Used for message notifications
         
 
     Returns:
@@ -47,7 +47,7 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: s
     
     if update_env or ENV_DICT is None or not use_env:
         ENV_DICT={**os.environ, **dotenv_values(env_path)} if use_env else {} 
-        
+    
     if multi_env and multi_target: 
         # NOTE multi_target and multi_env must be corresponding and will only do up shortest of the two lissts
         for target, spec_env_path in zip(multi_target, multi_env):
@@ -56,24 +56,24 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: s
             method_string=target_method if target_method else spec_environ_dict.get("DEFAULTNOTIFY", "NotFound")
             
             notify_obj_list.append(
-                get_notify_obj(method_string,
+                Get_notify_obj(method_string,
                                target_dict=target, environ_dict=spec_environ_dict, 
                                obj_args=dec_args, obj_kwargs=dec_kwargs))
     elif multi_target:
         for target in multi_target: # Rewrite as a function for easier reuse
             notify_obj_list.append(
-                get_notify_obj(Notif=target.get("NotifyMethod", NotifyMethod),
+                Get_notify_obj(Notif=target.get("NotifyMethod", NotifyMethod),
                                target_dict=target, environ_dict=ENV_DICT, 
                                obj_args=dec_args, obj_kwargs=dec_kwargs))
     elif multi_env:
          for spec_env_path in multi_env:
             spec_environ_dict={**ENV_DICT, **dotenv_values(spec_env_path)}
             notify_obj_list.append(
-                get_notify_obj(Notif=NotifyMethod if NotifyMethod else spec_environ_dict.get("DEFAULTNOTIFY", "NotFound"), 
+                Get_notify_obj(Notif=NotifyMethod if NotifyMethod else spec_environ_dict.get("DEFAULTNOTIFY", "NotFound"), 
                                environ_dict=spec_environ_dict, obj_args=dec_args, obj_kwargs=dec_kwargs))
     else:
         notify_obj_list.append(
-            get_notify_obj(Notif=NotifyMethod if NotifyMethod else ENV_DICT.get("DEFAULTNOTIFY", "NotFound"), 
+            Get_notify_obj(Notif=NotifyMethod if NotifyMethod else ENV_DICT.get("DEFAULTNOTIFY", "NotFound"), 
                            environ_dict=ENV_DICT, obj_args=dec_args, obj_kwargs=dec_kwargs))
     
     def time_function(func_inner):
@@ -92,6 +92,10 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: s
             return timer_base(func_inner, notify_obj_list, *func_args, **func_kwargs)
         return timer
 
+    if message is not None:
+        pass
+        
+        
     if callable(func): # Checks time_func was used as a decorator (@time_func vs @time_func(NotifyMethod="Slack"))
         return time_function(func)
 
@@ -129,7 +133,7 @@ def timer_base(func, NotifyObjList: list, *args, **kwargs):
 
     return result
 
-def get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_dict: dict=None):
+def Get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_dict: dict=None):
     """Creates the object and returns it's a function for reusability
 
     Args:
@@ -156,4 +160,30 @@ def get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_
                                                  **target_dict,
                                                  **obj_kwargs)
     
+ 
+def Custom_Message(message: str, NotifyMethod: str=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, 
+              multi_target: list=None, multi_env: list=None, *custom_args, **custom_kwargs): 
+    """Sends custom messages for the multiple targets in .env or specified, utilizes  the same code as time_func to send
+    the custom messages which is nice
 
+    Args:
+        message (str): Message to be send to everybody
+        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected \
+        from NotifyType. Defaults to None.
+        use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
+        env_path (str, optional): path to .env file. Input "" for just the current environment. Defaults to ".env".
+        update_env (bool, optional): whether to update the .env file to current. Always updates on 
+        initialization. Defaults to False.
+        
+        multi_target (list[dict], optional): A list of dictionary of keyword arguments for every new target. Defaults to ".env".
+        multi_env (list[str], optional): list of strings of paths to `env` files. If you use multi_target and multi_env in \
+        conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.
+        
+
+    Returns:
+        function: decorator function for timing
+    """    
+    NotifyObjList=time_func(**locals())
+        
+    deque(map(lambda NotifyObj: NotifyObj.send_custom_MSG(message), NotifyObjList), maxlen=0)
+    

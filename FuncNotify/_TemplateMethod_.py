@@ -39,7 +39,7 @@ def time_xNotifyx(func=None, use_env: bool=True, env_path: str=".env", update_en
         Insert remaining args here
         NOTE add all key word arguments that could be used by the class to enable more accurate mesaging
         [variable] ([type], optional): [Summary]. Defaults to [Default]"""
-    return time_func(func=func, NotifyMethod="xNotifyx", use_env=use_env, env_path=env_path, update_env=update_env, *args, **kwargs) 
+    return time_func(**locals(), NotifyMethod="xNotifyx") 
 
 class xNotifyxMethod(NotifyMethods):
     """TODO Summaraize exactly how xNotifyxMethod will notify the end user and what platform.
