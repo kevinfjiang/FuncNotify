@@ -93,7 +93,7 @@ def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: s
         return timer
 
     if message is not None:
-        pass
+        return notify_obj_list
         
         
     if callable(func): # Checks time_func was used as a decorator (@time_func vs @time_func(NotifyMethod="Slack"))
