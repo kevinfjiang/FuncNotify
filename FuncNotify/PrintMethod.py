@@ -1,12 +1,12 @@
 """Print Messages to console
 Setup:
-    None
+    None necessary
 
 """
-from .NotifyMethods import *
-from .NotifyDecorators import time_func
+import FuncNotify.NotifyMethods as NotifyMethods # Using the predefined functions from the abstract class
+# import FuncNotify.NotifyDecorators as NotifyDecorators // Not used
 
-class PrintMethod(NotifyMethods):
+class PrintMethod(NotifyMethods.NotifyMethods):
     """Default print message, only notification is a print in terminal
     """    
 

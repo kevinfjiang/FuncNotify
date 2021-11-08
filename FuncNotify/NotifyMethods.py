@@ -110,7 +110,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         Raises:
             KeyError: Raises if environment variable not found in name, this will set `self._error` \
             to that exception so it can be accessed
-        """             
+        """           
         return val if isinstance(val, type_) else self.__environ_dict[env_variable] 
     
     @classmethod

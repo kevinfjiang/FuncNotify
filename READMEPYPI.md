@@ -38,6 +38,10 @@ def wait_func4():
     dictionaries of kwargs or multiple .env paths, or both in pairs!"""
     do_something()
 
+custom_message("HELLO WORLD", NotifyMethod="Text", multi_target=[{...}, {...}], multi_env=["1.env", "2.env"])
+"""Custom messaging is here, pass the same arguments in as time_func and you 
+can mass send messages in many methods"""
+
 if __name__ == "__main__":
     """You don't even need to use the timer as a decorator, 
     use it as a normal function This is how we do testing 😊 """

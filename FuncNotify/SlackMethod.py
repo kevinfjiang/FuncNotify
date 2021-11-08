@@ -6,8 +6,8 @@ Setup:
         1b. Grab the API token off a created slackbot: https://slack.com/help/articles/115005265703-Create-a-bot-for-your-workspace
     2. Add user emails, slackbot name, and API token to .env
 """
-from .NotifyMethods import * # Using the predefined functions from the abstract class
-from .NotifyDecorators import time_func
+import FuncNotify.NotifyMethods as NotifyMethods # Using the predefined functions from the abstract class
+import FuncNotify.NotifyDecorators as NotifyDecorators
 
 # Specify here other Packages to be imported specific for [Method].
 from slack import WebClient
@@ -28,10 +28,10 @@ def time_Slack(func=None, use_env: bool=True, env_path: str=".env", update_env: 
         token (str, optional): Bot token . Defaults to None.
         email (str, optional): Email of recepient. Defaults to None.
 """
-    return time_func(**locals(), NotifyMethod="Slack") 
+    return NotifyDecorators.time_func(*args, **kwargs, **locals(), NotifyMethod="Slack") 
    
 
-class SlackMethod(NotifyMethods):
+class SlackMethod(NotifyMethods.NotifyMethods):
     """Sends slack notification to slack channel and user email specified
     """ 
     

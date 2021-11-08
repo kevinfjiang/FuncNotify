@@ -14,8 +14,8 @@ Setup:
     
 
 """
-from .NotifyMethods import * # Using the predefined functions from the abstract class
-from .NotifyDecorators import time_func
+import FuncNotify.NotifyMethods as NotifyMethods # Using the predefined functions from the abstract class
+import FuncNotify.NotifyDecorators as NotifyDecorators
 
 # Specify here other Packages to be imported specific for `Email`. Include why each package is here
 import yagmail
@@ -38,9 +38,9 @@ def time_Email(func=None, use_env: bool=True, env_path: str=".env", update_env: 
         Reccomend using keyring, see yagmail source. Defaults to None
         target_email (str, optional): Target email. Defaults to None.
         """
-    return time_func(**locals(), NotifyMethod="Email") 
+    return NotifyDecorators.time_func(*args, **kwargs, **locals(), NotifyMethod="Email") 
 
-class EmailMethod(NotifyMethods):
+class EmailMethod(NotifyMethods.NotifyMethods):
     """Sends emails wih yagmail or sendgrid from twilio
     """   
     

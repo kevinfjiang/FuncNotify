@@ -4,8 +4,8 @@ Setup
     1. Grab a webhook url for the specific channel: https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook
     2. Add the url and a username to .env
 """
-from .NotifyMethods import * # Using the predefined functions from the abstract class
-from .NotifyDecorators import time_func
+import FuncNotify.NotifyMethods as NotifyMethods # Using the predefined functions from the abstract class
+import FuncNotify.NotifyDecorators as NotifyDecorators
 
 # Specify here other Packages to be imported specific for `Teams`. Include why each package is here
 import json
@@ -25,7 +25,7 @@ def time_Teams(func=None, use_env: bool=True, env_path: str=".env", update_env: 
         username (str, optional): Username of the message bot Defaults to None.
         webhook_url (str, optional): Url for the teams channel. Defaults to None.
     """    
-    return time_func(**locals(), NotifyMethod="Teams") 
+    return NotifyDecorators.time_func(*args, **kwargs, **locals(), NotifyMethod="Teams") 
 
 class TeamsMethod(NotifyMethods):
     """Sends a posted message to the webhook url from the specified username. Uses standard get and post requests.
