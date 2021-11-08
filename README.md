@@ -35,7 +35,7 @@ def wait_func3():
 
 @time_func(multi_target=[{...}, {...}], multi_env=["1.env", "2.env"])
 def wait_func4():
-    """Send to multiple sources either through specifiying multiple dictionaries of kwargs
+    """Send to multiple sources either through specifying multiple dictionaries of kwargs
     or multiple .env paths, or both in pairs!"""
     do_something()
 
@@ -62,7 +62,7 @@ Anything after `--kwargs` with an equal sign will automatically be parsesd as a 
 
 ```$ FuncNotify sleep 5 --kwargs NotifyMethod=Print```
 
-To expand, create a `.env` file and a twilio account according to these [instructions](https://www.twilio.com/docs/sms/quickstart/python) (it's free!). Instead of hard coding variables or exporting them to your env, jusst put them in the twilio alerts section of your `.env`, skp installing twilio as it's already installed. Then try:
+To expand, create a `.env` file and a twilio account according to these [instructions](https://www.twilio.com/docs/sms/quickstart/python) (it's free!). Instead of hard coding variables or exporting them to your env, just put them in the twilio alerts section of your `.env`, skip installing twilio as it's already installed. Then try:
 
 ```$ FuncNotify sleep 5 --kwargs NotifyMethod=Text```
 
