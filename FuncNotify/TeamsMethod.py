@@ -27,7 +27,7 @@ def time_Teams(func=None, use_env: bool=True, env_path: str=".env", update_env: 
     """    
     return NotifyDecorators.time_func(*args, **kwargs, **locals(), NotifyMethod="Teams") 
 
-class TeamsMethod(NotifyMethods):
+class TeamsMethod(NotifyMethods.NotifyMethods):
     """Sends a posted message to the webhook url from the specified username. Uses standard get and post requests.
     """    
     
