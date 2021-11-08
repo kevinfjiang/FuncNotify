@@ -86,7 +86,7 @@ def timer_base(func, NotifyObjList: list, *args, **kwargs):
         deque(map(lambda NotifyObj: NotifyObj.send_end_MSG(func, end-start), NotifyObjList), maxlen=0)
     
     except Exception as ex: 
-        deque(map(lambda NotifyObj: NotifyObj.send_error_MSG(func, ex), NotifyObjList), maxlen=0)
+        deque(map(lambda NotifyObj: NotifyObj.send_error_MSG(func, ex), NotifyObjList), maxlen=0) # noqa: F821 Bizarre bug with flake8, opening an issue
         raise ex
 
     return result
