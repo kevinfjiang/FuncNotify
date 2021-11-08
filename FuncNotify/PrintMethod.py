@@ -1,7 +1,7 @@
-"""Print Messages to console
+"""Print messages to console
+
 Setup:
     None necessary
-
 """
 import FuncNotify.NotifyMethods as NotifyMethods # Using the predefined functions from the abstract class
 # import FuncNotify.NotifyDecorators as NotifyDecorators // Not used

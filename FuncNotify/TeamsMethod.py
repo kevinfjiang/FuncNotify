@@ -1,6 +1,6 @@
 """Sends a message to any teams channel via the requests library
 
-Setup
+Setup:
     1. Grab a webhook url for the specific channel: https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook
     2. Add the url and a username to .env
 """

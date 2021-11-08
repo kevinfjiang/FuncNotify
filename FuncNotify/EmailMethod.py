@@ -1,4 +1,5 @@
 """Send messages with sendgrid API (non-gmail)
+
 Setup: 
     1. Sign up for sendgrid here: https://app.sendgrid.com/.
     2. Go to user settings and grab an API key
@@ -6,6 +7,7 @@ Setup:
     4. Add to the .env file your details
 
 Send emails with Yagmail
+
 Setup: 
     1. Sign up for gmail: https://accounts.google.com/SignUp?hl=en
     2. Go to user settings and create an app password: https://support.google.com/accounts/answer/185833?hl=en
