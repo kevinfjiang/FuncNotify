@@ -15,7 +15,7 @@ from FuncNotify import time_func, time_text, time_slack
 
 @time_func(NotifyMethod="Text", use_env=True, env_path".env", update_env=True, phone="8001234567")
 def wait_func():
-    """This function will use the text method and pull env varaibles from
+    """This function will use the text method and pull env variables from
     `.env`, it will update the already determined env variables too!"""
     do_something()
 
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     time_func(function=wait_func5)(*func5_args, **func5_kwargs)
 ```
 
-All accomplish the same objective of notifying the user after `wait_func()` completes, one does so with the phone number saved as a env variable in `.env` so it never accidentally gets exposed.
+All accomplish the same objective of notifying the user after `wait_func()` completes, one does so with the phone number saved as an env variable in `.env` so it never accidentally gets exposed.
 
 #### **CLI arguments:**
 ```$ FuncNotify [command here] --kwargs NotifyMethod=Text phone=8001234567 ```
@@ -57,14 +57,14 @@ All accomplish the same objective of notifying the user after `wait_func()` comp
 
 ```$ FuncNotify sleep 5 --kwargs NotifyMethod=Text multi_target="[{'NotifyMethod': 'Print', 'verbose': True}, {'phone': '8001234567'}]"```
 
-Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. Wrap lists, dicts, and tuples in `"` so they get read properly. This allows you to time any script.
+Anything after `--kwargs` with an equal sign will automatically be parsed as a key-word argument for FuncNotify. The remainder without `=` will be executed. Wrap lists, dicts, and tuples in `"` so they get read properly. This allows you to time any script.
 
 ### **Demo:**
 ```$ pip install FuncNotify```
 
 ```$ FuncNotify sleep 5 --kwargs NotifyMethod=Print```
 
-To expand, create a `.env` file and a twilio account according to these [instructions](https://www.twilio.com/docs/sms/quickstart/python) (it's free!). Instead of hard coding variables or exporting them to your env, jusst put them in the twilio alerts section of your `.env`, skp installing twilio as it's already installed. Then try:
+To expand, create a `.env` file and a twilio account according to these [instructions](https://www.twilio.com/docs/sms/quickstart/python) (it's free!). Instead of hard coding variables or exporting them to your env, just put them in the twilio alerts section of your `.env`, skip installing twilio as it's already installed. Then try:
 
 ```$ FuncNotify sleep 5 --kwargs NotifyMethod=Text```
 
