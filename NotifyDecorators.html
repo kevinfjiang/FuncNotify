@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>FuncNotify.NotifyDecorators API documentation</title>
+<meta name="description" content="Main decoratory for FuncNotify with all env variables …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>FuncNotify.NotifyDecorators</code></h1>
+</header>
+<section id="section-intro">
+<p>Main decoratory for FuncNotify with all env variables</p>
+<p>To use, use @time_func as a decorator or pass arguments to @time_func(<em>args, </em>*kwargs) as a decorator</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;Main decoratory for FuncNotify with all env variables
+
+To use, use @time_func as a decorator or pass arguments to @time_func(*args, **kwargs) as a decorator
+&#34;&#34;&#34;
+import time
+import os
+import warnings
+from collections import deque
+from dotenv import dotenv_values
+
+import FuncNotify
+from FuncNotify.NotifyMethods import NotifyMethods
+
+ENV_DICT=None
+
+# Main decorator
+def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: str=&#34;.env&#34;, update_env: bool=False, 
+              multi_target: list=None, multi_env: list=None, *args, **kwargs): 
+    &#34;&#34;&#34;Decorator for how to handle a notify function. Allows for additional arguments in the decorator
+    and support for args like emails/api keys. Is able to handle errors.
+
+    Args:
+        func (function, optional): In case you want to use time_func as a decorator without argumetns, 
+        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected \
+        from FuncNotify.NotifyTypes. Defaults to None.
+        use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
+        env_path (str, optional): path to .env file. Input &#34;&#34; for just the current environment. Defaults to &#34;.env&#34;.
+        update_env (bool, optional): whether to update the .env file to current. Always updates on 
+        initialization. Defaults to False.
+        
+        multi_target (list[dict], optional): A list of dictionary of keyword arguments for every new target. Defaults to &#34;.env&#34;.
+        multi_env (list[str], optional): list of strings of paths to `env` files. If you use multi_target and multi_env in
+        conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.
+
+        
+
+    Returns:
+        function: decorator function for timing
+    &#34;&#34;&#34;    
+    NotifyObjList=Notify_Obj_Factory(**locals())
+
+    def time_function(func_inner):
+        &#34;&#34;&#34;Inner wrapped function, used for timing and control, necessary to give the
+        decorator additional arguments that can be passed in
+
+        Args:
+            func_inner (function): passes function and arguments down below to the final timer
+        &#34;&#34;&#34;         
+        def timer(*func_args, **func_kwargs):
+            &#34;&#34;&#34;Takes arguments from main function and passes it down
+
+            Returns:
+                Object: returns func&#39;s output
+            &#34;&#34;&#34;           
+            return timer_base(func_inner, NotifyObjList, *func_args, **func_kwargs)
+        return timer     
+        
+    if callable(func): # Checks time_func was used as a decorator (@time_func vs @time_func(NotifyMethod=&#34;Slack&#34;))
+        return time_function(func)
+
+    return time_function
+
+
+def timer_base(func, NotifyObjList: list, *args, **kwargs): 
+    &#34;&#34;&#34; Timer base, depending on the type of object of NotifyObj, it will notify the 
+    user of the method and time the function. Errors are raised in the same method
+    Leverages a factory that created the object and utilizes the abstract methods
+
+    Args:
+        func (function): Any function
+        NotifyObjList (list[NotifyMethods]): Object from abstract class that indicates how the user is notified
+
+    Raises:
+        ex (Exception): Any Exception can be excepted then raised, this ensures exceptions aren&#39;t 
+        interuptted but the user is notified
+
+    Returns:
+        Object: Returns whatever the function returns
+    &#34;&#34;&#34;    
+    try:
+        deque(map(lambda NotifyObj: NotifyObj.send_start_MSG(func), NotifyObjList), maxlen=0) # sends message on each item in list
+        start = time.time()                                                                   # by iterating through the map
+        
+        result = func(*args, **kwargs)
+        
+        end = time.time()
+        deque(map(lambda NotifyObj: NotifyObj.send_end_MSG(func, end-start), NotifyObjList), maxlen=0)
+    except Exception as ex: 
+        deque(map(lambda NotifyObj: NotifyObj.send_error_MSG(func, ex), NotifyObjList), maxlen=0) # noqa: F821 Bizarre bug with flake8, opening an issue
+        raise ex
+
+    return result
+
+def Notify_Obj_Factory(NotifyMethod: str=None, use_env: bool=True, env_path: str=&#34;.env&#34;, update_env: bool=False, 
+              multi_target: list=None, multi_env: list=None, func=None, message: str=None, args=None, kwargs=None)-&gt; list: 
+    &#34;&#34;&#34;Creates a list of NotifyMethods Objects to be used to send messages
+
+    Args:
+        func (function, optional): In case you want to use time_func as a decorator without argumetns, 
+        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected \
+        from FuncNotify.NotifyTypes. Defaults to None.
+        use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
+        env_path (str, optional): path to .env file. Input &#34;&#34; for just the current environment. Defaults to &#34;.env&#34;.
+        update_env (bool, optional): whether to update the .env file to current. Always updates on 
+        initialization. Defaults to False.
+        
+        multi_target (list[dict], optional): A list of dictionary of keyword arguments for every new target. Defaults to &#34;.env&#34;.
+        multi_env (list[str], optional): list of strings of paths to `env` files. If you use multi_target and multi_env in
+        conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.
+
+        message(bool, optional): Used for message notifications
+        
+
+    Returns:
+        list: List of NotifyMethods Objects to be used to send messages with
+    &#34;&#34;&#34;    
+    
+    notify_obj_list=[]
+    global ENV_DICT
+    
+    if update_env or ENV_DICT is None or not use_env:
+        ENV_DICT={**os.environ, **dotenv_values(env_path)} if use_env else {} 
+    
+    if multi_env and multi_target: 
+        # NOTE multi_target and multi_env must be corresponding and will only do up shortest of the two lissts
+        for target, spec_env_path in zip(multi_target, multi_env):
+            spec_environ_dict={**ENV_DICT, **dotenv_values(spec_env_path)} if spec_env_path else ENV_DICT
+            target_method=target.get(&#34;NotifyMethod&#34;, NotifyMethod)
+            method_string=target_method if target_method else spec_environ_dict.get(&#34;DEFAULTNOTIFY&#34;, &#34;NotFound&#34;)
+            
+            notify_obj_list.append(
+                Get_notify_obj(method_string,
+                               target_dict=target, environ_dict=spec_environ_dict, 
+                               obj_args=args, obj_kwargs=kwargs))
+    elif multi_target:
+        for target in multi_target: # Rewrite as a function for easier reuse
+            notify_obj_list.append(
+                Get_notify_obj(NotifyMethod=target.get(&#34;NotifyMethod&#34;, NotifyMethod),
+                               target_dict=target, environ_dict=ENV_DICT, 
+                               obj_args=args, obj_kwargs=kwargs))
+    elif multi_env:
+         for spec_env_path in multi_env:
+            spec_environ_dict={**ENV_DICT, **dotenv_values(spec_env_path)}
+            notify_obj_list.append(
+                Get_notify_obj(NotifyMethod=NotifyMethod if NotifyMethod else spec_environ_dict.get(&#34;DEFAULTNOTIFY&#34;, &#34;NotFound&#34;), 
+                               environ_dict=spec_environ_dict, obj_args=args, obj_kwargs=kwargs))
+    else:
+        notify_obj_list.append(
+            Get_notify_obj(NotifyMethod=NotifyMethod if NotifyMethod else ENV_DICT.get(&#34;DEFAULTNOTIFY&#34;, &#34;NotFound&#34;), 
+                           environ_dict=ENV_DICT, obj_args=args, obj_kwargs=kwargs))
+    
+    return notify_obj_list
+
+def Get_notify_obj(NotifyMethod: str, environ_dict: dict, obj_args, obj_kwargs, target_dict: dict=None):
+    &#34;&#34;&#34;Creates the object and returns it&#39;s a function for reusability
+
+    Args:
+        NotifyMethod (str): String deciding what the notify type is
+        environ_dict (dict): environment variables dictionary
+        obj_args (tuple): notify object tuple arguments
+        obj_kwargs (dict): notify object dictionary key ward arguments
+        target_dict (dict, optional): Specific arguments specified for a user. Defaults to None.
+
+    Returns:
+        NotifyMethods: NotifyMethods obbject that allows you to send start, stop and error messages
+    &#34;&#34;&#34;
+    def default_notify(*args, **kwargs): # Sends a warning your notify method didn&#39;t match 
+        warnings.warn(f&#34;Invalid NotifyMethod type &#39;{NotifyMethod}&#39; specified, will use `PrintMethod`, &#34; \
+                      f&#34;select a type within these keys: {[key for key in FuncNotify.NotifyTypes]}.&#34;)
+        return FuncNotify.NotifyTypes[&#34;Print&#34;](*args, **kwargs)
+    
+    if target_dict is None:
+        target_dict={}
+
+    return FuncNotify.NotifyTypes.get(NotifyMethod, default_notify)(environ=environ_dict,
+                                                                    *obj_args, 
+                                                                    **target_dict,
+                                                                    **obj_kwargs)
+                
+ 
+def custom_message(message: str, NotifyMethod: str=None, use_env: bool=True, env_path: str=&#34;.env&#34;, update_env: bool=False, 
+                   multi_target: list=None, multi_env: list=None, *args, **kwargs): 
+    &#34;&#34;&#34;Sends custom messages for the multiple targets in .env or specified, utilizes  the same code as time_func to send
+    the custom messages which is nice
+
+    Args:
+        message (str): Message to be send to everybody
+        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected \
+        from NotifyType. Defaults to None.
+        use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
+        env_path (str, optional): path to .env file. Input &#34;&#34; for just the current environment. Defaults to &#34;.env&#34;.
+        update_env (bool, optional): whether to update the .env file to current. Always updates on 
+        initialization. Defaults to False.
+        
+        multi_target (list[dict], optional): A list of dictionary of keyword arguments for every new target. Defaults to &#34;.env&#34;.
+        multi_env (list[str], optional): list of strings of paths to `env` files. If you use multi_target and multi_env in \
+        conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.
+        
+
+    Returns:
+        function: decorator function for timing
+    &#34;&#34;&#34;    
+    NotifyObjList=Notify_Obj_Factory(**locals())
+        
+    deque(map(lambda NotifyObj: NotifyObj.send_custom_MSG(message), NotifyObjList), maxlen=0)
+    </code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="FuncNotify.NotifyDecorators.Get_notify_obj"><code class="name flex">
+<span>def <span class="ident">Get_notify_obj</span></span>(<span>NotifyMethod: str, environ_dict: dict, obj_args, obj_kwargs, target_dict: dict = None)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates the object and returns it's a function for reusability</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>NotifyMethod</code></strong> :&ensp;<code>str</code></dt>
+<dd>String deciding what the notify type is</dd>
+<dt><strong><code>environ_dict</code></strong> :&ensp;<code>dict</code></dt>
+<dd>environment variables dictionary</dd>
+<dt><strong><code>obj_args</code></strong> :&ensp;<code>tuple</code></dt>
+<dd>notify object tuple arguments</dd>
+<dt><strong><code>obj_kwargs</code></strong> :&ensp;<code>dict</code></dt>
+<dd>notify object dictionary key ward arguments</dd>
+<dt><strong><code>target_dict</code></strong> :&ensp;<code>dict</code>, optional</dt>
+<dd>Specific arguments specified for a user. Defaults to None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>NotifyMethods</code></dt>
+<dd>NotifyMethods obbject that allows you to send start, stop and error messages</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Get_notify_obj(NotifyMethod: str, environ_dict: dict, obj_args, obj_kwargs, target_dict: dict=None):
+    &#34;&#34;&#34;Creates the object and returns it&#39;s a function for reusability
+
+    Args:
+        NotifyMethod (str): String deciding what the notify type is
+        environ_dict (dict): environment variables dictionary
+        obj_args (tuple): notify object tuple arguments
+        obj_kwargs (dict): notify object dictionary key ward arguments
+        target_dict (dict, optional): Specific arguments specified for a user. Defaults to None.
+
+    Returns:
+        NotifyMethods: NotifyMethods obbject that allows you to send start, stop and error messages
+    &#34;&#34;&#34;
+    def default_notify(*args, **kwargs): # Sends a warning your notify method didn&#39;t match 
+        warnings.warn(f&#34;Invalid NotifyMethod type &#39;{NotifyMethod}&#39; specified, will use `PrintMethod`, &#34; \
+                      f&#34;select a type within these keys: {[key for key in FuncNotify.NotifyTypes]}.&#34;)
+        return FuncNotify.NotifyTypes[&#34;Print&#34;](*args, **kwargs)
+    
+    if target_dict is None:
+        target_dict={}
+
+    return FuncNotify.NotifyTypes.get(NotifyMethod, default_notify)(environ=environ_dict,
+                                                                    *obj_args, 
+                                                                    **target_dict,
+                                                                    **obj_kwargs)</code></pre>
+</details>
+</dd>
+<dt id="FuncNotify.NotifyDecorators.Notify_Obj_Factory"><code class="name flex">
+<span>def <span class="ident">Notify_Obj_Factory</span></span>(<span>NotifyMethod: str = None, use_env: bool = True, env_path: str = '.env', update_env: bool = False, multi_target: list = None, multi_env: list = None, func=None, message: str = None, args=None, kwargs=None) ‑> list</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Creates a list of NotifyMethods Objects to be used to send messages</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>func</code></strong> :&ensp;<code>function</code>, optional</dt>
+<dd>In case you want to use time_func as a decorator without argumetns, </dd>
+<dt><strong><code>NotifyMethod</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Specifies the type of method used to notify user, selected
+from FuncNotify.NotifyTypes. Defaults to None.</dd>
+<dt><strong><code>use_env</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Whether to load the current env+the env_path. Defaults to True</dd>
+<dt><strong><code>env_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>path to .env file. Input "" for just the current environment. Defaults to ".env".</dd>
+<dt><strong><code>update_env</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>whether to update the .env file to current. Always updates on </dd>
+</dl>
+<p>initialization. Defaults to False.</p>
+<dl>
+<dt><strong><code>multi_target</code></strong> :&ensp;<code>list[dict]</code>, optional</dt>
+<dd>A list of dictionary of keyword arguments for every new target. Defaults to ".env".</dd>
+<dt><strong><code>multi_env</code></strong> :&ensp;<code>list[str]</code>, optional</dt>
+<dd>list of strings of paths to <code>env</code> files. If you use multi_target and multi_env in</dd>
+</dl>
+<p>conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.</p>
+<p>message(bool, optional): Used for message notifications</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list</code></dt>
+<dd>List of NotifyMethods Objects to be used to send messages with</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Notify_Obj_Factory(NotifyMethod: str=None, use_env: bool=True, env_path: str=&#34;.env&#34;, update_env: bool=False, 
+              multi_target: list=None, multi_env: list=None, func=None, message: str=None, args=None, kwargs=None)-&gt; list: 
+    &#34;&#34;&#34;Creates a list of NotifyMethods Objects to be used to send messages
+
+    Args:
+        func (function, optional): In case you want to use time_func as a decorator without argumetns, 
+        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected \
+        from FuncNotify.NotifyTypes. Defaults to None.
+        use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
+        env_path (str, optional): path to .env file. Input &#34;&#34; for just the current environment. Defaults to &#34;.env&#34;.
+        update_env (bool, optional): whether to update the .env file to current. Always updates on 
+        initialization. Defaults to False.
+        
+        multi_target (list[dict], optional): A list of dictionary of keyword arguments for every new target. Defaults to &#34;.env&#34;.
+        multi_env (list[str], optional): list of strings of paths to `env` files. If you use multi_target and multi_env in
+        conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.
+
+        message(bool, optional): Used for message notifications
+        
+
+    Returns:
+        list: List of NotifyMethods Objects to be used to send messages with
+    &#34;&#34;&#34;    
+    
+    notify_obj_list=[]
+    global ENV_DICT
+    
+    if update_env or ENV_DICT is None or not use_env:
+        ENV_DICT={**os.environ, **dotenv_values(env_path)} if use_env else {} 
+    
+    if multi_env and multi_target: 
+        # NOTE multi_target and multi_env must be corresponding and will only do up shortest of the two lissts
+        for target, spec_env_path in zip(multi_target, multi_env):
+            spec_environ_dict={**ENV_DICT, **dotenv_values(spec_env_path)} if spec_env_path else ENV_DICT
+            target_method=target.get(&#34;NotifyMethod&#34;, NotifyMethod)
+            method_string=target_method if target_method else spec_environ_dict.get(&#34;DEFAULTNOTIFY&#34;, &#34;NotFound&#34;)
+            
+            notify_obj_list.append(
+                Get_notify_obj(method_string,
+                               target_dict=target, environ_dict=spec_environ_dict, 
+                               obj_args=args, obj_kwargs=kwargs))
+    elif multi_target:
+        for target in multi_target: # Rewrite as a function for easier reuse
+            notify_obj_list.append(
+                Get_notify_obj(NotifyMethod=target.get(&#34;NotifyMethod&#34;, NotifyMethod),
+                               target_dict=target, environ_dict=ENV_DICT, 
+                               obj_args=args, obj_kwargs=kwargs))
+    elif multi_env:
+         for spec_env_path in multi_env:
+            spec_environ_dict={**ENV_DICT, **dotenv_values(spec_env_path)}
+            notify_obj_list.append(
+                Get_notify_obj(NotifyMethod=NotifyMethod if NotifyMethod else spec_environ_dict.get(&#34;DEFAULTNOTIFY&#34;, &#34;NotFound&#34;), 
+                               environ_dict=spec_environ_dict, obj_args=args, obj_kwargs=kwargs))
+    else:
+        notify_obj_list.append(
+            Get_notify_obj(NotifyMethod=NotifyMethod if NotifyMethod else ENV_DICT.get(&#34;DEFAULTNOTIFY&#34;, &#34;NotFound&#34;), 
+                           environ_dict=ENV_DICT, obj_args=args, obj_kwargs=kwargs))
+    
+    return notify_obj_list</code></pre>
+</details>
+</dd>
+<dt id="FuncNotify.NotifyDecorators.custom_message"><code class="name flex">
+<span>def <span class="ident">custom_message</span></span>(<span>message: str, NotifyMethod: str = None, use_env: bool = True, env_path: str = '.env', update_env: bool = False, multi_target: list = None, multi_env: list = None, *args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Sends custom messages for the multiple targets in .env or specified, utilizes
+the same code as time_func to send
+the custom messages which is nice</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>message</code></strong> :&ensp;<code>str</code></dt>
+<dd>Message to be send to everybody</dd>
+<dt><strong><code>NotifyMethod</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Specifies the type of method used to notify user, selected
+from NotifyType. Defaults to None.</dd>
+<dt><strong><code>use_env</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Whether to load the current env+the env_path. Defaults to True</dd>
+<dt><strong><code>env_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>path to .env file. Input "" for just the current environment. Defaults to ".env".</dd>
+<dt><strong><code>update_env</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>whether to update the .env file to current. Always updates on </dd>
+</dl>
+<p>initialization. Defaults to False.</p>
+<dl>
+<dt><strong><code>multi_target</code></strong> :&ensp;<code>list[dict]</code>, optional</dt>
+<dd>A list of dictionary of keyword arguments for every new target. Defaults to ".env".</dd>
+<dt><strong><code>multi_env</code></strong> :&ensp;<code>list[str]</code>, optional</dt>
+<dd>list of strings of paths to <code>env</code> files. If you use multi_target and multi_env in
+conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>function</code></dt>
+<dd>decorator function for timing</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def custom_message(message: str, NotifyMethod: str=None, use_env: bool=True, env_path: str=&#34;.env&#34;, update_env: bool=False, 
+                   multi_target: list=None, multi_env: list=None, *args, **kwargs): 
+    &#34;&#34;&#34;Sends custom messages for the multiple targets in .env or specified, utilizes  the same code as time_func to send
+    the custom messages which is nice
+
+    Args:
+        message (str): Message to be send to everybody
+        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected \
+        from NotifyType. Defaults to None.
+        use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
+        env_path (str, optional): path to .env file. Input &#34;&#34; for just the current environment. Defaults to &#34;.env&#34;.
+        update_env (bool, optional): whether to update the .env file to current. Always updates on 
+        initialization. Defaults to False.
+        
+        multi_target (list[dict], optional): A list of dictionary of keyword arguments for every new target. Defaults to &#34;.env&#34;.
+        multi_env (list[str], optional): list of strings of paths to `env` files. If you use multi_target and multi_env in \
+        conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.
+        
+
+    Returns:
+        function: decorator function for timing
+    &#34;&#34;&#34;    
+    NotifyObjList=Notify_Obj_Factory(**locals())
+        
+    deque(map(lambda NotifyObj: NotifyObj.send_custom_MSG(message), NotifyObjList), maxlen=0)</code></pre>
+</details>
+</dd>
+<dt id="FuncNotify.NotifyDecorators.time_func"><code class="name flex">
+<span>def <span class="ident">time_func</span></span>(<span>func=None, NotifyMethod: str = None, use_env: bool = True, env_path: str = '.env', update_env: bool = False, multi_target: list = None, multi_env: list = None, *args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Decorator for how to handle a notify function. Allows for additional arguments in the decorator
+and support for args like emails/api keys. Is able to handle errors.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>func</code></strong> :&ensp;<code>function</code>, optional</dt>
+<dd>In case you want to use time_func as a decorator without argumetns, </dd>
+<dt><strong><code>NotifyMethod</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Specifies the type of method used to notify user, selected
+from FuncNotify.NotifyTypes. Defaults to None.</dd>
+<dt><strong><code>use_env</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>Whether to load the current env+the env_path. Defaults to True</dd>
+<dt><strong><code>env_path</code></strong> :&ensp;<code>str</code>, optional</dt>
+<dd>path to .env file. Input "" for just the current environment. Defaults to ".env".</dd>
+<dt><strong><code>update_env</code></strong> :&ensp;<code>bool</code>, optional</dt>
+<dd>whether to update the .env file to current. Always updates on </dd>
+</dl>
+<p>initialization. Defaults to False.</p>
+<dl>
+<dt><strong><code>multi_target</code></strong> :&ensp;<code>list[dict]</code>, optional</dt>
+<dd>A list of dictionary of keyword arguments for every new target. Defaults to ".env".</dd>
+<dt><strong><code>multi_env</code></strong> :&ensp;<code>list[str]</code>, optional</dt>
+<dd>list of strings of paths to <code>env</code> files. If you use multi_target and multi_env in</dd>
+</dl>
+<p>conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>function</code></dt>
+<dd>decorator function for timing</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def time_func(func=None, NotifyMethod: str=None, use_env: bool=True, env_path: str=&#34;.env&#34;, update_env: bool=False, 
+              multi_target: list=None, multi_env: list=None, *args, **kwargs): 
+    &#34;&#34;&#34;Decorator for how to handle a notify function. Allows for additional arguments in the decorator
+    and support for args like emails/api keys. Is able to handle errors.
+
+    Args:
+        func (function, optional): In case you want to use time_func as a decorator without argumetns, 
+        NotifyMethod (str, optional): Specifies the type of method used to notify user, selected \
+        from FuncNotify.NotifyTypes. Defaults to None.
+        use_env (str, optional): Whether to load the current env+the env_path. Defaults to True
+        env_path (str, optional): path to .env file. Input &#34;&#34; for just the current environment. Defaults to &#34;.env&#34;.
+        update_env (bool, optional): whether to update the .env file to current. Always updates on 
+        initialization. Defaults to False.
+        
+        multi_target (list[dict], optional): A list of dictionary of keyword arguments for every new target. Defaults to &#34;.env&#34;.
+        multi_env (list[str], optional): list of strings of paths to `env` files. If you use multi_target and multi_env in
+        conjunction you can create a correspondence of new targets with specific .env files to notify. Defaults ot None.
+
+        
+
+    Returns:
+        function: decorator function for timing
+    &#34;&#34;&#34;    
+    NotifyObjList=Notify_Obj_Factory(**locals())
+
+    def time_function(func_inner):
+        &#34;&#34;&#34;Inner wrapped function, used for timing and control, necessary to give the
+        decorator additional arguments that can be passed in
+
+        Args:
+            func_inner (function): passes function and arguments down below to the final timer
+        &#34;&#34;&#34;         
+        def timer(*func_args, **func_kwargs):
+            &#34;&#34;&#34;Takes arguments from main function and passes it down
+
+            Returns:
+                Object: returns func&#39;s output
+            &#34;&#34;&#34;           
+            return timer_base(func_inner, NotifyObjList, *func_args, **func_kwargs)
+        return timer     
+        
+    if callable(func): # Checks time_func was used as a decorator (@time_func vs @time_func(NotifyMethod=&#34;Slack&#34;))
+        return time_function(func)
+
+    return time_function</code></pre>
+</details>
+</dd>
+<dt id="FuncNotify.NotifyDecorators.timer_base"><code class="name flex">
+<span>def <span class="ident">timer_base</span></span>(<span>func, NotifyObjList: list, *args, **kwargs)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Timer base, depending on the type of object of NotifyObj, it will notify the
+user of the method and time the function. Errors are raised in the same method
+Leverages a factory that created the object and utilizes the abstract methods</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>func</code></strong> :&ensp;<code>function</code></dt>
+<dd>Any function</dd>
+<dt><strong><code>NotifyObjList</code></strong> :&ensp;<code>list[NotifyMethods]</code></dt>
+<dd>Object from abstract class that indicates how the user is notified</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<p>ex (Exception): Any Exception can be excepted then raised, this ensures exceptions aren't
+interuptted but the user is notified</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>Object</code></dt>
+<dd>Returns whatever the function returns</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def timer_base(func, NotifyObjList: list, *args, **kwargs): 
+    &#34;&#34;&#34; Timer base, depending on the type of object of NotifyObj, it will notify the 
+    user of the method and time the function. Errors are raised in the same method
+    Leverages a factory that created the object and utilizes the abstract methods
+
+    Args:
+        func (function): Any function
+        NotifyObjList (list[NotifyMethods]): Object from abstract class that indicates how the user is notified
+
+    Raises:
+        ex (Exception): Any Exception can be excepted then raised, this ensures exceptions aren&#39;t 
+        interuptted but the user is notified
+
+    Returns:
+        Object: Returns whatever the function returns
+    &#34;&#34;&#34;    
+    try:
+        deque(map(lambda NotifyObj: NotifyObj.send_start_MSG(func), NotifyObjList), maxlen=0) # sends message on each item in list
+        start = time.time()                                                                   # by iterating through the map
+        
+        result = func(*args, **kwargs)
+        
+        end = time.time()
+        deque(map(lambda NotifyObj: NotifyObj.send_end_MSG(func, end-start), NotifyObjList), maxlen=0)
+    except Exception as ex: 
+        deque(map(lambda NotifyObj: NotifyObj.send_error_MSG(func, ex), NotifyObjList), maxlen=0) # noqa: F821 Bizarre bug with flake8, opening an issue
+        raise ex
+
+    return result</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="FuncNotify" href="index.html">FuncNotify</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="FuncNotify.NotifyDecorators.Get_notify_obj" href="#FuncNotify.NotifyDecorators.Get_notify_obj">Get_notify_obj</a></code></li>
+<li><code><a title="FuncNotify.NotifyDecorators.Notify_Obj_Factory" href="#FuncNotify.NotifyDecorators.Notify_Obj_Factory">Notify_Obj_Factory</a></code></li>
+<li><code><a title="FuncNotify.NotifyDecorators.custom_message" href="#FuncNotify.NotifyDecorators.custom_message">custom_message</a></code></li>
+<li><code><a title="FuncNotify.NotifyDecorators.time_func" href="#FuncNotify.NotifyDecorators.time_func">time_func</a></code></li>
+<li><code><a title="FuncNotify.NotifyDecorators.timer_base" href="#FuncNotify.NotifyDecorators.timer_base">timer_base</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
