@@ -164,7 +164,6 @@ def Get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_
     Returns:
         NotifyMethods: NotifyMethods obbject that allows you to send start, stop and error messages
     """
-    print(obj_kwargs)
     def default_notify(*args, **kwargs): # Sends a warning your notify method didn't match 
         warnings.warn(f"Invalid NotifyMethod type '{Notif}' specified, will use `PrintMethod`, " \
                       f"select a type within these keys: {[key for key in FuncNotify.NotifyTypes]}.")
