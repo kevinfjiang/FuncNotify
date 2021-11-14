@@ -9,6 +9,7 @@ from collections import deque
 from dotenv import dotenv_values
 
 import FuncNotify
+from FuncNotify.NotifyMethods import NotifyMethods
 
 ENV_DICT=None
 
@@ -84,7 +85,6 @@ def timer_base(func, NotifyObjList: list, *args, **kwargs):
         
         end = time.time()
         deque(map(lambda NotifyObj: NotifyObj.send_end_MSG(func, end-start), NotifyObjList), maxlen=0)
-    
     except Exception as ex: 
         deque(map(lambda NotifyObj: NotifyObj.send_error_MSG(func, ex), NotifyObjList), maxlen=0) # noqa: F821 Bizarre bug with flake8, opening an issue
         raise ex
@@ -92,7 +92,7 @@ def timer_base(func, NotifyObjList: list, *args, **kwargs):
     return result
 
 def Notify_Obj_Factory(NotifyMethod: str=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, 
-              multi_target: list=None, multi_env: list=None, func=None, message: str=None, verbose=None, args=None, kwargs=None)-> list: 
+              multi_target: list=None, multi_env: list=None, func=None, message: str=None, args=None, kwargs=None)-> list: 
     """Creates a list of NotifyMethods Objects to be used to send messages
 
     Args:
@@ -135,27 +135,27 @@ def Notify_Obj_Factory(NotifyMethod: str=None, use_env: bool=True, env_path: str
     elif multi_target:
         for target in multi_target: # Rewrite as a function for easier reuse
             notify_obj_list.append(
-                Get_notify_obj(Notif=target.get("NotifyMethod", NotifyMethod),
+                Get_notify_obj(NotifyMethod=target.get("NotifyMethod", NotifyMethod),
                                target_dict=target, environ_dict=ENV_DICT, 
                                obj_args=args, obj_kwargs=kwargs))
     elif multi_env:
          for spec_env_path in multi_env:
             spec_environ_dict={**ENV_DICT, **dotenv_values(spec_env_path)}
             notify_obj_list.append(
-                Get_notify_obj(Notif=NotifyMethod if NotifyMethod else spec_environ_dict.get("DEFAULTNOTIFY", "NotFound"), 
+                Get_notify_obj(NotifyMethod=NotifyMethod if NotifyMethod else spec_environ_dict.get("DEFAULTNOTIFY", "NotFound"), 
                                environ_dict=spec_environ_dict, obj_args=args, obj_kwargs=kwargs))
     else:
         notify_obj_list.append(
-            Get_notify_obj(Notif=NotifyMethod if NotifyMethod else ENV_DICT.get("DEFAULTNOTIFY", "NotFound"), 
+            Get_notify_obj(NotifyMethod=NotifyMethod if NotifyMethod else ENV_DICT.get("DEFAULTNOTIFY", "NotFound"), 
                            environ_dict=ENV_DICT, obj_args=args, obj_kwargs=kwargs))
     
     return notify_obj_list
 
-def Get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_dict: dict=None):
+def Get_notify_obj(NotifyMethod: str, environ_dict: dict, obj_args, obj_kwargs, target_dict: dict=None):
     """Creates the object and returns it's a function for reusability
 
     Args:
-        Notif (str): String deciding what the notify type is
+        NotifyMethod (str): String deciding what the notify type is
         environ_dict (dict): environment variables dictionary
         obj_args (tuple): notify object tuple arguments
         obj_kwargs (dict): notify object dictionary key ward arguments
@@ -165,17 +165,17 @@ def Get_notify_obj(Notif: str, environ_dict: dict, obj_args, obj_kwargs, target_
         NotifyMethods: NotifyMethods obbject that allows you to send start, stop and error messages
     """
     def default_notify(*args, **kwargs): # Sends a warning your notify method didn't match 
-        warnings.warn(f"Invalid NotifyMethod type '{Notif}' specified, will use `PrintMethod`, " \
+        warnings.warn(f"Invalid NotifyMethod type '{NotifyMethod}' specified, will use `PrintMethod`, " \
                       f"select a type within these keys: {[key for key in FuncNotify.NotifyTypes]}.")
         return FuncNotify.NotifyTypes["Print"](*args, **kwargs)
     
     if target_dict is None:
         target_dict={}
-        
-    return FuncNotify.NotifyTypes.get(Notif, default_notify)(environ=environ_dict,
-                                                            *obj_args, 
-                                                            **target_dict,
-                                                            **obj_kwargs)
+
+    return FuncNotify.NotifyTypes.get(NotifyMethod, default_notify)(environ=environ_dict,
+                                                                    *obj_args, 
+                                                                    **target_dict,
+                                                                    **obj_kwargs)
                 
  
 def custom_message(message: str, NotifyMethod: str=None, use_env: bool=True, env_path: str=".env", update_env: bool=False, 

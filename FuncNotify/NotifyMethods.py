@@ -74,8 +74,8 @@ class NotifyMethods(metaclass=FactoryRegistry):
         NotifyMethods.set_mute(mute)
         
         try:  
-            NotifyMethods._logger_init_(self.__environ_dict, log=use_log, *args, **kwargs) # Note logger only logs errors in sending  
-                                                                                         # the messages, not in the function itself
+            NotifyMethods.logger_init(self.__environ_dict, self.__environ_dict, use_log, *args, **kwargs) 
+            # Why do I have to declare the __environ_dict twice? I have no idea TODO someone smarter help
             self._set_credentials(*args, **kwargs)
             self._error=None # Always default to notify user
 
@@ -142,13 +142,15 @@ class NotifyMethods(metaclass=FactoryRegistry):
     
 
     @classmethod
-    def _logger_init_(cls, environ, log: bool=False, buffer: int=65536, logger_path: str=None, *args, **kwargs):
-        """Args:
-            environ ([type]): current environment variables
+    def logger_init(cls, environ: dict, log: bool=False, buffer: int=65536, logger_path: str=None, *args, **kwargs):
+        """Initializes a logger to tract messages sent and errors (not errors outside of FuncNotify) that arise from sending the message.
+        
+        Args:
+            environ (dict): current environment variables
             log (bool, optional): Whether to log the files]. Defaults to False.
             buffer (int, optional): Size of each log file. Defaults to 65536 (2**16).
-            logger_path (str, optional): [description]. Defaults to None.
-        """        
+            logger_path (str, optional): path to logger. Defaults to None.
+        """      
         if (environ.get("LOG") or log or logger_path) and cls.logger is None: # Uses existing logger if it existss
             
             if logger_path:
@@ -207,7 +209,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
             Defaults to "DEBUG".
         """        
         if cls.logger is None:
-            NotifyMethods._logger_init_(log=True)
+            NotifyMethods.logger_init(log=True)
         
         if level is not None and level_string is not None:
             raise ValueError("`level` and `level_string` are mutually exclusive variables")
@@ -284,9 +286,10 @@ class NotifyMethods(metaclass=FactoryRegistry):
         an error will be logged if the initial credentials aren't valid
 
         Args:
-            MSG (str): Current MSG to be sent. 
+            MSG (str): Current MSG to be sent.  
         """ 
         MSG = self._format_message(*args, **kwargs)
+        
         if not NotifyMethods._mute:       
             if self._error:
                 NotifyMethods.log(status="ERROR", METHOD=self.__class__.__name__, 

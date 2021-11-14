@@ -137,7 +137,7 @@ def main():
     args, remaining_args = parser.parse_known_args()
     kwargs = {**args.kwargs} if args.kwargs else {}
     
-    # Runs sthe remaining_args as if they were ran in the terminal
+    # Runs the remaining_args as if they were ran in the terminal
     def sub_run(): return subprocess.run(remaining_args, check=True)     
         
     sub_run.__name__ = " ".join(remaining_args) # Setting changing name for clarity
