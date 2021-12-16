@@ -79,12 +79,12 @@ def timer_base(func, NotifyObjList: list, *args, **kwargs):
     """    
     try:
         deque(map(lambda NotifyObj: NotifyObj.send_start_MSG(func), NotifyObjList), maxlen=0) # sends message on each item in list
-        start = time.time()                                                                   # by iterating through the map
+        start = time.perf_counter()                                                                   # by iterating through the map
         
         result = func(*args, **kwargs)
         
-        end = time.time()
-        deque(map(lambda NotifyObj: NotifyObj.send_end_MSG(func, end-start), NotifyObjList), maxlen=0)
+        diff = time.perf_counter()-start
+        deque(map(lambda NotifyObj: NotifyObj.send_end_MSG(func, diff), NotifyObjList), maxlen=0)
     except Exception as ex: 
         deque(map(lambda NotifyObj: NotifyObj.send_error_MSG(func, ex), NotifyObjList), maxlen=0) # noqa: F821 Bizarre bug with flake8, opening an issue
         raise ex
