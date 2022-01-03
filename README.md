@@ -49,11 +49,14 @@ if __name__ == "__main__":
     time_func(function=wait_func5)(*func5_args, **func5_kwargs)
 ```
 #### **CLI arguments:**
-```$ FuncNotify [command here] --kwargs NotifyMethod=Text phone=8001234567 ```
+```$ FuncNotify [command here] --kwargs NotifyMethod=Text phone=8001234567 
+```
 
-```$ FuncNotify go run main.go --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env ```
+```$ FuncNotify go run main.go --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env 
+```
 
-```$ FuncNotify sleep 5 --kwargs NotifyMethod=Text multi_target="[{'NotifyMethod': 'Print', 'verbose': True}, {'phone': '8001234567'}]"```
+```$ FuncNotify sleep 5 --kwargs NotifyMethod=Text multi_target="[{'NotifyMethod': 'Print', 'verbose': True}, {'phone': '8001234567'}]"
+```
 
 Anything after `--kwargs` with an equal sign will automatically be parsesd as a key word argument for FuncNotify. The remainder without `=` will be executed. Wrap lists, dicts, and tuples in `"` so they get read properly. This allows you to time any script.
 
