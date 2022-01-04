@@ -81,13 +81,13 @@ Click above for instructions on how to contribute
 
 ### Supported Methods:
 |               Platform                |
-| :-----------------------------------: |
-|            Console Print              |
-|            [Email Twilio](https://docs.sendgrid.com/for-developers/sending-email/v3-python-code-example)           |
-|            [Email Yagmail](https://github.com/kootenpv/yagmai)|
-|        [Text](https://www.twilio.com/docs/sms/send-messages)                          |
-|        [Slack](https://api.slack.com/messaging/sending)                                |
-|        [Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook)            |
+| :-----: |
+| Console Print|
+|[Email Twilio](https://docs.sendgrid.com/for-developers/sending-email/v3-python-code-example)|
+|[Email Yagmail](https://github.com/kootenpv/yagmai)|
+|[Text](https://www.twilio.com/docs/sms/send-messages|
+|[Slack](https://api.slack.com/messaging/sending)|
+|[Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook)|
 
 
 ### Create following .env in CWD
