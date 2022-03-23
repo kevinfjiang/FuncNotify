@@ -5,3 +5,6 @@ any new NotifyMethods notify Kevin.
 """
 from tests.test_abstract import *
 from FuncNotify import *
+import pytest
+import sys
+version_skip = pytest.mark.skipif(sys.version_info < (3, 10), reason="Nologs requires python3.10 or higher") 

@@ -9,7 +9,7 @@ class ABCAstractEnableTests(ABCMeta):
     def __new__(cls, clsname, bases, attrs):
         """You must disable __test__ for TestGeneric because it's abstract, 
         this is the way I've choosen to do it with minimal headache for test writers.
-        """        
+        """       
         newclass = super(ABCAstractEnableTests, cls).__new__(cls, clsname, bases, attrs)
         newclass.__test__ = (not inspect.isabstract(newclass)) and newclass.__dict__.get("__test__", True)
         # Necessary for allowing __test__ to still disable tests, and preventing abstract

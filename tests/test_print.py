@@ -43,16 +43,16 @@ class PrintTest(TestAbstract):
         
     def test_multi_env(self):
         time_func(self.wait_test, NotifyMethod="Print", use_env=False, multi_env=[".env", ""])()
+        print(self._get_last(-2).environ_dict)
         self.assertTrue(self._get_last(-2).environ_dict)
         self.assertFalse(self._get_last(-1).environ_dict)
         self.confirm_method(PrintMethod)
-        
+
     def test_multi_env_target(self):
         kwargs1 = {'NotifyMethod': "Print", 'use_env': True, 'verbose': True}
         kwargs2 = {'NotifyMethod': "Print", 'use_env': True, 'verbose': False}
-        time_func(self.wait_test, 
-                                     multi_target=[kwargs1, kwargs2, kwargs2, kwargs1], 
-                                     multi_env=[".env", "", ".env", ""])()
+        time_func(self.wait_test, multi_target=[kwargs1, kwargs2, kwargs2, kwargs1], 
+                                  multi_env=[".env", "", ".env", ""])()
         self.assertTrue(self._get_last(-1).verbose)
         self.assertFalse(self._get_last(-1).environ_dict)
         self.assertFalse(self._get_last(-2).verbose)
@@ -73,7 +73,8 @@ class PrintTest(TestAbstract):
             
         self.confirm_method(PrintMethod)
         self.confirm_cred()
-        
+    
+    @version_skip  
     def test_logger(self):
         import __main__
         self.assertEqual(NotifyMethods.logger.name, __main__.__file__.split('/')[-1].split('.')[0])
@@ -84,6 +85,7 @@ class PrintTest(TestAbstract):
             NotifyMethods.set_logger(logging.CRITICAL) 
             time_func(self.wait_test, NotifyMethod="Print", verbose="ad;fkafd", use_env=False)
     
+    @version_skip 
     def test_mute(self):
         with self.assertNoLogs(NotifyMethods.logger, logging.INFO):
             NotifyMethods.set_mute(True) 
@@ -92,3 +94,5 @@ class PrintTest(TestAbstract):
         with self.assertLogs(NotifyMethods.logger, logging.DEBUG):
             NotifyMethods.set_mute(False) 
             time_func(self.wait_test, NotifyMethod="Print", verbose=True)()
+            
+            

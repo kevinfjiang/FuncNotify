@@ -6,7 +6,7 @@ Setup:
     2. Grab the twilio account, API token, twilio phone and your phone to be added to .env
 """
 import FuncNotify.NotifyMethods as NotifyMethods # Using the predefined functions from the abstract class
-import FuncNotify.NotifyDecorators as NotifyDecorators
+import FuncNotify.api as api
 
 # Specify here other Packages to be imported specific for Text Alerts.
 from twilio.rest import Client
@@ -29,7 +29,7 @@ def time_Text(func=None, use_env: bool=True, env_path: str=".env", update_env: b
         twiliotoken (str, optional): twilio specific access token, should all be found \
         in settings tab. Defaults to None.
         """
-    return NotifyDecorators.time_func(*args, **kwargs, **locals(), NotifyMethod="Text") 
+    return api.time_func(*args, **kwargs, **locals(), NotifyMethod="Text") 
 
 class TextMethod(NotifyMethods.NotifyMethods):
     """Sends message via twilio if twilio api is set up for text alerts. 

@@ -12,7 +12,7 @@ import ast
 
 import re
 
-from FuncNotify.NotifyDecorators import time_func
+from FuncNotify.api import time_func
 
 NO_ARGS_ERROR         = "No arguuments remianing to be exectued, confirm " \
                         "the desired execution is in the proper format"

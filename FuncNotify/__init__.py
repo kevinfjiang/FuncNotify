@@ -25,7 +25,7 @@ def _import_all(modules: list):
 
 _import_all(MODULES)
 
-from FuncNotify.NotifyDecorators import *
+from FuncNotify.api import *
 from FuncNotify.NotifyMethods import *
 NotifyTypes=NotifyMethods.get_cls_registry()
 

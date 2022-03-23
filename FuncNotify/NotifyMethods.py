@@ -93,7 +93,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
     def environ_dict(self):
         """Wanted to hide environment variables but still be able to test
         Returns:
-            bool: Whether environ_dict contains anything"""        
+            bool: Whether environ_dict contains anything"""    
         return not not self.__environ_dict
     
     def _type_or_env(self, val, env_variable: str, type_: type=str)->str:

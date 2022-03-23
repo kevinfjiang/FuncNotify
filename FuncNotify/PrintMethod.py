@@ -4,7 +4,6 @@ Setup:
     None necessary
 """
 import FuncNotify.NotifyMethods as NotifyMethods # Using the predefined functions from the abstract class
-# import FuncNotify.NotifyDecorators as NotifyDecorators // Not used
 
 class PrintMethod(NotifyMethods.NotifyMethods):
     """Default print message, only notification is a print in terminal

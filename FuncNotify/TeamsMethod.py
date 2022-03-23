@@ -5,7 +5,7 @@ Setup:
     2. Add the url and a username to .env
 """
 import FuncNotify.NotifyMethods as NotifyMethods # Using the predefined functions from the abstract class
-import FuncNotify.NotifyDecorators as NotifyDecorators
+import FuncNotify.api as api
 
 # Specify here other Packages to be imported specific for `Teams`. Include why each package is here
 import json
@@ -25,7 +25,7 @@ def time_Teams(func=None, use_env: bool=True, env_path: str=".env", update_env: 
         username (str, optional): Username of the message bot Defaults to None.
         webhook_url (str, optional): Url for the teams channel. Defaults to None.
     """    
-    return NotifyDecorators.time_func(*args, **kwargs, **locals(), NotifyMethod="Teams") 
+    return api.time_func(*args, **kwargs, **locals(), NotifyMethod="Teams") 
 
 class TeamsMethod(NotifyMethods.NotifyMethods):
     """Sends a posted message to the webhook url from the specified username. Uses standard get and post requests.

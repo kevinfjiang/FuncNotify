@@ -21,7 +21,7 @@ TODO do a cmd+F2 on `xNotifyx` to the desired method so it auto changes. After y
 """
 
 from .NotifyMethods import * # Using the predefined functions from the abstract class
-from .NotifyDecorators import time_func
+from .api import time_func
 
 # Specify here other Packages to be imported specific for `xNotifyx`. Include why each package is here
 
