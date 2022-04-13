@@ -24,15 +24,15 @@ def timer_base(func, NotifyObjList: list, *args, **kwargs):
         Object: Returns whatever the function returns
     """    
     try:
-        collections.deque(map(lambda NotifyObj: NotifyObj.send_start_MSG(func), NotifyObjList), maxlen=0) # sends message on each item in list
-        start = time.perf_counter()                                                                   # by iterating through the map
+        collections.deque(map(lambda NOF: NOF.send_start_MSG(func), NotifyObjList), maxlen=0) # sends message on each item in list
+        start = time.perf_counter()                                                               # by iterating through the map
         
         result = func(*args, **kwargs)
         
         diff = time.perf_counter()-start
-        collections.deque(map(lambda NotifyObj: NotifyObj.send_end_MSG(func, diff), NotifyObjList), maxlen=0)
+        collections.deque(map(lambda NOF: NOF.send_end_MSG(func, diff), NotifyObjList), maxlen=0)
     except Exception as ex: 
-        collections.deque(map(lambda NotifyObj: NotifyObj.send_error_MSG(func, ex), NotifyObjList), maxlen=0) # noqa: F821 Bizarre bug with flake8, opening an issue
+        collections.deque(map(lambda NOF: NOF.send_error_MSG(func, ex), NotifyObjList), maxlen=0) # noqa: F821 Bizarre bug with flake8, opening an issue
         raise ex
 
     return result
@@ -107,7 +107,7 @@ def Notify_Obj_Factory(NotifyMethod: str=None, use_env: bool=True, env_path: str
                                target_dict=target, environ_dict=spec_environ_dict, 
                                obj_args=args, obj_kwargs=kwargs))
     elif multi_target:
-        for target in multi_target: # Rewrite as a function for easier reuse
+        for target in multi_target:
             notify_obj_list.append(
                 get_notify_obj(NotifyMethod=target.get("NotifyMethod", NotifyMethod),
                                target_dict=target, environ_dict=ENV_DICT, 

@@ -2,8 +2,6 @@
 
 To use, use @time_func as a decorator or pass arguments to @time_func(*args, **kwargs) as a decorator
 """
-import collections 
-
 import FuncNotify._timer as _timer
 from FuncNotify.NotifyMethods import NotifyMethods
 
@@ -80,7 +78,6 @@ def custom_message(message: str, NotifyMethod: str=None, use_env: bool=True, env
     Returns:
         function: decorator function for timing
     """    
-    NotifyObjList = _timer.Notify_Obj_Factory(**locals())
-        
-    collections.deque(map(lambda NotifyObj: NotifyObj.send_custom_MSG(message), NotifyObjList), maxlen=0)
+    for NOF in _timer.Notify_Obj_Factory(**locals()):
+        NOF.send_custom_MSG(message)
     

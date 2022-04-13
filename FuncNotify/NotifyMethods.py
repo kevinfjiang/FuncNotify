@@ -4,14 +4,14 @@ send_end_message, and send_error_message functions
 """
 import os
 import time
+import collections
+import socket
 import traceback
 import inspect
 
 import logging
-import logging.handlers
 
-import socket
-import collections
+
 
 from abc import ABCMeta, abstractmethod
 

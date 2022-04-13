@@ -35,10 +35,10 @@ class ParseKwargs(argparse.Action):
         Does so safety with ast.literal_eval and ensures that all collections
         are cloesd"""    
         CloseList = {'[': ']',
-                    '{': '}',
-                    '(': ')',
-                    '"': '"',
-                    "'": "'"}
+                     '{': '}',
+                     '(': ')',
+                     '"': '"',
+                     "'": "'"}
         PairTypes = {*CloseList.keys(), *CloseList.values()}
         
         def __init__(self, key: str):

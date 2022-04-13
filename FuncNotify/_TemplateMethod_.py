@@ -46,7 +46,7 @@ class xNotifyxMethod(NotifyMethods):
     """   
     
     __slots__ = ("__token") # List all instance variables here in string form, saves memory, 
-                            # optional but highly reccomended, don't forget `__`
+                            # optional, don't forget `__`
 
     def __init__(self, *args, **kwargs):
         """TODO Specify key word arguments in the init as var=xyz and define them as instances
