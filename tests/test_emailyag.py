@@ -6,7 +6,7 @@ class TestYagMail(TestAbstract):
     DisableTexts is set to True by default because I have limited
     money in my Twilio Accounts
     """  
-    
+    __test__=False
     def test_Method(self, *args, **kwargs):
         time_func(self.wait_test, use_env=True, update_env=True, NotifyMethod="Email", *args, **kwargs)(**kwargs)
         self.confirm_method(EmailMethod)

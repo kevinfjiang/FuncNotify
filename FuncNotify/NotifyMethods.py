@@ -10,8 +10,7 @@ import traceback
 import inspect
 
 import logging
-
-
+import logging.handlers
 
 from abc import ABCMeta, abstractmethod
 
@@ -74,8 +73,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
         NotifyMethods.set_mute(mute)
         
         try:  
-            NotifyMethods.logger_init(self.__environ_dict, self.__environ_dict, use_log, *args, **kwargs) 
-            # Why do I have to declare the __environ_dict twice? I have no idea TODO someone smarter help
+            NotifyMethods.logger_init(self.__environ_dict, use_log, *args, **kwargs) 
             self._set_credentials(*args, **kwargs)
             self._error=None # Always default to notify user
 
@@ -152,22 +150,22 @@ class NotifyMethods(metaclass=FactoryRegistry):
             logger_path (str, optional): path to logger. Defaults to None.
         """      
         if (environ.get("LOG") or log or logger_path) and cls.logger is None: # Uses existing logger if it existss
-            
             if logger_path:
                 path=logger_path
             else:
                 path = environ.get("LOGGER_PATH", "")
                 path = path if path else os.getcwd() # If env variable but not defined is empty sets path to cwd
-                
+            
+            
             if not os.path.isdir(os.path.join(path, "logs")):
                 os.mkdir("logs")
-
+            
             import __main__ # Necessary for naming, setting up print formatting
             logger_name = __main__.__file__.split('/')[-1].split('.')[0]
-
+            
             cls.logger = logging.getLogger(logger_name)
             cls.logger.setLevel(logging.DEBUG)
-
+            
             logger_console_format = "[%(levelname)s]: %(message)s"
             console_handler = logging.StreamHandler()
             console_handler.setLevel(logging.WARNING)
@@ -311,7 +309,7 @@ class NotifyMethods(metaclass=FactoryRegistry):
                 
                 
 class CredentialError(Exception):
-    """Errrors occuring while setting up the credentials"""    
+    """Errors occuring while setting up the credentials"""    
     __slots__=("NotifyObject", "error")
     def __init__(self, NotifyObject: NotifyMethods, error: Exception):
         self.NotifyObject=NotifyObject
