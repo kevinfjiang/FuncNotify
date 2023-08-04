@@ -2,7 +2,10 @@
 > **Get notified when your code finishes/crashes with one line of code**
 
 ![Build](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CI?label=CI) ![Deploy](https://img.shields.io/github/workflow/status/kevinfjiang/FuncNotify/CD?label=CD) [![DOC](https://github.com/kevinfjiang/FuncNotify/actions/workflows/docs.yml/badge.svg)](https://kevinfjiang.github.io/FuncNotify/) ![LCommit](https://img.shields.io/github/last-commit/kevinfjiang/FuncNotify) ![release](https://img.shields.io/github/v/release/kevinfjiang/FuncNotify?include_prereleases) ![License](https://img.shields.io/github/license/kevinfjiang/FuncNotify.svg)
+![Donwload](https://img.shields.io/pypi/dm/FuncNotify)
 ![wheel](https://img.shields.io/pypi/wheel/FuncNotify)
+
+
 
 **[Documentation](https://kevinfjiang.github.io/FuncNotify/#header-submodules) | [GitHub](https://github.com/kevinfjiang/FuncNotify) | [PyPI](https://pypi.org/project/FuncNotify/)**
 
@@ -24,7 +27,7 @@ def wait_func():
 
 @time_Text()
 def wait_func2():
-    """All parameters are optional and each method has a personal decorator, even the 
+    """All parameters are optional and each method has a personal decorator, even the
     function call is optional see below"""
     do_something()
 
@@ -40,7 +43,7 @@ def wait_func4():
     do_something()
 
 custom_message("HELLO WORLD", NotifyMethod="Text", multi_target=[{...}, {...}], multi_env=["1.env", "2.env"])
-"""Custom messaging is here, pass the same arguments in as time_func and you 
+"""Custom messaging is here, pass the same arguments in as time_func and you
 can mass send messages in many methods"""
 
 if __name__ == "__main__":
@@ -50,11 +53,11 @@ if __name__ == "__main__":
 ```
 #### **CLI arguments:**
 ```
-$ FuncNotify [command here] --kwargs NotifyMethod=Text phone=8001234567 
+$ FuncNotify [command here] --kwargs NotifyMethod=Text phone=8001234567
 ```
 
 ```
-$ FuncNotify go run main.go --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env 
+$ FuncNotify go run main.go --kwargs NotifyMethod=Email multi_env=1.env multi_env=2.env
 ```
 
 ```
